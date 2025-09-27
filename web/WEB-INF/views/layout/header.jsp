@@ -10,7 +10,7 @@
     </div>
     <div class="logo">
       <img
-        src="${pageContext.request.contextPath}/public/images/logo.png"
+        src="${pageContext.request.contextPath}/public/image/logo.png"
         alt=""
       />
     </div>
