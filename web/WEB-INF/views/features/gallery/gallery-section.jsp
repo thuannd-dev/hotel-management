@@ -1,84 +1,55 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<!-- Import Owl Carousel CSS (bạn cần thêm 2 file này vào web/public/css/) -->
-<link rel="stylesheet" href="${pageContext.request.contextPath}/public/css/owl.carousel.min.css">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/public/css/owl.theme.default.min.css">
 <!-- Import style.css đúng đường dẫn -->
 <link rel="stylesheet" href="${pageContext.request.contextPath}/public/css/style.css">
-<!-- Import jQuery (nếu chưa có) -->
-<script src="${pageContext.request.contextPath}/public/js/jquery.min.js"></script>
-<!-- Import Owl Carousel JS -->
-<script src="${pageContext.request.contextPath}/public/js/owl.carousel.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css"/>
 
 <section class="gallary top" id="gallary">
-  <div class="owl-carousel owl-theme">
+  <div class="gallery-carousel owl-carousel owl-theme">
     <div class="item">
-      <img
-        src="${pageContext.request.contextPath}/public/image/g1.jpg"
-        alt=""
-      />
+      <img src="${pageContext.request.contextPath}/public/image/g1.jpg" alt="" />
       <div class="overlay">
         <i class="fab fa-instagram"></i>
       </div>
     </div>
     <div class="item">
-      <img
-        src="${pageContext.request.contextPath}/public/image/g2.jpg"
-        alt=""
-      />
+      <img src="${pageContext.request.contextPath}/public/image/g2.jpg" alt="" />
       <div class="overlay">
         <i class="fab fa-instagram"></i>
       </div>
     </div>
     <div class="item">
-      <img
-        src="${pageContext.request.contextPath}/public/image/g3.jpg"
-        alt=""
-      />
+      <img src="${pageContext.request.contextPath}/public/image/g3.jpg" alt="" />
       <div class="overlay">
         <i class="fab fa-instagram"></i>
       </div>
     </div>
     <div class="item">
-      <img
-        src="${pageContext.request.contextPath}/public/image/g4.jpg"
-        alt=""
-      />
+      <img src="${pageContext.request.contextPath}/public/image/g4.jpg" alt="" />
       <div class="overlay">
         <i class="fab fa-instagram"></i>
       </div>
     </div>
     <div class="item">
-      <img
-        src="${pageContext.request.contextPath}/public/image/g5.jpg"
-        alt=""
-      />
+      <img src="${pageContext.request.contextPath}/public/image/g5.jpg" alt="" />
       <div class="overlay">
         <i class="fab fa-instagram"></i>
       </div>
     </div>
     <div class="item">
-      <img
-        src="${pageContext.request.contextPath}/public/image/g1.jpg"
-        alt=""
-      />
+      <img src="${pageContext.request.contextPath}/public/image/g1.jpg" alt="" />
       <div class="overlay">
         <i class="fab fa-instagram"></i>
       </div>
     </div>
     <div class="item">
-      <img
-        src="${pageContext.request.contextPath}/public/image/g2.jpg"
-        alt=""
-      />
+      <img src="${pageContext.request.contextPath}/public/image/g2.jpg" alt="" />
       <div class="overlay">
         <i class="fab fa-instagram"></i>
       </div>
     </div>
     <div class="item">
-      <img
-        src="${pageContext.request.contextPath}/public/image/g3.jpg"
-        alt=""
-      />
+      <img src="${pageContext.request.contextPath}/public/image/g3.jpg" alt="" />
       <div class="overlay">
         <i class="fab fa-instagram"></i>
       </div>
@@ -86,9 +57,12 @@
   </div>
 </section>
 
+<!-- Đảm bảo import jQuery trước Owl Carousel JS -->
+<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
 <script>
   $(document).ready(function () {
-    $(".owl-carousel").owlCarousel({
+    $(".gallery-carousel").owlCarousel({
       loop: true,
       margin: 0,
       nav: false,

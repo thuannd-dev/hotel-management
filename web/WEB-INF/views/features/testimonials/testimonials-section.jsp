@@ -7,7 +7,7 @@
       <h3>What customers say</h3>
     </div>
 
-    <div class="owl-carousel owl-theme mtop">
+    <div class="testimonials-carousel owl-carousel owl-theme mtop">
       <div class="item">
         <div class="rate">
           <i class="fas fa-star"></i>
@@ -107,7 +107,7 @@
 
 <script>
   $(document).ready(function () {
-    $(".owl-carousel").owlCarousel({
+    $(".testimonials-carousel").owlCarousel({
       loop: true,
       margin: 10,
       nav: false,

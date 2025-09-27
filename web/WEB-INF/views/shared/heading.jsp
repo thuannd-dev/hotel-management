@@ -2,7 +2,7 @@
 
 <section class="wrapper">
   <div class="container">
-    <div class="owl-carousel owl-theme">
+    <div class="heading-carousel owl-carousel owl-theme">
       <div class="item">
         <div class="heading">
           <h5>FACILITIES</h5>
@@ -47,7 +47,7 @@
 
 <script>
   $(document).ready(function () {
-    $(".owl-carousel").owlCarousel({
+    $(".heading-carousel").owlCarousel({
       loop: true,
       margin: 10,
       nav: true,
