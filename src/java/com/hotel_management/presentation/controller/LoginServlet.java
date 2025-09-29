@@ -4,8 +4,10 @@
  */
 package com.hotel_management.presentation.controller;
 
+import com.hotel_management.application.service.StaffService;
 import com.hotel_management.domain.entity.Staff;
 import com.hotel_management.infrastructure.dao.StaffDAO;
+import com.hotel_management.presentation.dto.staff.StaffViewModel;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
@@ -58,11 +60,10 @@ public class LoginServlet extends HttpServlet {
 //        } catch (SQLException e) {
 //            throw new ServletException("Lỗi khi query DB", e);
 //        }
-        StaffDAO dao = new StaffDAO();
-        List<Staff> s = dao.findAll();
+        List<StaffViewModel> s = new StaffService().getAllStaff();
         PrintWriter out = response.getWriter();
-        for (Staff staff : s) {
-            out.println(staff.getStaffid() + " - " + staff.getFullname());
+        for (StaffViewModel staff : s) {
+            out.println(staff.getStaffid() + " - " + staff.getFullname() + " - " + staff.getRole());
         }
     }
 }
