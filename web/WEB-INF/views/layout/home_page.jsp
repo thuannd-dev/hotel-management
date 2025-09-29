@@ -2,34 +2,34 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <!-- Hero Section -->
-<jsp:include page="/WEB-INF/views/features/home/hero-section.jsp" />
+<jsp:include page="/WEB-INF/views/features/home/hero_section.jsp" />
 
 <!-- About Section -->
-<jsp:include page="/WEB-INF/views/features/about/about-section.jsp" />
+<jsp:include page="/WEB-INF/views/features/about/about_section.jsp" />
 
 <!-- Facilities Carousel -->
-<jsp:include page="/WEB-INF/views/shared/facilities-carousel.jsp" />
+<jsp:include page="/WEB-INF/views/shared/facilities_carousel.jsp" />
 
 <!-- Facilities Section -->
-<jsp:include page="/WEB-INF/views/features/service/facilities-section.jsp" />
+<jsp:include page="/WEB-INF/views/features/service/facilities_section.jsp" />
 
 <!-- Rooms Section -->
-<jsp:include page="/WEB-INF/views/features/rooms/rooms-section.jsp" />
+<jsp:include page="/WEB-INF/views/features/rooms/rooms_section.jsp" />
 
 <!-- Timer Section -->
 <jsp:include page="/WEB-INF/views/shared/timer.jsp" />
 
 <!-- Services Section -->
-<jsp:include page="/WEB-INF/views/features/service/services-section.jsp" />
+<jsp:include page="/WEB-INF/views/features/service/services_section.jsp" />
 
 <!-- Testimonials Section -->
-<jsp:include page="/WEB-INF/views/features/testimonials/testimonials-section.jsp" />
+<jsp:include page="/WEB-INF/views/features/testimonials/testimonials_section.jsp" />
 
 <!-- Gallery Section -->
-<jsp:include page="/WEB-INF/views/features/gallery/gallery-section.jsp" />
+<jsp:include page="/WEB-INF/views/features/gallery/gallery_section.jsp" />
 
 <!-- Blog Section -->
-<jsp:include page="/WEB-INF/views/features/blog/blog-section.jsp" />
+<jsp:include page="/WEB-INF/views/features/blog/blog_section.jsp" />
 
 <!-- Map Section -->
 <section class="map top">
