@@ -4,12 +4,15 @@
  */
 package com.hotel_management.presentation.controller;
 
+import com.hotel_management.domain.entity.Staff;
+import com.hotel_management.infrastructure.dao.StaffDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
@@ -42,19 +45,24 @@ public class LoginServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/plain; charset=UTF-8");
-        String sql = "select StaffID,FullName,Role,Username,PasswordHash,Phone,Email\n"
-                        + "from dbo.STAFF\n";
-        try (Connection conn = ds.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql);
-             ResultSet rs = ps.executeQuery()) {
-
-            PrintWriter out = response.getWriter();
-            while (rs.next()) {
-                out.println(rs.getInt("StaffID") + " - " + rs.getString("FullName"));
-            }
-        } catch (SQLException e) {
-            throw new ServletException("Lỗi khi query DB", e);
+//        String sql = "select StaffID,FullName,Role,Username,PasswordHash,Phone,Email\n"
+//                        + "from dbo.STAFF\n";
+//        try (Connection conn = ds.getConnection();
+//             PreparedStatement ps = conn.prepareStatement(sql);
+//             ResultSet rs = ps.executeQuery()) {
+//
+//            PrintWriter out = response.getWriter();
+//            while (rs.next()) {
+//                out.println(rs.getInt("StaffID") + " - " + rs.getString("FullName"));
+//            }
+//        } catch (SQLException e) {
+//            throw new ServletException("Lỗi khi query DB", e);
+//        }
+        StaffDAO dao = new StaffDAO();
+        List<Staff> s = dao.findAll();
+        PrintWriter out = response.getWriter();
+        for (Staff staff : s) {
+            out.println(staff.getStaffid() + " - " + staff.getFullname());
         }
     }
-    
 }
