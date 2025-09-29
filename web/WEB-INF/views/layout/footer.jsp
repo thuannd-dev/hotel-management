@@ -1,3 +1,4 @@
+<!--Footer of welcome page-->
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <footer>

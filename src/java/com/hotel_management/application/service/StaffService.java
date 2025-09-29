@@ -14,17 +14,19 @@ import java.util.stream.Collectors;
  * @author DELL
  */
 public class StaffService {
+
     private final StaffDAO staffDao = new StaffDAO();
+
     public List<StaffViewModel> getAllStaff() {
-    return staffDao.findAll().stream()
-            .map(staff -> new StaffViewModel(
-                    staff.getStaffid(),
-                    staff.getFullname(),
-                    staff.getRole(),
-                    staff.getUsername(),
-                    staff.getPhone(),
-                    staff.getEmail()
-            )).collect(Collectors.toList());
+        return staffDao.findAll().stream()
+                .map(staff -> new StaffViewModel(
+                staff.getStaffid(),
+                staff.getFullname(),
+                staff.getRole(),
+                staff.getUsername(),
+                staff.getPhone(),
+                staff.getEmail()
+        )).collect(Collectors.toList());
     }
 
 }

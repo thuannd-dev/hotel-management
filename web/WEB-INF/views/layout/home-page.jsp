@@ -1,3 +1,4 @@
+<!--Home page is a main content of welcome page-->
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <!-- Hero Section -->
