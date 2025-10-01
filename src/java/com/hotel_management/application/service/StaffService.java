@@ -15,18 +15,17 @@ import java.util.stream.Collectors;
  */
 public class StaffService {
 
-    private final StaffDAO staffDao = new StaffDAO();
+    private final StaffDAO staffDao;
 
+    public StaffService(StaffDAO staffDao) {
+        this.staffDao = staffDao;
+    }
+
+    // (method reference)
     public List<StaffViewModel> getAllStaff() {
         return staffDao.findAll().stream()
-                .map(staff -> new StaffViewModel(
-                staff.getStaffid(),
-                staff.getFullname(),
-                staff.getRole(),
-                staff.getUsername(),
-                staff.getPhone(),
-                staff.getEmail()
-        )).collect(Collectors.toList());
+                .map(StaffViewModel::fromEntity)
+                .collect(Collectors.toList());
     }
 
 }

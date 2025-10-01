@@ -5,19 +5,18 @@
 package com.hotel_management.presentation.dto.staff;
 
 import com.hotel_management.domain.entity.Staff;
-import java.util.List;
 
 /**
  *
  * @author DELL
  */
 public class StaffViewModel {
-    private int staffid;
-    private String fullname;
-    private String role;
-    private String username;
-    private String phone;
-    private String email;
+    private final int staffid;
+    private final String fullname;
+    private final String role;
+    private final String username;
+    private final String phone;
+    private final String email;
 
     public StaffViewModel(int staffid, String fullname, String role, String username, String phone, String email) {
         this.staffid = staffid;
@@ -27,54 +26,43 @@ public class StaffViewModel {
         this.phone = phone;
         this.email = email;
     }
+    
+    // Static factory method
+    public static StaffViewModel fromEntity(Staff staff) {
+        return new StaffViewModel(
+                staff.getStaffid(),
+                staff.getFullname(),
+                staff.getRole(),
+                staff.getUsername(),
+                staff.getPhone(),
+                staff.getEmail()
+        );
+    }
+    
+    //If map from dto to entity name should be toEntity()
 
     public int getStaffid() {
         return staffid;
-    }
-
-    public void setStaffid(int staffid) {
-        this.staffid = staffid;
     }
 
     public String getFullname() {
         return fullname;
     }
 
-    public void setFullname(String fullname) {
-        this.fullname = fullname;
-    }
-
     public String getRole() {
         return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
     }
 
     public String getUsername() {
         return username;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
     public String getPhone() {
         return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
     }
 
     public String getEmail() {
         return email;
     }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
     
 }

@@ -4,13 +4,13 @@
  */
 package com.hotel_management.infrastructure.dao;
 
-import com.hotel_management.infrastructure.provider.DataSourceProvider;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import javax.sql.DataSource;
 
 /**
@@ -19,7 +19,12 @@ import javax.sql.DataSource;
  * @param <T>
  */
 public abstract class BaseDAO<T> {
-    private final DataSource ds = DataSourceProvider.getDataSource();
+
+    private final DataSource ds;
+
+    protected BaseDAO(DataSource ds) {
+        this.ds = Objects.requireNonNull(ds, "DataSource must not be null");
+    }
 
     protected Connection getConnection() throws SQLException {
         return ds.getConnection(); // lấy từ pool
@@ -34,12 +39,12 @@ public abstract class BaseDAO<T> {
 
     public List<T> query(String sql, Object... params) {
         List<T> list = new ArrayList<>();
-        try (Connection conn = getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+        try ( Connection conn = getConnection();  
+              PreparedStatement ps = conn.prepareStatement(sql)) {
             for (int i = 0; i < params.length; i++) {
                 ps.setObject(i + 1, params[i]);
             }
-            try (ResultSet rs = ps.executeQuery()) {
+            try ( ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
                     list.add(mapRow(rs));
                 }
@@ -51,8 +56,8 @@ public abstract class BaseDAO<T> {
     }
 
     public int update(String sql, Object... params) {
-        try (Connection conn = getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+        try ( Connection conn = getConnection();
+              PreparedStatement ps = conn.prepareStatement(sql)) {
             for (int i = 0; i < params.length; i++) {
                 ps.setObject(i + 1, params[i]);
             }

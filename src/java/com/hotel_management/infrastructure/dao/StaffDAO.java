@@ -8,12 +8,17 @@ import com.hotel_management.domain.entity.Staff;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+import javax.sql.DataSource;
 
 /**
  *
  * @author DELL
  */
 public class StaffDAO extends BaseDAO<Staff> {
+
+    public StaffDAO(DataSource ds) {
+        super(ds);
+    }
 
     @Override
     public Staff mapRow(ResultSet rs) throws SQLException {
