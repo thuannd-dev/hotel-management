@@ -3,11 +3,9 @@
 
 <section class="head">
   <div class="container flex1">
-    <div class="scoial">
-      <i class="fab fa-facebook-f"></i>
-      <i class="fab fa-twitter"></i>
-      <i class="fab fa-instagram"></i>
-      <i class="fab fa-youtube"></i>
+    <div class="address">
+      <i class="fas fa-map-marker-alt"></i>
+      <span>205 Fida Walinton, Tongo Street Front, USA</span>
     </div>
     <div class="logo">
       <img
@@ -15,9 +13,9 @@
         alt=""
       />
     </div>
-    <div class="address">
-      <i class="fas fa-map-marker-alt"></i>
-      <span>205 Fida Walinton, Tongo Street Front, USA</span>
+    <div class="auth-buttons">
+      <a href="#" id="loginBtn" class="auth-btn">Login</a>
+      <a href="#" id="registerBtn" class="auth-btn">Register</a>
     </div>
   </div>
 </section>

@@ -19,7 +19,8 @@
     <script
       src="https://code.jquery.com/jquery-1.12.4.min.js"
       integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="
-      crossorigin="anonymous"></script>
+      crossorigin="anonymous"
+    ></script>
 
     <link
       rel="stylesheet"
@@ -45,6 +46,9 @@
 
     <!-- Common Scripts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
-    <script src="${pageContext.request.contextPath}/public/js/jquery.countdown.min.js" charset="utf-8"></script>
+    <script
+      src="${pageContext.request.contextPath}/public/js/jquery.countdown.min.js"
+      charset="utf-8"
+    ></script>
   </body>
 </html>
