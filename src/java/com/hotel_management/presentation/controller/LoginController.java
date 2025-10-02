@@ -9,8 +9,6 @@ import com.hotel_management.infrastructure.dao.StaffDAO;
 import com.hotel_management.infrastructure.provider.DataSourceProvider;
 import com.hotel_management.presentation.dto.staff.StaffViewModel;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -22,25 +20,42 @@ import javax.sql.DataSource;
  * @author DELL
  */
 public class LoginController extends HttpServlet {
-
-    private StaffDAO staffDAO;
+    private static final long serialVersionUID = 1L;
     private StaffService staffService;
 
     @Override
     public void init() throws ServletException {
+        StaffDAO staffDAO;
         DataSource ds = DataSourceProvider.getDataSource();
-        this.staffDAO = new StaffDAO(ds);
+        staffDAO = new StaffDAO(ds);
         this.staffService = new StaffService(staffDAO);
     }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/plain; charset=UTF-8");
-        List<StaffViewModel> s = staffService.getAllStaff();
-        PrintWriter out = response.getWriter();
-        for (StaffViewModel staff : s) {
-            out.println(staff.getStaffid() + " - " + staff.getFullname() + " - " + staff.getRole());
+        request.getRequestDispatcher("/WEB-INF/views/features/auth/login.jsp").forward(request, response);
+
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String username = request.getParameter("username");
+        String password = request.getParameter("password");
+
+        if(username == null || password == null) {
+            request.setAttribute("error", "Username and password is required");
+            request.getRequestDispatcher("/WEB-INF/views/features/auth/login.jsp").forward(request, response);
+            return;
+        }
+        StaffViewModel staff = staffService.getStaffByUsernameAndPassword(username, password);
+        if (staff != null) {
+            request.getSession().setAttribute("staff", staff);
+            request.getRequestDispatcher("index.jsp").forward(request, response);
+        } else {
+            request.setAttribute("error", "Incorrect username or password");
+            request.getRequestDispatcher("/WEB-INF/views/features/auth/login.jsp").forward(request, response);
         }
     }
 }

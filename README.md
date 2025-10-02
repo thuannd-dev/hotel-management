@@ -11,8 +11,8 @@ This is a hotel management project built with Java EE, JSP, HTML, CSS, and uses 
 - Optimized CSS/JS imports to ensure good performance on various screen sizes.
 
 ## Issues Encountered and Solutions
-- **Owl Carousel Conflict:** All carousels used the same .owl-carousel class, causing the last script to override the configuration and display only one image. Fixed by assigning separate classes such as .gallery-carousel, .testimonials-carousel, .facilities-carousel and initializing each carousel with its own script.
 - **Image Path Error:** Some places used public/images instead of public/image, causing images not to display. Fixed by correcting all paths to match the folder structure.
+- **ClassNotFoundException: com.microsoft.sqlserver.jdbc.SQLServerDriver Error:** Please add jdbc.jar to the lib of tomcat. Because i use pool connection and it managed by tomcat.
 
 ## Folder Structure
 - `web/public/image/`: Contains all images used on the website.

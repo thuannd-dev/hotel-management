@@ -33,8 +33,17 @@ public class StaffDAO extends BaseDAO<Staff> {
         );
     }
 
-    public List<Staff> findAll() {
+    public List<Staff> findAllStaffs() {
         return query("SELECT * FROM STAFF");
     }
 
+    public Staff findStaffById(int id) {
+        List<Staff> staffs = query("SELECT * FROM STAFF WHERE StaffID = ?", id);
+        return staffs.isEmpty() ? null : staffs.get(0);
+    }
+
+    public Staff findStaffByUsernameAndPassword(String userName, String password) {
+        List<Staff> staffs = query("SELECT * FROM STAFF WHERE UserName = ? AND PasswordHash = ?", userName, password);
+        return staffs.isEmpty() ? null : staffs.get(0);
+    }
 }
