@@ -13,6 +13,7 @@
           <element id="file-copy" path="$PROJECT_DIR$/lib/taglibs-standard-spec-1.2.5.jar" />
           <element id="library" level="project" name="sqljdbc4" />
           <element id="library" level="project" name="taglibs-standard-compat-1.2.5" />
+          <element id="library" level="project" name="jbcrypt-0.4" />
         </element>
       </element>
       <element id="javaee-facet-resources" facet="hotel-management/web/Web2" />

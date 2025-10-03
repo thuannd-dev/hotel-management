@@ -60,5 +60,6 @@
     <orderEntry type="library" exported="" name="sqljdbc4" level="project" />
     <orderEntry type="library" exported="" name="taglibs-standard-compat-1.2.5" level="project" />
     <orderEntry type="library" exported="" scope="PROVIDED" name="lombok" level="project" />
+    <orderEntry type="library" name="jbcrypt-0.4" level="project" />
   </component>
 </module>

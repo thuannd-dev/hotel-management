@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.hotel_management.infrastructure.dao;
 
 import java.sql.Connection;
@@ -15,7 +11,7 @@ import javax.sql.DataSource;
 
 /**
  *
- * @author DELL
+ * @author thuannd.dev
  * @param <T>
  */
 public abstract class BaseDAO<T> {
@@ -34,7 +30,7 @@ public abstract class BaseDAO<T> {
         if (c != null) try { c.close(); } catch (Exception ignored) {}
     }
 
-    // mapping phải implement
+    // mapping must implement
     public abstract T mapRow(ResultSet rs) throws SQLException;
 
     public List<T> query(String sql, Object... params) {

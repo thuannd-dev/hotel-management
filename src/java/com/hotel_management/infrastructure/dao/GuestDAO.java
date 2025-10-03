@@ -8,7 +8,7 @@ import java.util.List;
 
 /**
  *
- * @author DELL
+ * @author thuannd.dev
  */
 public class GuestDAO extends BaseDAO<Guest>{
 

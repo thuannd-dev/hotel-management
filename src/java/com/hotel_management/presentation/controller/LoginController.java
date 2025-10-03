@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
- */
 package com.hotel_management.presentation.controller;
 
 import com.hotel_management.application.service.StaffService;
@@ -17,7 +13,7 @@ import javax.sql.DataSource;
 
 /**
  *
- * @author DELL
+ * @author thuannd.dev
  */
 public class LoginController extends HttpServlet {
     private static final long serialVersionUID = 1L;

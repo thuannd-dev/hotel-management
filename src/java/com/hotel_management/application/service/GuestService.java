@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 
 /**
  *
- * @author DELL
+ * @author thuannd.dev
  */
 public class GuestService {
     private final GuestDAO guestDao;

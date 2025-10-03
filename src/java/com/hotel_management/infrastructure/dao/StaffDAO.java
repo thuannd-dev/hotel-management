@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.hotel_management.infrastructure.dao;
 
 import com.hotel_management.domain.entity.Staff;
@@ -12,7 +8,7 @@ import javax.sql.DataSource;
 
 /**
  *
- * @author DELL
+ * @author thuannd.dev
  */
 public class StaffDAO extends BaseDAO<Staff> {
 
@@ -42,8 +38,8 @@ public class StaffDAO extends BaseDAO<Staff> {
         return staffs.isEmpty() ? null : staffs.get(0);
     }
 
-    public Staff findStaffByUsernameAndPassword(String userName, String password) {
-        List<Staff> staffs = query("SELECT * FROM STAFF WHERE UserName = ? AND PasswordHash = ?", userName, password);
+    public Staff findStaffByUsername(String userName) {
+        List<Staff> staffs = query("SELECT * FROM STAFF WHERE UserName = ?", userName);
         return staffs.isEmpty() ? null : staffs.get(0);
     }
 }

@@ -1,17 +1,16 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.hotel_management.infrastructure.provider;
+
+import lombok.Getter;
 
 import javax.naming.InitialContext;
 import javax.sql.DataSource;
 
 /**
  *
- * @author DELL
+ * @author thuannd.dev
  */
 public class DataSourceProvider {
+    @Getter//create a static getter for dataSource
     private static DataSource dataSource;
 
     static {
@@ -23,7 +22,4 @@ public class DataSourceProvider {
         }
     }
 
-    public static DataSource getDataSource() {
-        return dataSource;
-    }
 }

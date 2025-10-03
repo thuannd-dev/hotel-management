@@ -1,19 +1,17 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.hotel_management.application.service;
 
 import com.hotel_management.infrastructure.dao.StaffDAO;
 
 import com.hotel_management.domain.entity.Staff;
 import com.hotel_management.presentation.dto.staff.StaffViewModel;
+import org.mindrot.jbcrypt.BCrypt;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
 /**
  *
- * @author DELL
+ * @author thuannd.dev
  */
 public class StaffService {
 
@@ -36,8 +34,9 @@ public class StaffService {
     }
 
     public StaffViewModel getStaffByUsernameAndPassword(String username, String password) {
-        Staff staff = staffDao.findStaffByUsernameAndPassword(username, password);
-        return staff != null ? StaffViewModel.fromEntity(staff) : null;
+//        String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt());
+        Staff staff = staffDao.findStaffByUsername(username);
+        return staff != null && BCrypt.checkpw(password, staff.getPassword()) ? StaffViewModel.fromEntity(staff) : null;
     }
 
 }
