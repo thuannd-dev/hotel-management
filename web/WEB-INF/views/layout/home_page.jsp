@@ -1,5 +1,5 @@
 <!--Home page is a main content of welcome page-->
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" session="false" %>
 
 <!-- Hero Section -->
 <jsp:include page="/WEB-INF/views/features/home/hero_section.jsp" />

@@ -1,5 +1,5 @@
 <!--Main layout is a welcome page-->
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" session="false" %>
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
   <head>

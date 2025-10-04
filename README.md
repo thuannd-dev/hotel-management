@@ -1,36 +1,16 @@
 # Hotel Management Project
 
-## Introduction
-This is a hotel management project built with Java EE, JSP, HTML, CSS, and uses Owl Carousel for dynamic UI components. The project is intended for learning purposes and demonstrates basic features of a hotel website.
-
-## Implemented Features
-- Modern, responsive homepage layout.
-- Sections: About, Blog, Gallery, Home, Rooms, Service, Testimonials.
-- Owl Carousel used for gallery, testimonials, facilities, etc.
-- Each carousel uses a separate class to avoid configuration conflicts.
-- Optimized CSS/JS imports to ensure good performance on various screen sizes.
-
 ## Issues Encountered and Solutions
 - **Image Path Error:** Some places used public/images instead of public/image, causing images not to display. Fixed by correcting all paths to match the folder structure.
 - **ClassNotFoundException: com.microsoft.sqlserver.jdbc.SQLServerDriver Error:** Please add jdbc.jar to the lib of tomcat. Because i use pool connection and it managed by tomcat.
 
-## Folder Structure
-- `web/public/image/`: Contains all images used on the website.
-- `web/public/css/`: Contains style.css.
-- `web/public/js/`: Contains JS files such as jquery.countdown.js.
-- `web/WEB-INF/views/`: Contains JSP files for each section and layout.
-- `src/`: Contains Java source code.
-
-## Build and Run Instructions
-1. Open the project with NetBeans or any Java EE-supported IDE.
-2. Build the project using Ant or your IDE.
-3. Deploy to a server (Tomcat).
-4. Access via browser to check the interface and features.
-
 ## Notes
-- If you encounter image or carousel errors, check the class names and paths.
-- Files in the build/ folder will be updated automatically when you rebuild the project.
+- You must use  session="false" in jsp file to avoid container (Tomcat) create session when load JSP
+- Ex: 
+```<%@ page contentType="text/html;charset=UTF-8" language="java" session="false" %>```
+- I don't want auto create session, because i create a authentication filter to check login status by check exist session id in browser. If you haven't login, you will be redirect to login page with a error message.
+- You should test in anonymous tab, beacause some browser have Session Restore feature.
 
+![img_1.png](img_1.png)
 ---
 **Author:** Thuận Đẹp Trai
-**Review Date:** 28/09/2025

@@ -50,7 +50,8 @@ public class LoginController extends HttpServlet {
         StaffViewModel staff = staffService.getStaffByUsernameAndPassword(username, password);
         if (staff != null) {
             request.getSession().setAttribute(SessionAttribute.CURRENT_USER, staff);
-            request.getRequestDispatcher(Path.HOME_PAGE).forward(request, response);
+            //switch case role to redirect to different home page by role
+            response.sendRedirect(Path.HOME_PAGE);
         } else {
             request.setAttribute(RequestAttribute.ERROR_MESSAGE, "Incorrect username or password");
             request.getRequestDispatcher(Path.LOGIN_PAGE).forward(request, response);

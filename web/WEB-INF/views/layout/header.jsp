@@ -1,5 +1,5 @@
 <!--Header of welome page-->
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" session="false" %>
 
 <section class="head">
   <div class="container flex1">
