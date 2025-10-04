@@ -23,19 +23,20 @@ public class StaffService {
 
     // (method reference)
     public List<StaffViewModel> getAllStaffs() {
-        return staffDao.findAllStaffs().stream()
+        return staffDao.findAll().stream()
                 .map(StaffViewModel::fromEntity)
                 .collect(Collectors.toList());
     }
 
     public StaffViewModel getStaffById(int id) {
-        Staff staff = staffDao.findStaffById(id);
+        Staff staff = staffDao.findById(id).orElse(null);
         return staff != null ? StaffViewModel.fromEntity(staff) : null;
+//        return staffDao.findById(id)
+//                .orElseThrow(() -> new StaffNotFoundException("Staff not found with id " + id));
     }
 
     public StaffViewModel getStaffByUsernameAndPassword(String username, String password) {
-//        String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt());
-        Staff staff = staffDao.findStaffByUsername(username);
+        Staff staff = staffDao.findByUsername(username).orElse(null);
         return staff != null && BCrypt.checkpw(password, staff.getPassword()) ? StaffViewModel.fromEntity(staff) : null;
     }
 

@@ -10,6 +10,7 @@ import com.hotel_management.presentation.dto.staff.StaffViewModel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
 /**
@@ -18,7 +19,8 @@ import java.time.LocalDate;
  */
 @AllArgsConstructor
 @Getter
-public class GuestViewModel {
+public class GuestViewModel implements Serializable {
+    private static final long serialVersionUID = 1L;
     private int guestId;
     private String fullName;
     private String phone;

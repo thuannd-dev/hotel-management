@@ -5,6 +5,7 @@ import javax.sql.DataSource;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Optional;
 
 /**
  *
@@ -29,12 +30,12 @@ public class GuestDAO extends BaseDAO<Guest>{
         );
     }
 
-    public List<Guest> findAllGuests() {
+    public List<Guest> findAll() {
         return query("SELECT * FROM GUEST");
     }
 
-    public Guest findGuestById(int id) {
+    public Optional<Guest> findById(int id) {
         List<Guest> guests = query("SELECT * FROM GUEST WHERE GuestID = ?", id);
-        return guests.isEmpty() ? null : guests.get(0);
+        return guests.stream().findFirst();
     }
 }

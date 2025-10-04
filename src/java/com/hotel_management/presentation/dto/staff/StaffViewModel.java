@@ -1,17 +1,19 @@
 package com.hotel_management.presentation.dto.staff;
 import com.hotel_management.domain.entity.Staff;
+import com.hotel_management.domain.entity.enums.StaffRole;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-
+import java.io.Serializable;
 /**
  *
  * @author thuannd.dev
  */
 @AllArgsConstructor
 @Getter
-public class StaffViewModel {
+public class StaffViewModel implements Serializable {
+    private static final long serialVersionUID = 1L;
     private final int staffId;
-    private final String fullname;
+    private final String fullName;
     private final String role;
     private final String username;
     private final String phone;
@@ -23,7 +25,7 @@ public class StaffViewModel {
         return new StaffViewModel(
                 staff.getStaffId(),
                 staff.getFullName(),
-                staff.getRole(),
+                staff.getRole().name(),
                 staff.getUsername(),
                 staff.getPhone(),
                 staff.getEmail()

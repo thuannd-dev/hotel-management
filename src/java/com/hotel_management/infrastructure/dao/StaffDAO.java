@@ -1,9 +1,12 @@
 package com.hotel_management.infrastructure.dao;
 
 import com.hotel_management.domain.entity.Staff;
+import com.hotel_management.domain.entity.enums.StaffRole;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Optional;
 import javax.sql.DataSource;
 
 /**
@@ -21,7 +24,7 @@ public class StaffDAO extends BaseDAO<Staff> {
         return new Staff(
                 rs.getInt("StaffID"),
                 rs.getString("FullName"),
-                rs.getString("Role"),
+                StaffRole.fromDbValue(rs.getString("Role")),
                 rs.getString("UserName"),
                 rs.getString("PasswordHash"),
                 rs.getString("Phone"),
@@ -29,17 +32,17 @@ public class StaffDAO extends BaseDAO<Staff> {
         );
     }
 
-    public List<Staff> findAllStaffs() {
+    public List<Staff> findAll() {
         return query("SELECT * FROM STAFF");
     }
 
-    public Staff findStaffById(int id) {
+    public Optional<Staff> findById(int id) {
         List<Staff> staffs = query("SELECT * FROM STAFF WHERE StaffID = ?", id);
-        return staffs.isEmpty() ? null : staffs.get(0);
+        return staffs.stream().findFirst();
     }
 
-    public Staff findStaffByUsername(String userName) {
+    public Optional<Staff> findByUsername(String userName) {
         List<Staff> staffs = query("SELECT * FROM STAFF WHERE UserName = ?", userName);
-        return staffs.isEmpty() ? null : staffs.get(0);
+        return staffs.stream().findFirst();
     }
 }

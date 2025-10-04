@@ -27,7 +27,7 @@ public abstract class BaseDAO<T> {
     }
 
     protected void close(AutoCloseable c) {
-        if (c != null) try { c.close(); } catch (Exception ignored) {}
+        if (c != null) try { c.close(); } catch (Exception ignored) {}//just ignore
     }
 
     // mapping must implement

@@ -20,13 +20,13 @@ public class GuestService {
 
     // (method reference)
     public List<GuestViewModel> getAllGuests() {
-        return guestDao.findAllGuests().stream()
+        return guestDao.findAll().stream()
                 .map(GuestViewModel::fromEntity)
                 .collect(Collectors.toList());
     }
 
     public GuestViewModel getGuestById(int id) {
-        Guest guest = guestDao.findGuestById(id);
+        Guest guest = guestDao.findById(id).orElse(null);
         return guest != null ? GuestViewModel.fromEntity(guest) : null;
     }
 }
