@@ -51,7 +51,7 @@ public class LoginController extends HttpServlet {
         if (staff != null) {
             request.getSession().setAttribute(SessionAttribute.CURRENT_USER, staff);
             //switch case role to redirect to different home page by role
-            response.sendRedirect(Path.HOME_PAGE);
+            response.sendRedirect(request.getContextPath());
         } else {
             request.setAttribute(RequestAttribute.ERROR_MESSAGE, "Incorrect username or password");
             request.getRequestDispatcher(Path.LOGIN_PAGE).forward(request, response);
