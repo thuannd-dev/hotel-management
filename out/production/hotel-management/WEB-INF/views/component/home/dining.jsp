@@ -3,7 +3,7 @@
     Created on : Oct 5, 2025, 12:04:10 AM
     Author     : TR_NGHIA
 --%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" session="false" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" session="true" %>
 <section id="dining" class="section-padding">
     <div class="container">
         <div class="row g-5 align-items-center">

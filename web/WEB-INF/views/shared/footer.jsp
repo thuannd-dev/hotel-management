@@ -3,7 +3,7 @@
     Created on : Oct 4, 2025, 6:41:18 PM
     Author     : TR_NGHIA
 --%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" session="false" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" session="true" %>
 <footer id="contact" class="bg-dark text-white py-5">
     <div class="container">
         <div class="row g-4">

@@ -3,7 +3,7 @@
     Created on : Oct 5, 2025, 1:00:56 PM
     Author     : TR_NGHIA
 --%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" session="false" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" session="true" %>
 <div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="registerModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
         <div class="modal-content shadow-lg">

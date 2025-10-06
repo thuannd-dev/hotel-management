@@ -3,7 +3,7 @@
     Created on : Oct 4, 2025, 6:05:01 PM
     Author     : TR_NGHIA
 --%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" session="false" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" session="true" %>
 <section id="hero" class="hero-section d-flex align-items-center justify-content-center text-center text-white">
     <div class="hero-overlay"></div>
     <div class="container position-relative">

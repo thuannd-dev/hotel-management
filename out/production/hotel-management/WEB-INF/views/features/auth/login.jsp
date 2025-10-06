@@ -3,7 +3,7 @@
     Created on : Oct 5, 2025, 10:40:06 AM
     Author     : TR_NGHIA
 --%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" session="false" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" session="true" %>
 
 <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
@@ -20,11 +20,11 @@
                 <form action="login" method="POST">
                     <div class="mb-3">
                         <label for="username" class="form-label">Username</label>
-                        <input type="text" class="form-control" id="username" name="txtusername" required placeholder="Enter your username">
+                        <input type="text" class="form-control" id="username" name="username" required placeholder="Enter your username">
                     </div>
                     <div class="mb-4">
                         <label for="password" class="form-label">Password</label>
-                        <input type="password" class="form-control" id="password" name="txtpassword" required placeholder="Enter your password">
+                        <input type="password" class="form-control" id="password" name="password" required placeholder="Enter your password">
                     </div>
                     <div class="d-grid mt-4">
                         <button type="submit" class="btn btn-warning btn-lg">Login</button>

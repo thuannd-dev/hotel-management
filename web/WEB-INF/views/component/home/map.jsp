@@ -3,7 +3,7 @@
     Created on : Oct 4, 2025, 11:59:50 PM
     Author     : TR_NGHIA
 --%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" session="false" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" session="true" %>
 <section id="map-section" class="scroll-animate">
     <div class="map-container">
         <iframe 
