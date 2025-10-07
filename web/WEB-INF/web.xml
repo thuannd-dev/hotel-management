@@ -14,7 +14,7 @@
         <filter-name>AuthenticationFilter</filter-name>
         <url-pattern>/*</url-pattern>
         <dispatcher>REQUEST</dispatcher>
-        <dispatcher>FORWARD</dispatcher>
+<!--        <dispatcher>FORWARD</dispatcher>-->
     </filter-mapping>
     <filter>
         <filter-name>AuthorizationFilter</filter-name>
@@ -24,7 +24,7 @@
         <filter-name>AuthorizationFilter</filter-name>
         <url-pattern>/*</url-pattern>
         <dispatcher>REQUEST</dispatcher>
-        <dispatcher>FORWARD</dispatcher>
+<!--        <dispatcher>FORWARD</dispatcher>-->
     </filter-mapping>
     <servlet>
         <servlet-name>LoginController</servlet-name>

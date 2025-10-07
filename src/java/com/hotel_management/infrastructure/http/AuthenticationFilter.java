@@ -32,11 +32,17 @@ public class AuthenticationFilter implements Filter {
 
 		HttpServletRequest req = (HttpServletRequest) request;
 		String uri = req.getRequestURI();
-		this.context.log("Requested Resource::"+uri);
-		
+		this.context.log("Requested Resource::"+ uri);
+
+		// Bỏ qua xác thực cho file tĩnh trong /public/
+		if (uri.contains("/public/")) {
+			chain.doFilter(request, response);
+			return;
+		}
+
 		HttpSession session = req.getSession(false);
 
-		if(session == null && !(uri.endsWith("html") || uri.endsWith("login") || uri.endsWith("register") || uri.endsWith("/hotel_management/"))){
+		if(session == null && !(uri.endsWith("html") || uri.endsWith("login") || uri.endsWith("register") || uri.endsWith("/hotel_management/") || uri.endsWith("/hotel-management/"))){
             req.setAttribute(RequestAttribute.ERROR_MESSAGE, "Please sign in to continue your action");
             req.getRequestDispatcher(Path.LOGIN_PAGE).forward(request, response);
 		}else{

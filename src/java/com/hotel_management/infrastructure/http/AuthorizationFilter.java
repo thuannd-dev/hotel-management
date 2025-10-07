@@ -39,7 +39,7 @@ public class AuthorizationFilter implements Filter {
                 req.getRequestDispatcher(Path.ACCESS_DENIED_PAGE).forward(req, res);
                 return;
             }
-            chain.doFilter(request, response);
+            chain.doFilter(req, res);
             return;
         }
 

@@ -11,7 +11,7 @@
 <%@ include file="/WEB-INF/views/features/auth/navbar.jsp" %>
 
 <%-- Login  --%>
-<%@ include file="/WEB-INF/views/features/auth/login.jsp" %>
+<%--<%@ include file="/WEB-INF/views/features/auth/login.jsp" %>--%>
 
 <%-- Register  --%>
 <%@ include file="/WEB-INF/views/features/auth/register.jsp" %>

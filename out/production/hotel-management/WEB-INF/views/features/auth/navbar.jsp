@@ -61,7 +61,7 @@
                 <%
                 } else {
                 %>
-                <a href="#" class="info-link" data-bs-toggle="modal" data-bs-target="#loginModal">
+                <a href="${pageContext.request.contextPath}/login" class="info-link">
                     <i class="bi bi-person-circle me-2"></i>
                     <span>Login</span>
                 </a>

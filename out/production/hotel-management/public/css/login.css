@@ -1,0 +1,34 @@
+.login-input:focus {
+    outline: none;
+    border-color: #cc8c18;
+    box-shadow: 0 0 0 2px rgba(204, 140, 24, 0.2);
+}
+.login-button:hover {
+    background: linear-gradient(135deg, #b8780f 0%, #a66c0d 100%);
+    transform: translateY(-1px) scale(1.02);
+}
+.login-button:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(204, 140, 24, 0.3);
+}
+.forgot-link:hover {
+    color: #b8780f !important;
+}
+.eye-icon:hover {
+    color: #cc8c18 !important;
+}
+.input-focused {
+    transform: scale(1.01);
+    transition: transform 0.2s ease;
+}
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+.animate-spin {
+    animation: spin 1s linear infinite;
+}
