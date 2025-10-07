@@ -3,7 +3,7 @@
     Created on : Oct 4, 2025, 7:38:31 PM
     Author     : TR_NGHIA
 --%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" session="true" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" session="false" %>
 <!DOCTYPE html>
 <html lang="en">
     <head>

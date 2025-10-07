@@ -3,7 +3,7 @@
     Created on : Oct 4, 2025, 11:55:00 PM
     Author     : TR_NGHIA
 --%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" session="true" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" session="false" %>
 <section id="rooms" class="section-padding bg-light">
     <div class="container">
         <div class="d-flex justify-content-between align-items-center mb-5 scroll-animate">

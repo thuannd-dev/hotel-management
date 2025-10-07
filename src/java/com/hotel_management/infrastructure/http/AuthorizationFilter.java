@@ -33,7 +33,7 @@ public class AuthorizationFilter implements Filter {
 
         if(session != null) {
             StaffViewModel staff = (StaffViewModel) session.getAttribute(SessionAttribute.CURRENT_USER);
-            String role = staff.getRole();
+            String role = staff == null ? null : staff.getRole();
             if(uri.contains("/admin") && !"ADMIN".equals(role)) {
                 this.context.log("Access denied for user: " + session.getAttribute("username"));
                 request.getRequestDispatcher(Path.ACCESS_DENIED_PAGE).forward(request, response);

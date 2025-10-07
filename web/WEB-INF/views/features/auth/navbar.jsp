@@ -4,7 +4,7 @@
     Created on : Oct 5, 2025, 12:55:10 PM
     Author     : TR_NGHIA
 --%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" session="true" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" session="false" %>
 <%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
 <nav class="navbar navbar-expand-lg fixed-top" id="mainNavbar">
     <div class="container">
@@ -33,8 +33,9 @@
                     <span>+250 962 712 101</span>
                 </a>
                 <%
+                    HttpSession session = request.getSession(false);
                     // Lấy đối tượng GUEST từ session
-                    StaffViewModel staff = (StaffViewModel) session.getAttribute("currentUser");
+                    StaffViewModel staff = session == null ? null : (StaffViewModel) session.getAttribute("currentUser");
                     if (staff != null) {
                 %>
                 <div class="nav-item dropdown">

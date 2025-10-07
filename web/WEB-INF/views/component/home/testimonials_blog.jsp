@@ -3,7 +3,7 @@
     Created on : Oct 4, 2025, 11:48:11 PM
     Author     : TR_NGHIA
 --%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" session="true" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" session="false" %>
 <section id="testimonials" class="section-padding scroll-animate">
     <div class="container">
         <%-- ... (N?i dung ph?n Testimonials gi? nguy�n) ... --%>
