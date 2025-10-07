@@ -36,7 +36,7 @@ public class AuthenticationFilter implements Filter {
 		
 		HttpSession session = req.getSession(false);
 
-		if(session == null && !(uri.endsWith("html") || uri.endsWith("login") || uri.endsWith("register"))){
+		if(session == null && !(uri.endsWith("html") || uri.endsWith("login") || uri.endsWith("register") || uri.endsWith("/hotel_management/"))){
             req.setAttribute(RequestAttribute.ERROR_MESSAGE, "Please sign in to continue your action");
             req.getRequestDispatcher(Path.LOGIN_PAGE).forward(request, response);
 		}else{

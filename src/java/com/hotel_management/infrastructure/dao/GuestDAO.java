@@ -1,6 +1,8 @@
 package com.hotel_management.infrastructure.dao;
 
 import com.hotel_management.domain.entity.Guest;
+import com.hotel_management.domain.entity.Staff;
+
 import javax.sql.DataSource;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -22,6 +24,8 @@ public class GuestDAO extends BaseDAO<Guest>{
         return new Guest(
                 rs.getInt("GuestID"),
                 rs.getString("FullName"),
+                rs.getString("Username"),
+                rs.getString("PasswordHash"),
                 rs.getString("Phone"),
                 rs.getString("Email"),
                 rs.getString("Address"),
@@ -36,6 +40,11 @@ public class GuestDAO extends BaseDAO<Guest>{
 
     public Optional<Guest> findById(int id) {
         List<Guest> guests = query("SELECT * FROM GUEST WHERE GuestID = ?", id);
+        return guests.stream().findFirst();
+    }
+
+    public Optional<Guest> findByUsername(String userName) {
+        List<Guest> guests = query("SELECT * FROM GUEST WHERE UserName = ?", userName);
         return guests.stream().findFirst();
     }
 }

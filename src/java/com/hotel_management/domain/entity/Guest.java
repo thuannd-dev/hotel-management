@@ -18,6 +18,8 @@ import java.time.LocalDate;
 public class Guest {
     private int guestId;
     private String fullName;
+    private String username;
+    private String password;
     private String phone;
     private String email;
     private String address;

@@ -1,10 +1,13 @@
 package com.hotel_management.presentation.controller;
+import com.hotel_management.application.service.GuestService;
 import com.hotel_management.application.service.StaffService;
+import com.hotel_management.infrastructure.dao.GuestDAO;
 import com.hotel_management.infrastructure.dao.StaffDAO;
 import com.hotel_management.infrastructure.provider.DataSourceProvider;
 import com.hotel_management.presentation.constants.Path;
 import com.hotel_management.presentation.constants.RequestAttribute;
 import com.hotel_management.presentation.constants.SessionAttribute;
+import com.hotel_management.presentation.dto.guest.GuestViewModel;
 import com.hotel_management.presentation.dto.staff.StaffViewModel;
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -20,13 +23,17 @@ import javax.sql.DataSource;
 public class LoginController extends HttpServlet {
     private static final long serialVersionUID = 1L;
     private StaffService staffService;
+    private GuestService guestService;
 
     @Override
     public void init() {
         StaffDAO staffDAO;
+        GuestDAO guestDAO;
         DataSource ds = DataSourceProvider.getDataSource();
         staffDAO = new StaffDAO(ds);
+        guestDAO = new GuestDAO(ds);
         this.staffService = new StaffService(staffDAO);
+        this.guestService = new GuestService(guestDAO);
     }
 
     @Override
@@ -48,13 +55,15 @@ public class LoginController extends HttpServlet {
             return;
         }
         StaffViewModel staff = staffService.getStaffByUsernameAndPassword(username, password);
-        if (staff != null) {
-            request.getSession().setAttribute(SessionAttribute.CURRENT_USER, staff);
-            //switch case role to redirect to different home page by role
-            response.sendRedirect(request.getContextPath());
-        } else {
+        GuestViewModel guest = guestService.getGuestByUsernameAndPassword(username, password);
+        if(staff == null && guest == null) {
             request.setAttribute(RequestAttribute.ERROR_MESSAGE, "Incorrect username or password");
             request.getRequestDispatcher(Path.LOGIN_PAGE).forward(request, response);
+            return;
         }
+        request.getSession().setAttribute(SessionAttribute.CURRENT_USER, staff == null ? guest : staff);
+        //switch case role to redirect to different home page by role
+        response.sendRedirect(request.getContextPath());
+
     }
 }

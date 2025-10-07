@@ -23,6 +23,7 @@ public class GuestViewModel implements Serializable {
     private static final long serialVersionUID = 1L;
     private int guestId;
     private String fullName;
+    private String username;
     private String phone;
     private String email;
     private String address;
@@ -34,6 +35,7 @@ public class GuestViewModel implements Serializable {
         return new GuestViewModel(
                 guest.getGuestId(),
                 guest.getFullName(),
+                guest.getUsername(),
                 guest.getPhone(),
                 guest.getEmail(),
                 guest.getAddress(),

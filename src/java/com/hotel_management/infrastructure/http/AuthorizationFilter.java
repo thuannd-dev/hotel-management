@@ -2,6 +2,7 @@ package com.hotel_management.infrastructure.http;
 
 import com.hotel_management.presentation.constants.Path;
 import com.hotel_management.presentation.constants.SessionAttribute;
+import com.hotel_management.presentation.dto.guest.GuestViewModel;
 import com.hotel_management.presentation.dto.staff.StaffViewModel;
 import java.io.IOException;
 import javax.servlet.Filter;
@@ -12,6 +13,7 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 /**
  *
@@ -28,19 +30,35 @@ public class AuthorizationFilter implements Filter {
             throws IOException, ServletException {
 
         HttpServletRequest req = (HttpServletRequest) request;
+        HttpServletResponse res = (HttpServletResponse) response;
         String uri = req.getRequestURI();
         HttpSession session = req.getSession(false);
 
-        if(session != null) {
-            StaffViewModel staff = (StaffViewModel) session.getAttribute(SessionAttribute.CURRENT_USER);
-            String role = staff == null ? null : staff.getRole();
-            if(uri.contains("/admin") && !"ADMIN".equals(role)) {
-                this.context.log("Access denied for user: " + session.getAttribute("username"));
-                request.getRequestDispatcher(Path.ACCESS_DENIED_PAGE).forward(request, response);
+        if(session == null) {
+            if (uri.contains("/admin")) {
+                req.getRequestDispatcher(Path.ACCESS_DENIED_PAGE).forward(req, res);
                 return;
             }
+            chain.doFilter(request, response);
+            return;
         }
 
+        Object  currentUser  = session.getAttribute(SessionAttribute.CURRENT_USER);
+        String role = "";
+        if (currentUser instanceof StaffViewModel) {
+            StaffViewModel staff = (StaffViewModel) currentUser;
+            role = staff.getRole();
+        } else if (currentUser instanceof GuestViewModel) {
+            role = "GUEST";
+        } else {
+            role = "UNKNOWN";
+        }
+
+        if(uri.contains("/admin") && !"ADMIN".equals(role)) {
+            this.context.log("Access denied for user: " + session.getAttribute("username"));
+            request.getRequestDispatcher(Path.ACCESS_DENIED_PAGE).forward(req, res);
+            return;
+        }
         chain.doFilter(request, response);
     }
 

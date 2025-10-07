@@ -1,5 +1,6 @@
 <%@ page import="com.hotel_management.presentation.constants.SessionAttribute" %>
-<%@ page import="com.hotel_management.presentation.dto.staff.StaffViewModel" %><%--
+<%@ page import="com.hotel_management.presentation.dto.staff.StaffViewModel" %>
+<%@ page import="com.hotel_management.presentation.dto.guest.GuestViewModel" %><%--
     Document   : navbar
     Created on : Oct 5, 2025, 12:55:10 PM
     Author     : TR_NGHIA
@@ -34,14 +35,23 @@
                 </a>
                 <%
                     HttpSession session = request.getSession(false);
-                    // Lấy đối tượng GUEST từ session
-                    StaffViewModel staff = session == null ? null : (StaffViewModel) session.getAttribute("currentUser");
-                    if (staff != null) {
+                    StaffViewModel staff = null;
+                    GuestViewModel guest = null;
+                    // Lấy đối tượng từ session
+                    if(session != null) {
+                        Object currentUser = session.getAttribute("currentUser");
+                        if(currentUser instanceof StaffViewModel) {
+                            staff = (StaffViewModel) currentUser;
+                        }else if (currentUser instanceof GuestViewModel) {
+                            guest = (GuestViewModel) currentUser;
+                        }
+                    }
+                    if (staff != null || guest != null) {
                 %>
                 <div class="nav-item dropdown">
                     <a class="info-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="bi bi-person-fill me-2"></i>
-                        <%= staff.getFullName() %>
+                        <%= staff != null ? staff.getFullName() : guest.getFullName() %>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                         <li><a class="dropdown-item" href="#">My Profile</a></li>
