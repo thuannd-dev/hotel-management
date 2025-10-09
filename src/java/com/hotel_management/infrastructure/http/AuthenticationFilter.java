@@ -1,6 +1,6 @@
 package com.hotel_management.infrastructure.http;
 
-import com.hotel_management.presentation.constants.Path;
+import com.hotel_management.presentation.constants.Page;
 import com.hotel_management.presentation.constants.RequestAttribute;
 
 import java.io.IOException;
@@ -42,9 +42,18 @@ public class AuthenticationFilter implements Filter {
 
 		HttpSession session = req.getSession(false);
 
-		if(session == null && !(uri.endsWith("html") || uri.endsWith("login") || uri.endsWith("register") || uri.endsWith("/hotel_management/") || uri.endsWith("/hotel-management/"))){
+		if(
+            session == null &&
+            !(
+                    uri.endsWith("/hotel_management/") ||
+                    uri.endsWith("/hotel-management/")||
+                    uri.endsWith("html") ||
+                    uri.endsWith("login") ||
+                    uri.endsWith("register")
+            )
+        ){
             req.setAttribute(RequestAttribute.ERROR_MESSAGE, "Please sign in to continue your action");
-            req.getRequestDispatcher(Path.LOGIN_PAGE).forward(request, response);
+            req.getRequestDispatcher(Page.LOGIN_PAGE).forward(request, response);
 		}else{
 			// pass the request along the filter chain
 			chain.doFilter(request, response);

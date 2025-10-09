@@ -1,6 +1,6 @@
 package com.hotel_management.infrastructure.http;
 
-import com.hotel_management.presentation.constants.Path;
+import com.hotel_management.presentation.constants.Page;
 import com.hotel_management.presentation.constants.SessionAttribute;
 import com.hotel_management.presentation.dto.guest.GuestViewModel;
 import com.hotel_management.presentation.dto.staff.StaffViewModel;
@@ -36,7 +36,7 @@ public class AuthorizationFilter implements Filter {
 
         if(session == null) {
             if (uri.contains("/admin")) {
-                req.getRequestDispatcher(Path.ACCESS_DENIED_PAGE).forward(req, res);
+                req.getRequestDispatcher(Page.ACCESS_DENIED_PAGE).forward(req, res);
                 return;
             }
             chain.doFilter(req, res);
@@ -56,7 +56,11 @@ public class AuthorizationFilter implements Filter {
 
         if(uri.contains("/admin") && !"ADMIN".equals(role)) {
             this.context.log("Access denied for user: " + session.getAttribute("username"));
-            request.getRequestDispatcher(Path.ACCESS_DENIED_PAGE).forward(req, res);
+            request.getRequestDispatcher(Page.ACCESS_DENIED_PAGE).forward(req, res);
+            return;
+        } else if (uri.contains("/service-staff") && !"SERVICE_STAFF".equals(role)) {
+            this.context.log("Access denied for user: " + session.getAttribute("username"));
+            request.getRequestDispatcher(Page.ACCESS_DENIED_PAGE).forward(req, res);
             return;
         }
         chain.doFilter(request, response);
