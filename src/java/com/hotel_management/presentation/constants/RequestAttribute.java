@@ -6,5 +6,5 @@ package com.hotel_management.presentation.constants;
 public final class RequestAttribute {
     private RequestAttribute() {}
     public static final String ERROR_MESSAGE = "error";
-    public static final String CHECK_IN_BOOKINGS = "checkInBookings";
+    public static final String CHECK_IN_BOOKING_DETAILS = "checkInBookingDetails";
 }

@@ -2,8 +2,8 @@ package com.hotel_management.infrastructure.http;
 
 import com.hotel_management.presentation.constants.Page;
 import com.hotel_management.presentation.constants.SessionAttribute;
-import com.hotel_management.presentation.dto.guest.GuestViewModel;
-import com.hotel_management.presentation.dto.staff.StaffViewModel;
+import com.hotel_management.domain.dto.guest.GuestViewModel;
+import com.hotel_management.domain.dto.staff.StaffViewModel;
 import java.io.IOException;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;

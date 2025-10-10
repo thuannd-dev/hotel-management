@@ -1,6 +1,6 @@
 <%@ page import="com.hotel_management.presentation.constants.SessionAttribute" %>
-<%@ page import="com.hotel_management.presentation.dto.staff.StaffViewModel" %>
-<%@ page import="com.hotel_management.presentation.dto.guest.GuestViewModel" %><%--
+<%@ page import="com.hotel_management.domain.dto.staff.StaffViewModel" %>
+<%@ page import="com.hotel_management.domain.dto.guest.GuestViewModel" %><%--
     Document   : navbar
     Created on : Oct 5, 2025, 12:55:10 PM
     Author     : TR_NGHIA

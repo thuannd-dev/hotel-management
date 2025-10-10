@@ -1,10 +1,8 @@
 package com.hotel_management.application.service;
 
 import com.hotel_management.domain.entity.Guest;
-import com.hotel_management.domain.entity.Staff;
 import com.hotel_management.infrastructure.dao.GuestDAO;
-import com.hotel_management.presentation.dto.guest.GuestViewModel;
-import com.hotel_management.presentation.dto.staff.StaffViewModel;
+import com.hotel_management.domain.dto.guest.GuestViewModel;
 import org.mindrot.jbcrypt.BCrypt;
 
 import java.util.List;

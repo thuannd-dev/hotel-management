@@ -25,7 +25,6 @@ public class BookingDAO extends BaseDAO<Booking> {
                 rs.getInt("BookingID"),
                 rs.getInt("GuestID"),
                 rs.getInt("RoomID"),
-                rs.getInt("RoomNumber"),
                 rs.getDate("CheckInDate").toLocalDate(),
                 rs.getDate("CheckOutDate").toLocalDate(),
                 rs.getDate("BookingDate").toLocalDate(),
@@ -39,32 +38,29 @@ public class BookingDAO extends BaseDAO<Booking> {
     }
 
     public List<Booking> findAll() {
-        return query("SELECT \n" +
-                "B.BookingID, B.GuestID, B.RoomID, R.RoomNumber, \n" +
+        return query("SELECT\n" +
+                "B.BookingID, B.GuestID, B.RoomID,\n" +
                 "B.CheckInDate, B.CheckOutDate, B.BookingDate, B.Status,\n" +
                 "B.TotalGuests, B.SpecialRequests, B.PaymentStatus, B.CancellationDate,\n" +
-                "B.CancellationReason FROM BOOKING B \n" +
-                "LEFT JOIN ROOM R ON B.RoomID = R.RoomID");
+                "B.CancellationReason FROM BOOKING B");
     }
 
     public Optional<Booking> findById(int id) {
-        List<Booking> bookings = query("SELECT \n" +
-                "B.BookingID, B.GuestID, B.RoomID, R.RoomNumber, \n" +
+        List<Booking> bookings = query("SELECT\n" +
+                "B.BookingID, B.GuestID, B.RoomID,\n" +
                 "B.CheckInDate, B.CheckOutDate, B.BookingDate, B.Status,\n" +
                 "B.TotalGuests, B.SpecialRequests, B.PaymentStatus, B.CancellationDate,\n" +
-                "B.CancellationReason FROM BOOKING B \n" +
-                "LEFT JOIN ROOM R ON B.RoomID = R.RoomID\n" +
+                "B.CancellationReason FROM BOOKING B\n" +
                 "WHERE B.BookingID = ?", id);
         return bookings.stream().findFirst();
     }
 
     public List<Booking> findByStatus(BookingStatus status) {
-        return query("SELECT \n" +
-                "B.BookingID, B.GuestID, B.RoomID, R.RoomNumber, \n" +
+        return query("SELECT\n" +
+                "B.BookingID, B.GuestID, B.RoomID,\n" +
                 "B.CheckInDate, B.CheckOutDate, B.BookingDate, B.Status,\n" +
                 "B.TotalGuests, B.SpecialRequests, B.PaymentStatus, B.CancellationDate,\n" +
-                "B.CancellationReason FROM BOOKING B \n" +
-                "LEFT JOIN ROOM R ON B.RoomID = R.RoomID\n" +
+                "B.CancellationReason FROM BOOKING B\n" +
                 "WHERE B.Status = ?", status.getDbValue());
     }
 }

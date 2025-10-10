@@ -21,12 +21,15 @@
 <hr>
 
 <!-- Result List -->
-<c:set var="bookings" value="${requestScope['checkInBookings']}" />
+<c:set var="bookings" value="${requestScope['checkInBookingDetails']}" />
 <c:if test="${not empty bookings}">
     <table style="border-collapse: separate; border-spacing: 2px;">
         <tr>
             <th>Booking ID</th>
             <th>Guest ID</th>
+            <th>Guest Full Name</th>
+            <th>Guest Phone</th>
+            <th>Guest Id Number</th>
             <th>Room ID</th>
             <th>Room Number</th>
             <th>Check In Date</th>
@@ -35,11 +38,14 @@
             <th>Status</th>
         </tr>
 
-        <%--@elvariable id="b" type="com.hotel_management.presentation.dto.booking.BookingViewModel"--%>
+            <%--@elvariable id="b" type="com.hotel_management.domain.dto.booking.BookingDetailViewModel"--%>
         <c:forEach var="b" items="${bookings}">
             <tr>
                 <td>${b.bookingId}</td>
                 <td>${b.guestId}</td>
+                <td>${b.guestFullName}</td>
+                <td>${b.guestPhone}</td>
+                <td>${b.guestIdNumber}</td>
                 <td>${b.roomId}</td>
                 <td>${b.roomNumber}</td>
                 <td>${b.checkInDate}</td>

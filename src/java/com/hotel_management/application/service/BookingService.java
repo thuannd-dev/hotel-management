@@ -1,16 +1,13 @@
 package com.hotel_management.application.service;
 
+import com.hotel_management.domain.dto.booking.BookingDetailViewModel;
 import com.hotel_management.domain.entity.Booking;
-import com.hotel_management.domain.entity.Guest;
-import com.hotel_management.domain.entity.Staff;
 import com.hotel_management.domain.entity.enums.BookingStatus;
 import com.hotel_management.infrastructure.dao.BookingDAO;
-import com.hotel_management.infrastructure.dao.GuestDAO;
-import com.hotel_management.presentation.dto.booking.BookingViewModel;
-import com.hotel_management.presentation.dto.guest.GuestViewModel;
-import com.hotel_management.presentation.dto.staff.StaffViewModel;
-import org.mindrot.jbcrypt.BCrypt;
+import com.hotel_management.domain.dto.booking.BookingViewModel;
+import com.hotel_management.infrastructure.dao.BookingDetailDAO;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -20,10 +17,11 @@ import java.util.stream.Collectors;
  */
 public class BookingService {
     private final BookingDAO bookingDao;
+    private final BookingDetailDAO bookingDetailDao;
 
-
-    public BookingService(BookingDAO bookingDao) {
+    public BookingService(BookingDAO bookingDao, BookingDetailDAO bookingDetailDao) {
         this.bookingDao = bookingDao;
+        this.bookingDetailDao = bookingDetailDao;
     }
 
     // (method reference)
@@ -38,9 +36,7 @@ public class BookingService {
         return booking != null ? BookingViewModel.fromEntity(booking) : null;
     }
 
-    public List<BookingViewModel> getAllCheckInBookings() {
-        return bookingDao.findByStatus(BookingStatus.CHECK_IN).stream()
-                .map(BookingViewModel::fromEntity)
-                .collect(Collectors.toList());
+    public List<BookingDetailViewModel> getAllCheckInBookingDetails() {
+        return bookingDetailDao.findByStatus(BookingStatus.CHECK_IN);
     }
 }
