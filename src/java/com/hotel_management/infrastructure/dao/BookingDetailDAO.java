@@ -75,4 +75,5 @@ public class BookingDetailDAO extends BaseDAO<BookingDetailViewModel> {
                 "LEFT JOIN GUEST G ON B.GuestID = G.GuestID\n" +
                 "WHERE B.Status = ?", status.getDbValue());
     }
+
 }

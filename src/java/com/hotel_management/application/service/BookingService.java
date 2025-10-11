@@ -9,6 +9,7 @@ import com.hotel_management.infrastructure.dao.BookingDetailDAO;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -38,5 +39,12 @@ public class BookingService {
 
     public List<BookingDetailViewModel> getAllCheckInBookingDetails() {
         return bookingDetailDao.findByStatus(BookingStatus.CHECK_IN);
+    }
+
+    public BookingDetailViewModel getCheckInBookingDetailById(int id) {
+        BookingDetailViewModel booking = bookingDetailDao.findById(id).orElse(null);
+        return booking != null &&
+                booking.getStatus().equalsIgnoreCase(BookingStatus.CHECK_IN.getDbValue())
+                ? booking : null;
     }
 }
