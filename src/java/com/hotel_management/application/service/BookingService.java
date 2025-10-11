@@ -6,10 +6,7 @@ import com.hotel_management.domain.entity.enums.BookingStatus;
 import com.hotel_management.infrastructure.dao.BookingDAO;
 import com.hotel_management.domain.dto.booking.BookingViewModel;
 import com.hotel_management.infrastructure.dao.BookingDetailDAO;
-
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**

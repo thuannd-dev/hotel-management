@@ -1,8 +1,6 @@
 package com.hotel_management.infrastructure.dao;
 
 import com.hotel_management.domain.entity.Guest;
-import com.hotel_management.domain.entity.Staff;
-
 import javax.sql.DataSource;
 import java.sql.ResultSet;
 import java.sql.SQLException;

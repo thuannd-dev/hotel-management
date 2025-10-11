@@ -41,6 +41,4 @@ public class GuestViewModel implements Serializable {
                 guest.getDateOfBirth()
         );
     }
-
-    //If map from dto to entity name should be toEntity()
 }

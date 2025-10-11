@@ -21,7 +21,7 @@
 
     <hr>
 
-    <!-- Form thêm dịch vụ -->
+    <!-- Form add service -->
     <form action="add-service" method="post">
         <input type="hidden" name="bookingId" value="${booking.bookingId}" />
         <c:set var="services" value="${requestScope['services']}" />
@@ -41,6 +41,6 @@
     </form>
 
     <hr>
-    <a href="service-staff">← Back to Booking List</a>
+    <a href="${pageContext.request.contextPath}/service-staff">← Back to Booking List</a>
   </body>
 </html>

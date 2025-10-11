@@ -53,7 +53,7 @@
                 <td>${b.bookingDate}</td>
                 <td>${b.status}</td>
                 <td>
-                    <a href="add-service?bookingId=${b.bookingId}">Record Service</a>
+                    <a href="service-staff/add-service?bookingId=${b.bookingId}">Record Service</a>
                 </td>
             </tr>
         </c:forEach>
