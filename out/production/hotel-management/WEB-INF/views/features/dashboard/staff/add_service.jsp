@@ -26,19 +26,40 @@
         <input type="hidden" name="bookingId" value="${booking.bookingId}" />
         <c:set var="services" value="${requestScope['services']}" />
         <%--@elvariable id="services" type="com.hotel_management.domain.dto.service.ServiceViewModel"--%>
-        <label for="serviceId">Service:</label>
-        <select name="serviceId" id="serviceId" required>
-            <option value="">-- Select Service --</option>
-            <c:forEach var="s" items="${services}">
-              <option value="${s.serviceId}">${s.serviceName} - ${s.price} $</option>
-            </c:forEach>
-        </select>
-        <br><br>
-        <label for="quantity">Quantity:</label>
-        <input type="number" name="quantity" id="quantity" min="1" value="1" required />
-        <br><br>
-      <button type="submit">Add Service</button>
+        <table border="1" cellpadding="5" cellspacing="0">
+            <thead>
+                <tr>
+                    <th>Select</th>
+                    <th>Service</th>
+                    <th>Price ($)</th>
+                    <th>Quantity</th>
+                </tr>
+            </thead>
+            <tbody>
+                <c:forEach var="s" items="${services}">
+                    <tr>
+                        <td>
+                            <input type="checkbox" name="serviceId[]" value="${s.serviceId}" id="service_${s.serviceId}" onclick="toggleQuantity(this, '${s.serviceId}')" />
+                        </td>
+                        <td><label for="service_${s.serviceId}">${s.serviceName}</label></td>
+                        <td>${s.price}</td>
+                        <td>
+                            <input type="number" name="quantity_${s.serviceId}" min="1" value="1" disabled required />
+                        </td>
+                    </tr>
+                </c:forEach>
+            </tbody>
+        </table>
+        <br>
+        <button type="submit">Add Services</button>
     </form>
+    <script>
+      function toggleQuantity(checkbox, serviceId) {
+        var quantityInput = checkbox.closest('tr').querySelector('input[type=number]');
+        quantityInput.disabled = !checkbox.checked;
+        if (!checkbox.checked) quantityInput.value = 1;
+      }
+    </script>
 
     <hr>
     <a href="${pageContext.request.contextPath}/service-staff">← Back to Booking List</a>

@@ -78,7 +78,7 @@ public abstract class BaseDAO<T> {
             if (affectedRows > 0) {
                 try (ResultSet rs = ps.getGeneratedKeys()) {
                     if (rs.next()) {
-                        return rs.getInt(1); // return Id of row inserted
+                        return rs.getInt(1); // return id of row inserted
                     }
                 }
             }
@@ -89,4 +89,53 @@ public abstract class BaseDAO<T> {
         return 0;
     }
 
+    // ---------------------------
+    // INSERT BATCH (return list of ids)
+    // ---------------------------
+    public List<Integer> insertBatchAndReturnIds(String sql, List<Object[]> batchParams) {
+        List<Integer> generatedIds = new ArrayList<>();
+        Connection conn = null;
+        PreparedStatement ps = null;
+
+        try {
+            conn = getConnection();
+            conn.setAutoCommit(false); // start point of transaction
+
+            ps = conn.prepareStatement(sql, RETURN_GENERATED_KEYS);
+
+            for (Object[] params : batchParams) {
+                for (int i = 0; i < params.length; i++) {
+                    ps.setObject(i + 1, params[i]);
+                }
+                ps.addBatch();
+            }
+
+            ps.executeBatch();
+
+            // get list ID generated
+            try (ResultSet rs = ps.getGeneratedKeys()) {
+                while (rs.next()) {
+                    generatedIds.add(rs.getInt(1));
+                }
+            }
+
+            conn.commit(); // if every ok -> commit
+            return generatedIds;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            if (conn != null) {
+                try {
+                    conn.rollback(); // if you have an error in any transaction → rollback
+                    System.err.println("Batch insert rolled back due to error.");
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+            }
+            return null;
+        } finally {
+            if (ps != null) close(ps);
+            if (conn != null) try { conn.setAutoCommit(true); conn.close(); } catch (SQLException ignored) {}
+        }
+    }
 }
+

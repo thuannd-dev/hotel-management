@@ -64,7 +64,6 @@ public class AddServiceController extends HttpServlet {
             throws ServletException, IOException {
         try {
             int bookingId = Integer.parseInt(request.getParameter("bookingId"));
-
             BookingDetailViewModel booking = bookingService.getCheckInBookingDetailById(bookingId);
             if (booking == null) {
                 throw new IllegalArgumentException("Invalid bookingId");
@@ -87,21 +86,30 @@ public class AddServiceController extends HttpServlet {
         try {
             HttpSession session = request.getSession();
             int bookingId = Integer.parseInt(request.getParameter("bookingId"));
-            int serviceId = Integer.parseInt(request.getParameter("serviceId"));
-            int quantity = Integer.parseInt(request.getParameter("quantity"));
+            String[] serviceIds = request.getParameterValues("serviceId[]");
             StaffViewModel staff = (StaffViewModel) session.getAttribute(SessionAttribute.CURRENT_USER);
             if (staff == null) {
                 throw new IllegalArgumentException("Invalid user");
             }
-            bookingServiceUsageService.createBookingService(
-                    new BookingServiceCreateModel(
-                            bookingId,
-                            serviceId,
-                            quantity,
-                            staff.getStaffId()
-                    )
-            );
-
+            if (serviceIds == null || serviceIds.length == 0) {
+                throw new IllegalArgumentException("No service selected");
+            }
+            for (String serviceIdStr : serviceIds) {
+                int serviceId = Integer.parseInt(serviceIdStr);
+                String quantityStr = request.getParameter("quantity_" + serviceId);
+                int quantity = 1;
+                if (quantityStr != null) {
+                    quantity = Integer.parseInt(quantityStr);
+                }
+                bookingServiceUsageService.createBookingService(
+                        new BookingServiceCreateModel(
+                                bookingId,
+                                serviceId,
+                                quantity,
+                                staff.getStaffId()
+                        )
+                );
+            }
             response.sendRedirect("record-service?success=true");
         } catch (NumberFormatException e) {
             response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid input: bookingId, serviceId, or quantity");
