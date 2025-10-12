@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-private xmlns="http://www.netbeans.org/ns/project-private/1">
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
+    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+        <group>
+            <file>file:/D:/FOR_LEARN/FPT/SEMESTER_4/PRJ301-VanTTN/3.Project/2.%20Practice/Hotel-management1/src/java/edu/hotel_management/presentation/constants/IConstant.java</file>
+            <file>file:/D:/FOR_LEARN/FPT/SEMESTER_4/PRJ301-VanTTN/3.Project/2.%20Practice/Hotel-management1/src/java/edu/hotel_management/infrastructure/persistence/dao/BaseDAO.java</file>
+            <file>file:/D:/FOR_LEARN/FPT/SEMESTER_4/PRJ301-VanTTN/3.Project/2.%20Practice/Hotel-management1/web/WEB-INF/views/features/login/register.jsp</file>
+            <file>file:/D:/FOR_LEARN/FPT/SEMESTER_4/PRJ301-VanTTN/3.Project/2.%20Practice/Hotel-management1/web/WEB-INF/views/features/login/login.jsp</file>
+            <file>file:/D:/FOR_LEARN/FPT/SEMESTER_4/PRJ301-VanTTN/3.Project/2.%20Practice/Hotel-management1/src/java/edu/hotel_management/application/service/GuestService.java</file>
+            <file>file:/D:/FOR_LEARN/FPT/SEMESTER_4/PRJ301-VanTTN/3.Project/2.%20Practice/Hotel-management1/src/java/edu/hotel_management/infrastructure/persistence/dao/GuestDAO.java</file>
+            <file>file:/D:/FOR_LEARN/FPT/SEMESTER_4/PRJ301-VanTTN/3.Project/2.%20Practice/Hotel-management1/web/WEB-INF/views/features/booking/bookingForm.jsp</file>
+            <file>file:/D:/FOR_LEARN/FPT/SEMESTER_4/PRJ301-VanTTN/3.Project/2.%20Practice/Hotel-management1/web/WEB-INF/views/features/booking/viewRoomsBooking.jsp</file>
+            <file>file:/D:/FOR_LEARN/FPT/SEMESTER_4/PRJ301-VanTTN/3.Project/2.%20Practice/Hotel-management1/src/java/edu/hotel_management/infrastructure/controller/LoginController.java</file>
+        </group>
+    </open-files>
+</project-private>
