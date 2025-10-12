@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import javax.sql.DataSource;
@@ -99,7 +100,7 @@ public abstract class BaseDAO<T> {
 
         try {
             conn = getConnection();
-            conn.setAutoCommit(false); // start point of transaction
+            conn.setAutoCommit(false); // start transaction
 
             ps = conn.prepareStatement(sql, RETURN_GENERATED_KEYS);
 
@@ -107,35 +108,40 @@ public abstract class BaseDAO<T> {
                 for (int i = 0; i < params.length; i++) {
                     ps.setObject(i + 1, params[i]);
                 }
-                ps.addBatch();
-            }
-
-            ps.executeBatch();
-
-            // get list ID generated
-            try (ResultSet rs = ps.getGeneratedKeys()) {
-                while (rs.next()) {
-                    generatedIds.add(rs.getInt(1));
+                // execute each insert
+                ps.executeUpdate();
+                // get id of row inserted
+                try (ResultSet rs = ps.getGeneratedKeys()) {
+                    if (rs.next()) {
+                        generatedIds.add(rs.getInt(1));
+                    }
                 }
+                ps.clearParameters(); // clear parameters for next insert
             }
-
-            conn.commit(); // if every ok -> commit
+            conn.commit(); // commit transaction
             return generatedIds;
+
         } catch (SQLException e) {
             e.printStackTrace();
             if (conn != null) {
                 try {
-                    conn.rollback(); // if you have an error in any transaction → rollback
+                    conn.rollback(); // rollback all changes/transactions
                     System.err.println("Batch insert rolled back due to error.");
                 } catch (SQLException ex) {
                     ex.printStackTrace();
                 }
             }
-            return null;
+            return Collections.emptyList();// return an empty list if failed
         } finally {
             if (ps != null) close(ps);
-            if (conn != null) try { conn.setAutoCommit(true); conn.close(); } catch (SQLException ignored) {}
+            if (conn != null) {
+                try {
+                    conn.setAutoCommit(true);
+                    conn.close();
+                } catch (SQLException ignored) {}
+            }
         }
     }
+
 }
 

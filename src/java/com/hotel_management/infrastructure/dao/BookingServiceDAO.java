@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -60,6 +61,17 @@ public class BookingServiceDAO extends BaseDAO<BookingService>{
                 b.getQuantity(), status.getDbValue(),
                 b.getAssignedStaffId()
         );
+    }
+
+    public List<Integer> insertBatchBookingService(List<BookingService> lb, BookingServiceStatus status) {
+        String sql = "INSERT INTO BOOKING_SERVICE\n" +
+                "(BookingID, ServiceID, Quantity, Status, AssignedStaffID)\n" +
+                "VALUES (?, ?, ?, ?, ?)";
+        List<Object[]> batchParams = new ArrayList<>();
+        for (BookingService b : lb) {
+            batchParams.add(new Object[]{b.getBookingId(), b.getServiceId(), b.getQuantity(), status.getDbValue(), b.getAssignedStaffId()});
+        }
+        return insertBatchAndReturnIds(sql, batchParams);
     }
 
 }

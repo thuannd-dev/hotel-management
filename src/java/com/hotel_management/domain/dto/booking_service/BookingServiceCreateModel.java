@@ -4,6 +4,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import com.hotel_management.domain.entity.BookingService;
 import java.io.Serializable;
+import java.util.List;
+import java.util.stream.Collectors;
+
 /**
  *
  * @author thuannd.dev
@@ -24,5 +27,11 @@ public class BookingServiceCreateModel implements Serializable {
         bookingService.setQuantity(bookingServiceCreateModel.getQuantity());
         bookingService.setAssignedStaffId(bookingServiceCreateModel.getAssignedStaffId());
         return bookingService;
+    }
+
+    public static List<BookingService> toListEntity(List<BookingServiceCreateModel> listBookingServiceCreateModel) {
+        return listBookingServiceCreateModel.stream()
+                .map(BookingServiceCreateModel::toEntity)
+                .collect(Collectors.toList());
     }
 }

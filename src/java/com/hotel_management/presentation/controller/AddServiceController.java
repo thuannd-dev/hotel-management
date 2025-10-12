@@ -8,7 +8,9 @@ import com.hotel_management.application.service.BookingService;
 import com.hotel_management.application.service.BookingServiceUsageService;
 import com.hotel_management.application.service.ServiceEntityService;
 import com.hotel_management.domain.dto.booking.BookingDetailViewModel;
+import com.hotel_management.domain.dto.booking.BookingViewModel;
 import com.hotel_management.domain.dto.booking_service.BookingServiceCreateModel;
+import com.hotel_management.domain.dto.booking_service.BookingServiceViewModel;
 import com.hotel_management.domain.dto.service.ServiceViewModel;
 import com.hotel_management.domain.dto.staff.StaffViewModel;
 import com.hotel_management.infrastructure.dao.BookingDAO;
@@ -21,6 +23,7 @@ import com.hotel_management.presentation.constants.RequestAttribute;
 import com.hotel_management.presentation.constants.SessionAttribute;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -94,6 +97,7 @@ public class AddServiceController extends HttpServlet {
             if (serviceIds == null || serviceIds.length == 0) {
                 throw new IllegalArgumentException("No service selected");
             }
+            List<BookingServiceCreateModel> createModels = new ArrayList<>();
             for (String serviceIdStr : serviceIds) {
                 int serviceId = Integer.parseInt(serviceIdStr);
                 String quantityStr = request.getParameter("quantity_" + serviceId);
@@ -101,14 +105,16 @@ public class AddServiceController extends HttpServlet {
                 if (quantityStr != null) {
                     quantity = Integer.parseInt(quantityStr);
                 }
-                bookingServiceUsageService.createBookingService(
-                        new BookingServiceCreateModel(
-                                bookingId,
-                                serviceId,
-                                quantity,
-                                staff.getStaffId()
-                        )
-                );
+                createModels.add(new BookingServiceCreateModel(
+                        bookingId,
+                        serviceId,
+                        quantity,
+                        staff.getStaffId()
+                ));
+            }
+            List<BookingServiceViewModel> viewModels =  bookingServiceUsageService.createBatchBookingService(createModels);
+            if (viewModels == null || viewModels.isEmpty()) {
+                throw new IllegalArgumentException("Failed to create booking service");
             }
             response.sendRedirect("record-service?success=true");
         } catch (NumberFormatException e) {
