@@ -68,7 +68,7 @@ public class BookingService {
         if (searchType == null && query == null) {
             return getAllCheckInBookingDetails();
         }
-        switch (Objects.requireNonNull(searchType)) {
+        switch (Objects.requireNonNull(searchType, "Search type cannot be null")) {
             case "guestName":
                 return getCheckInBookingDetailsByGuestName(query);
             case "roomNumber":
