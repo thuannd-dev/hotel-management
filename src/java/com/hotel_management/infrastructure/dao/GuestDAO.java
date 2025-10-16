@@ -23,7 +23,7 @@ public class GuestDAO extends BaseDAO<Guest>{
                 rs.getInt("GuestID"),
                 rs.getString("FullName"),
                 rs.getString("Username"),
-                rs.getString("PasswordHash"),
+                rs.getString("Password"),
                 rs.getString("Phone"),
                 rs.getString("Email"),
                 rs.getString("Address"),

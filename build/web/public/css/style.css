@@ -1,0 +1,255 @@
+
+/*=== 1. CSS Variables & Reset ===*/
+:root {
+    --primary-color: #f59e0b;
+    --primary-dark: #d97706;
+    --text-dark: #1f2937;
+    --text-muted: #6b7280;
+    --border-color: #e5e7eb;
+    --section-padding: 100px;
+    --max-width: 1400px; /* Chiều rộng tối đa cho nội dung chính */
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    line-height: 1.6;
+    color: var(--text-dark);
+    overflow-x: hidden;
+    background-color: #ffffff; /* Đảm bảo nền trang là màu trắng */
+}
+
+/*=== 2. Layout Container ===*/
+.container {
+    max-width: var(--max-width);
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+
+.section-title {
+    font-family: 'Playfair Display', serif;
+    font-weight: 500;
+}
+
+.section-padding {
+    padding: var(--section-padding) 0;
+}
+
+/*=== 3. Navbar ===*/
+.navbar {
+    transition: background-color 0.4s ease, padding 0.4s ease;
+    background: transparent !important;
+    padding: 1rem 0;
+}
+
+.navbar.scrolled {
+    background: rgba(28, 28, 30, 0.95) !important;
+    backdrop-filter: blur(15px);
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+    padding: 0.75rem 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.navbar .nav-link {
+    color: #f0f0f0 !important;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+
+.navbar .nav-link:hover {
+    color: white !important;
+}
+
+/* Styling cho logo ở giữa */
+.navbar-brand {
+    background-color: white;
+    padding: 8px 16px;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    transition: transform 0.3s ease;
+}
+
+.navbar-brand:hover {
+    transform: scale(1.05);
+}
+
+.navbar-brand .fw-semibold {
+    color: var(--text-dark);
+}
+
+.navbar-brand .text-muted {
+    color: #6c757d;
+}
+
+/* Styling cho phần thông tin bên phải */
+.navbar .info-link {
+    color: #f0f0f0;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    font-size: 0.95rem;
+    transition: color 0.3s ease;
+}
+
+.navbar .info-link:hover {
+    color: white;
+}
+
+/*=== 4. Hero & Booking Form ===*/
+.hero-section {
+    min-height: 100vh;
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0.6) 100%), url('../img/area.webp');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+}
+
+.hero-title {
+    font-family: 'Playfair Display', serif;
+    font-weight: 600;
+    line-height: 1.1;
+    font-size: clamp(3rem, 8vw, 6rem);
+}
+
+.booking-section {
+    position: relative;
+    z-index: 10;
+    margin-top: -80px;
+}
+
+.booking-card {
+    border: none;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+}
+
+/*=== 5. General Card Styles ===*/
+.room-card, .feature-card, .news-card, .testimonial-card {
+    transition: all 0.3s ease;
+    border: none !important;
+}
+
+.room-card:hover, .feature-card:hover, .news-card:hover, .testimonial-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1) !important;
+}
+
+.room-image {
+    height: 250px;
+    object-fit: cover;
+}
+.room-amenities-list {
+    list-style: none;
+    padding: 0;
+    margin: 1.5rem 0; /* Tăng khoảng cách trên dưới */
+}
+
+.room-amenities-list li {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.75rem; /* Khoảng cách giữa các dòng */
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}
+
+.room-amenities-list li i {
+    font-size: 1.2rem;
+    color: var(--primary-color);
+    margin-right: 0.75rem;
+    width: 20px; /* Đảm bảo các icon thẳng hàng */
+    text-align: center;
+}
+
+/*=== Advanced Animations & Hover Effects ===*/
+.testimonial-card {
+    border: 1px solid var(--border-color) !important;
+}
+
+.testimonial-card:hover {
+    border-color: var(--primary-color) !important;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.03); }
+    100% { transform: scale(1); }
+}
+
+.timer-number {
+    animation: pulse 2.5s infinite ease-in-out;
+}
+
+.news-card .card-img-top {
+    transition: transform 0.4s ease;
+    overflow: hidden; /* Cần có để ảnh không tràn ra ngoài card */
+}
+
+.news-card:hover .card-img-top {
+    transform: scale(1.05);
+}
+/*=== Dining Section ===*/
+.dining-info-list {
+    list-style: none;
+    padding: 0;
+    margin-top: 1.5rem;
+    border-left: 3px solid var(--primary-color);
+    padding-left: 1.5rem;
+}
+
+.dining-info-list li {
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    color: var(--text-dark);
+}
+
+.dining-info-list li span {
+    font-weight: 400;
+    color: var(--text-muted);
+    margin-left: 0.5rem;
+}
+
+/*=== Map Section ===*/
+#map-section {
+    padding: 0;
+}
+
+.map-container iframe {
+    display: block; /* Loại bỏ khoảng trắng thừa dưới iframe */
+}
+
+/*=== 6. Footer ===*/
+footer {
+    background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%) !important;
+}
+
+footer a:hover {
+    color: var(--primary-color) !important;
+}
+
+/*=== Custom Modal Style ===*/
+.modal-content {
+    border-radius: 15px;
+}
+
+.modal-header .btn-close {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+}
+
+.modal-title {
+    font-family: 'Playfair Display', serif;
+}

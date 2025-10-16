@@ -13,7 +13,14 @@ import java.util.Optional;
  * @author thuannd.dev
  */
 public class BookingDetailDAO extends BaseDAO<BookingDetailViewModel> {
-
+    private static final String BASE_QUERY = "SELECT\n" +
+            "B.BookingID, B.GuestID, G.FullName, G.Phone,\n" +
+            "G.IDNumber, B.RoomID, R.RoomNumber, B.CheckInDate,\n" +
+            "B.CheckOutDate, B.BookingDate, B.Status, B.TotalGuests,\n" +
+            "B.SpecialRequests, B.PaymentStatus, B.CancellationDate,\n" +
+            "B.CancellationReason FROM BOOKING B\n" +
+            "LEFT JOIN ROOM R ON B.RoomID = R.RoomID\n" +
+            "LEFT JOIN GUEST G ON B.GuestID = G.GuestID\n";
     public BookingDetailDAO(DataSource ds) {
         super(ds);
     }
@@ -41,39 +48,40 @@ public class BookingDetailDAO extends BaseDAO<BookingDetailViewModel> {
     }
 
     public List<BookingDetailViewModel> findAll() {
-        return query("SELECT\n" +
-                "B.BookingID, B.GuestID, G.FullName, G.Phone,\n" +
-                "G.IDNumber, B.RoomID, R.RoomNumber, B.CheckInDate,\n" +
-                "B.CheckOutDate, B.BookingDate, B.Status, B.TotalGuests,\n" +
-                "B.SpecialRequests, B.PaymentStatus, B.CancellationDate,\n" +
-                "B.CancellationReason FROM BOOKING B\n" +
-                "LEFT JOIN ROOM R ON B.RoomID = R.RoomID\n" +
-                "LEFT JOIN GUEST G ON B.GuestID = G.GuestID");
+        return query(BASE_QUERY);
     }
 
     public Optional<BookingDetailViewModel> findById(int id) {
-        List<BookingDetailViewModel> bookings = query("SELECT\n" +
-                "B.BookingID, B.GuestID, G.FullName, G.Phone,\n" +
-                "G.IDNumber, B.RoomID, R.RoomNumber, B.CheckInDate,\n" +
-                "B.CheckOutDate, B.BookingDate, B.Status, B.TotalGuests,\n" +
-                "B.SpecialRequests, B.PaymentStatus, B.CancellationDate,\n" +
-                "B.CancellationReason FROM BOOKING B\n" +
-                "LEFT JOIN ROOM R ON B.RoomID = R.RoomID\n" +
-                "LEFT JOIN GUEST G ON B.GuestID = G.GuestID\n" +
-                "WHERE B.BookingID = ?", id);
+        String condition = "WHERE B.BookingID = ?";
+        List<BookingDetailViewModel> bookings = query(BASE_QUERY + condition, id);
         return bookings.stream().findFirst();
     }
 
     public List<BookingDetailViewModel> findByStatus(BookingStatus status) {
-        return query("SELECT\n" +
-                "B.BookingID, B.GuestID, G.FullName, G.Phone,\n" +
-                "G.IDNumber, B.RoomID, R.RoomNumber, B.CheckInDate,\n" +
-                "B.CheckOutDate, B.BookingDate, B.Status, B.TotalGuests,\n" +
-                "B.SpecialRequests, B.PaymentStatus, B.CancellationDate,\n" +
-                "B.CancellationReason FROM BOOKING B\n" +
-                "LEFT JOIN ROOM R ON B.RoomID = R.RoomID\n" +
-                "LEFT JOIN GUEST G ON B.GuestID = G.GuestID\n" +
-                "WHERE B.Status = ?", status.getDbValue());
+        String condition = "WHERE B.Status = ?";
+        return query(BASE_QUERY + condition, status.getDbValue());
     }
 
+    public List<BookingDetailViewModel> findByFullNameAndStatus(String fullName, BookingStatus status) {
+        String condition = "WHERE G.FullName COLLATE Latin1_General_CI_AI LIKE ? AND B.Status = ?";
+        return query(BASE_QUERY + condition, "%" + fullName + "%", status.getDbValue());
+    }
+
+    public Optional<BookingDetailViewModel> findByRoomNumberAndStatus(String roomNumber, BookingStatus status) {
+        String condition = "WHERE R.RoomNumber = ? AND B.Status = ?";
+        List<BookingDetailViewModel> bookings = query(BASE_QUERY + condition, roomNumber, status.getDbValue());
+        return bookings.stream().findFirst();
+    }
+
+    public Optional<BookingDetailViewModel> findByGuestPhoneAndStatus(String phone, BookingStatus status) {
+        String condition = "WHERE G.Phone = ? AND B.Status = ?";
+        List<BookingDetailViewModel> bookings = query(BASE_QUERY + condition, phone, status.getDbValue());
+        return bookings.stream().findFirst();
+    }
+
+    public Optional<BookingDetailViewModel> findByGuestIdNumberAndStatus(String idNumber, BookingStatus status) {
+        String condition = "WHERE G.IDNumber = ? AND B.Status = ?";
+        List<BookingDetailViewModel> bookings = query(BASE_QUERY + condition, idNumber, status.getDbValue());
+        return bookings.stream().findFirst();
+    }
 }

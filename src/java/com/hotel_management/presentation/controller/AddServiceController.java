@@ -1,27 +1,18 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
- */
 package com.hotel_management.presentation.controller;
 
 import com.hotel_management.application.service.BookingService;
 import com.hotel_management.application.service.BookingServiceUsageService;
 import com.hotel_management.application.service.ServiceEntityService;
 import com.hotel_management.domain.dto.booking.BookingDetailViewModel;
-import com.hotel_management.domain.dto.booking.BookingViewModel;
 import com.hotel_management.domain.dto.booking_service.BookingServiceCreateModel;
-import com.hotel_management.domain.dto.booking_service.BookingServiceViewModel;
+import com.hotel_management.domain.dto.booking_service.BookingServiceUsageDetailViewModel;
 import com.hotel_management.domain.dto.service.ServiceViewModel;
 import com.hotel_management.domain.dto.staff.StaffViewModel;
-import com.hotel_management.infrastructure.dao.BookingDAO;
-import com.hotel_management.infrastructure.dao.BookingDetailDAO;
-import com.hotel_management.infrastructure.dao.BookingServiceDAO;
-import com.hotel_management.infrastructure.dao.ServiceDAO;
+import com.hotel_management.infrastructure.dao.*;
 import com.hotel_management.infrastructure.provider.DataSourceProvider;
 import com.hotel_management.presentation.constants.Page;
 import com.hotel_management.presentation.constants.RequestAttribute;
 import com.hotel_management.presentation.constants.SessionAttribute;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -37,7 +28,7 @@ import javax.sql.DataSource;
  *
  * @author thuannd.dev
  */
-@WebServlet(name = "AddServiceController", urlPatterns = {"/service-staff/add-service"})
+@WebServlet(name = "AddServiceController", urlPatterns = {"/service-staff/services"})
 public class AddServiceController extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
@@ -52,14 +43,16 @@ public class AddServiceController extends HttpServlet {
         BookingDAO bookingDao;
         BookingDetailDAO bookingDetailDao;
         BookingServiceDAO bookingServiceDao;
+        BookingServiceUsageDetailDAO bookingServiceUsageDetailDao;
         DataSource ds = DataSourceProvider.getDataSource();
         serviceDao = new ServiceDAO(ds);
         bookingDao = new BookingDAO(ds);
         bookingDetailDao = new BookingDetailDAO(ds);
         bookingServiceDao = new BookingServiceDAO(ds);
+        bookingServiceUsageDetailDao = new BookingServiceUsageDetailDAO(ds);
         this.serviceEntityService = new ServiceEntityService(serviceDao);
         this.bookingService = new BookingService(bookingDao, bookingDetailDao);
-        this.bookingServiceUsageService = new BookingServiceUsageService(bookingServiceDao);
+        this.bookingServiceUsageService = new BookingServiceUsageService(bookingServiceDao, bookingServiceUsageDetailDao);
     }
 
     @Override
@@ -73,7 +66,7 @@ public class AddServiceController extends HttpServlet {
             }
             List<ServiceViewModel> services = serviceEntityService.getAllServices();
 
-            request.setAttribute(RequestAttribute.BOOKING, booking);
+            request.setAttribute(RequestAttribute.CHECK_IN_BOOKING_DETAILS, booking);
             request.setAttribute(RequestAttribute.SERVICES, services);
             request.getRequestDispatcher(Page.ADD_SERVICE_PAGE).forward(request, response);
         } catch (NumberFormatException e) {
@@ -112,11 +105,14 @@ public class AddServiceController extends HttpServlet {
                         staff.getStaffId()
                 ));
             }
-            List<BookingServiceViewModel> viewModels =  bookingServiceUsageService.createBatchBookingService(createModels);
-            if (viewModels == null || viewModels.isEmpty()) {
+            List<BookingServiceUsageDetailViewModel> newBookingServiceUsageModels =  bookingServiceUsageService.createBatchBookingService(createModels);
+            if (newBookingServiceUsageModels == null || newBookingServiceUsageModels.isEmpty()) {
                 throw new IllegalArgumentException("Failed to create booking service");
             }
-            response.sendRedirect("record-service?success=true");
+            List<BookingServiceUsageDetailViewModel> oldBookingServiceUsageModels =  bookingServiceUsageService.getByBookingIdExceptBookingServiceIds(bookingId, newBookingServiceUsageModels);
+            session.setAttribute(SessionAttribute.LIST_NEW_BOOKING_SERVICE_USAGE, newBookingServiceUsageModels);
+            session.setAttribute(SessionAttribute.LIST_OLD_BOOKING_SERVICE_USAGE, oldBookingServiceUsageModels);
+            response.sendRedirect("service-usage-detail?bookingId=" + bookingId);
         } catch (NumberFormatException e) {
             response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid input: bookingId, serviceId, or quantity");
         }catch (IllegalArgumentException e) {

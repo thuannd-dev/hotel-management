@@ -25,8 +25,8 @@ public class StaffDAO extends BaseDAO<Staff> {
                 rs.getInt("StaffID"),
                 rs.getString("FullName"),
                 StaffRole.fromDbValue(rs.getString("Role")),
-                rs.getString("UserName"),
-                rs.getString("PasswordHash"),
+                rs.getString("Username"),
+                rs.getString("Password"),
                 rs.getString("Phone"),
                 rs.getString("Email")
         );
@@ -42,7 +42,7 @@ public class StaffDAO extends BaseDAO<Staff> {
     }
 
     public Optional<Staff> findByUsername(String userName) {
-        List<Staff> staffs = query("SELECT * FROM STAFF WHERE UserName = ?", userName);
+        List<Staff> staffs = query("SELECT * FROM STAFF WHERE Username = ?", userName);
         return staffs.stream().findFirst();
     }
 }

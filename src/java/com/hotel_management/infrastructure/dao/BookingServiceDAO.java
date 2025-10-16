@@ -74,4 +74,10 @@ public class BookingServiceDAO extends BaseDAO<BookingService>{
         return insertBatchAndReturnIds(sql, batchParams);
     }
 
+    public int updateBookingServiceStatus(int bookingServiceId, BookingServiceStatus status) {
+        String sql = "UPDATE BOOKING_SERVICE SET Status = ?, CompletionTime = ? WHERE Booking_Service_ID = ?";
+        Timestamp now = new Timestamp(System.currentTimeMillis());
+        return update(sql, status.getDbValue(), now, bookingServiceId);
+    }
+
 }
