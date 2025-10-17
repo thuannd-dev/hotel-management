@@ -1,14 +1,10 @@
 package com.hotel_management.infrastructure.dao;
 
-import com.hotel_management.domain.dto.room.RoomDetailViewModel;
 import com.hotel_management.domain.entity.Room;
-import com.hotel_management.domain.entity.enums.BookingServiceStatus;
 import com.hotel_management.domain.entity.enums.RoomStatus;
-
 import javax.sql.DataSource;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Timestamp;
 
 public class RoomDAO extends BaseDAO<Room> {
 

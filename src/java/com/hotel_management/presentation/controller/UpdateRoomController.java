@@ -54,7 +54,7 @@ public class UpdateRoomController extends HttpServlet {
             response.sendRedirect(request.getContextPath() + Path.HOUSEKEEPING_DASHBOARD_PATH + "?msg=updated");
         } catch (NumberFormatException e) {
             response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid roomId");
-        }catch (IllegalArgumentException e) {
+        } catch (IllegalArgumentException e) {
             response.sendError(HttpServletResponse.SC_BAD_REQUEST, e.getMessage());
         } catch (IOException e) {
             response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, e.getMessage());

@@ -62,7 +62,7 @@
     </c:choose>
     <span class="sep">|</span>
     <c:choose>
-        <c:when test="${param.status == 'Dirty'}">
+        <c:when test="${param.status == 'dirty'}">
             <strong>Dirty</strong>
         </c:when>
         <c:otherwise>
@@ -71,7 +71,7 @@
     </c:choose>
     <span class="sep">|</span>
     <c:choose>
-        <c:when test="${param.status == 'Maintenance'}">
+        <c:when test="${param.status == 'maintenance'}">
             <strong>Maintenance</strong>
         </c:when>
         <c:otherwise>
