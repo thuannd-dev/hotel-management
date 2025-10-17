@@ -11,7 +11,7 @@
 </head>
 <body>
 <c:set var="booking" value="${requestScope['checkInBookingDetails']}" />
-<%--@elvariable id="booking" type="edu.hotel_management.domain.dto.booking.BookingDetailViewModel"--%>
+<%--@elvariable id="booking" type="com.hotel_management.domain.dto.booking.BookingDetailViewModel"--%>
 <div>
     <p><strong>Booking ID:</strong> ${booking.bookingId}</p>
     <p><strong>Guest Name:</strong> ${booking.guestFullName}</p>
@@ -27,7 +27,7 @@
 <form action="services" method="post">
     <input type="hidden" name="bookingId" value="${booking.bookingId}" />
     <c:set var="services" value="${requestScope['services']}" />
-    <%--@elvariable id="services" type="edu.hotel_management.domain.dto.service.ServiceViewModel"--%>
+    <%--@elvariable id="services" type="com.hotel_management.domain.dto.service.ServiceViewModel"--%>
     <table border="1" cellpadding="5" cellspacing="0">
         <thead>
         <tr>

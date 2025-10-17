@@ -56,7 +56,8 @@ public class AuthorizationFilter implements Filter {
 
         if(
             (uri.contains("/admin") && !"ADMIN".equals(role)) ||
-            (uri.contains("/service-staff") && !"SERVICE_STAFF".equals(role))
+            (uri.contains("/service-staff") && !"SERVICE_STAFF".equals(role)) ||
+            (uri.contains("/housekeeping") && !"HOUSEKEEPING".equals(role))
         ) {
             this.context.log("Access denied for user: " + session.getAttribute("username"));
             request.getRequestDispatcher(Page.ACCESS_DENIED_PAGE).forward(req, res);

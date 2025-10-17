@@ -48,7 +48,7 @@
             <th>Status</th>
         </tr>
 
-            <%--@elvariable id="b" type="edu.hotel_management.domain.dto.booking.BookingDetailViewModel"--%>
+            <%--@elvariable id="b" type="com.hotel_management.domain.dto.booking.BookingDetailViewModel"--%>
         <c:forEach var="b" items="${bookings}">
             <tr>
                 <td>${b.bookingId}</td>
