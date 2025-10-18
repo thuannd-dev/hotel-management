@@ -10,6 +10,26 @@
 <head>
     <title>Room Status Management</title>
     <style>
+        .nav-menu {
+            background-color: #f0f0f0;
+            padding: 10px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #ddd;
+        }
+        .nav-menu a {
+            padding: 10px 15px;
+            text-decoration: none;
+            color: #333;
+            margin-left: 10px;
+            border-radius: 4px;
+        }
+        .nav-menu a:first-child {
+            margin-left: 0;
+        }
+        .nav-menu a.active {
+            background-color: #fff;
+            font-weight: bold;
+        }
         table { width: 80%; margin: 30px auto; border-collapse: collapse; }
         th, td { padding: 12px; border: 1px solid #ccc; text-align: center; }
         th { background-color: #f2f2f2; }
@@ -26,6 +46,12 @@
     </style>
 </head>
 <body>
+<!-- Navigation Menu -->
+<div class="nav-menu">
+    <a href="${pageContext.request.contextPath}/housekeeping" class="active">Dashboard</a>
+    <a href="${pageContext.request.contextPath}/housekeeping/reports">Housekeeping Reports</a>
+</div>
+
 <h2 style="text-align:center;">Housekeeping - Room Status</h2>
 
 <c:if test="${param.msg == 'updated'}">

@@ -22,4 +22,10 @@ public final class RequestAttribute {
     public static final String SERVICES_COMPLETED_REPORT = "servicesCompletedReport";
     public static final String START_DATE = "startDate";
     public static final String END_DATE = "endDate";
+    // Housekeeping Report Attributes
+    public static final String DAILY_ROOM_CLEANING_REPORT = "dailyRoomCleaningReport";
+    public static final String STAFF_PERFORMANCE_REPORT = "staffPerformanceReport";
+    public static final String MAINTENANCE_ISSUE_REPORT = "maintenanceIssueReport";
+    public static final String PENDING_CLEANING_TASK_REPORT = "pendingCleaningTaskReport";
+    public static final String ROOM_STATUS_REPORT = "roomStatusReport";
 }
