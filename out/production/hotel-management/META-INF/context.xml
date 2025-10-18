@@ -10,7 +10,26 @@
               initialSize="5"
               maxWait="10000"
               username="sa"
-              password="12345"
+              password="X9kfKFkvTG~P1gL8J.pfT.icHYsyrDtc"
               driverClassName="com.microsoft.sqlserver.jdbc.SQLServerDriver"
-              url="jdbc:sqlserver://localhost:1433;databaseName=HotelManagement"/>
+              url="jdbc:sqlserver://ballast.proxy.rlwy.net:39271;
+                   databaseName=HotelManagement;
+                   encrypt=true;
+                   trustServerCertificate=true;" />
 </Context>
+<!--<?xml version="1.0" encoding="UTF-8"?>-->
+<!--<Context path="/hotel-management">-->
+<!--    <Resource name="jdbc/MyDB"-->
+<!--              auth="Container"-->
+<!--              type="javax.sql.DataSource"-->
+<!--              factory="org.apache.tomcat.jdbc.pool.DataSourceFactory"-->
+<!--              maxActive="100"-->
+<!--              maxIdle="20"-->
+<!--              minIdle="2"-->
+<!--              initialSize="5"-->
+<!--              maxWait="10000"-->
+<!--              username="sa"-->
+<!--              password="12345"-->
+<!--              driverClassName="com.microsoft.sqlserver.jdbc.SQLServerDriver"-->
+<!--              url="jdbc:sqlserver://localhost:1433;databaseName=HotelManagement"/>-->
+<!--</Context>-->
