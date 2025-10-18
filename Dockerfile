@@ -7,8 +7,8 @@ COPY . .
 # Cài ant
 RUN apt-get update && apt-get install -y ant
 
-# Build WAR, chỉ chạy target dist (bỏ javadoc)
-RUN ant -noinput -buildfile build.xml dist
+# Build WAR, thêm j2ee.server.home để Ant biết Tomcat nằm đâu
+RUN ant -noinput -buildfile build.xml -Dj2ee.server.home=/usr/local/tomcat dist
 
 
 # -------- STAGE 2: RUNTIME --------
