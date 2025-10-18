@@ -31,6 +31,9 @@
 <c:if test="${param.msg == 'updated'}">
     <p style="text-align:center; color:green;"> Room status updated successfully!</p>
 </c:if>
+<c:if test="${param.msg == 'invalid_transition'}">
+    <p style="text-align:center; color:red;"> Invalid status transition: ${param.error}</p>
+</c:if>
 
 <!-- Status quick-links UI (plain anchors) -->
 <div class="status-links">[
@@ -98,13 +101,37 @@
             <td>
                 <form action="housekeeping/room/status" method="post">
                     <input type="hidden" name="roomId" value="${r.roomId}" />
-                    <select name="status" aria-label="Room status">
-                        <option value="Available" ${r.status == 'Available' ? 'selected' : ''}>Available</option>
-                        <option value="Occupied" ${r.status == 'Occupied' ? 'selected' : ''}>Occupied</option>
-                        <option value="Dirty" ${r.status == 'Dirty' ? 'selected' : ''}>Dirty</option>
-                        <option value="Maintenance" ${r.status == 'Maintenance' ? 'selected' : ''}>Maintenance</option>
-                    </select>
-                    <button type="submit" class="btn">Update</button>
+                    <c:choose>
+                        <c:when test="${r.status == 'Occupied'}">
+                            <select name="status" aria-label="Room status" disabled>
+                                <option value="Occupied" selected>Occupied</option>
+                            </select>
+                            <button type="submit" class="btn" disabled>Update</button>
+                        </c:when>
+                        <c:when test="${r.status == 'Available'}">
+                            <select name="status" aria-label="Room status">
+                                <option value="Available" selected>Available</option>
+                                <option value="Dirty">Dirty</option>
+                                <option value="Maintenance">Maintenance</option>
+                            </select>
+                            <button type="submit" class="btn">Update</button>
+                        </c:when>
+                        <c:when test="${r.status == 'Dirty'}">
+                            <select name="status" aria-label="Room status">
+                                <option value="Dirty" selected>Dirty</option>
+                                <option value="Available">Available</option>
+                                <option value="Maintenance">Maintenance</option>
+                            </select>
+                            <button type="submit" class="btn">Update</button>
+                        </c:when>
+                        <c:when test="${r.status == 'Maintenance'}">
+                            <select name="status" aria-label="Room status">
+                                <option value="Maintenance" selected>Maintenance</option>
+                                <option value="Available">Available</option>
+                            </select>
+                            <button type="submit" class="btn">Update</button>
+                        </c:when>
+                    </c:choose>
                 </form>
             </td>
         </tr>
