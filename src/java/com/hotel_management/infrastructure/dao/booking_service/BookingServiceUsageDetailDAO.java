@@ -1,6 +1,8 @@
-package com.hotel_management.infrastructure.dao;
+package com.hotel_management.infrastructure.dao.booking_service;
 
 import com.hotel_management.domain.dto.booking_service.BookingServiceUsageDetailViewModel;
+import com.hotel_management.infrastructure.dao.BaseDAO;
+
 import javax.sql.DataSource;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -11,7 +13,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-public class BookingServiceUsageDetailDAO extends BaseDAO<BookingServiceUsageDetailViewModel>{
+public class BookingServiceUsageDetailDAO extends BaseDAO<BookingServiceUsageDetailViewModel> {
 
     public BookingServiceUsageDetailDAO(DataSource ds) { super(ds); }
 

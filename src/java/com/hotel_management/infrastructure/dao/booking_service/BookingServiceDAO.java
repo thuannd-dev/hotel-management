@@ -1,7 +1,9 @@
-package com.hotel_management.infrastructure.dao;
+package com.hotel_management.infrastructure.dao.booking_service;
 
 import com.hotel_management.domain.entity.BookingService;
 import com.hotel_management.domain.entity.enums.BookingServiceStatus;
+import com.hotel_management.infrastructure.dao.BaseDAO;
+
 import javax.sql.DataSource;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -11,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class BookingServiceDAO extends BaseDAO<BookingService>{
+public class BookingServiceDAO extends BaseDAO<BookingService> {
 
     public BookingServiceDAO(DataSource ds) { super(ds); }
 

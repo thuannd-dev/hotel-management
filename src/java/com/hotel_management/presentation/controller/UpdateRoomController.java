@@ -10,9 +10,7 @@ import com.hotel_management.infrastructure.dao.RoomDAO;
 import com.hotel_management.infrastructure.dao.RoomDetailDAO;
 import com.hotel_management.infrastructure.provider.DataSourceProvider;
 import com.hotel_management.presentation.constants.Path;
-
 import java.io.IOException;
-import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;

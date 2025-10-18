@@ -2,8 +2,8 @@ package com.hotel_management.presentation.controller;
 
 import com.hotel_management.application.service.BookingServiceUsageService;
 import com.hotel_management.domain.dto.booking_service.BookingServiceViewModel;
-import com.hotel_management.infrastructure.dao.BookingServiceDAO;
-import com.hotel_management.infrastructure.dao.BookingServiceUsageDetailDAO;
+import com.hotel_management.infrastructure.dao.booking_service.BookingServiceDAO;
+import com.hotel_management.infrastructure.dao.booking_service.BookingServiceUsageDetailDAO;
 import com.hotel_management.infrastructure.provider.DataSourceProvider;
 
 import javax.servlet.ServletException;
