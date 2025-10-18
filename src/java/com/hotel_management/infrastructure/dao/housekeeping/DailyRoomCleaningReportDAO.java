@@ -2,7 +2,6 @@ package com.hotel_management.infrastructure.dao.housekeeping;
 
 import com.hotel_management.domain.dto.housekeeping.DailyRoomCleaningReportViewModel;
 import com.hotel_management.infrastructure.dao.BaseDAO;
-
 import javax.sql.DataSource;
 import java.sql.ResultSet;
 import java.sql.SQLException;

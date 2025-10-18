@@ -3,8 +3,6 @@ package com.hotel_management.domain.dto.housekeeping;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import java.awt.datatransfer.StringSelection;
 import java.io.Serializable;
 import java.time.LocalDate;
 
