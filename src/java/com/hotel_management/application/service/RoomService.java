@@ -31,7 +31,24 @@ public class RoomService {
         return roomDetailDao.findByStatus(status);
     }
 
-    public Boolean updateRoomStatus(int roomId, RoomStatus status) {
-        return roomDao.updateRoomStatus(roomId, status) > 0;
+    public Boolean updateRoomStatus(int roomId, RoomStatus newStatus) {
+        // Get current room detail to check current status
+        RoomDetailViewModel currentRoom = roomDetailDao.findById(roomId).orElse(null);
+        if (currentRoom == null) {
+            throw new IllegalArgumentException("Room not found with ID: " + roomId);
+        }
+
+        // Get current status
+        RoomStatus currentStatus = RoomStatus.fromDbValue(currentRoom.getStatus());
+
+        // Validate transition
+        if (!RoomStatus.isValidTransition(currentStatus, newStatus)) {
+            throw new IllegalStateException(
+                String.format("Invalid status transition from %s to %s",
+                    currentStatus.getDbValue(), newStatus.getDbValue())
+            );
+        }
+
+        return roomDao.updateRoomStatus(roomId, newStatus) > 0;
     }
 }
