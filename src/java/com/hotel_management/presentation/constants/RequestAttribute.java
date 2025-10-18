@@ -15,4 +15,11 @@ public final class RequestAttribute {
     public static final String BOOKING_SEARCH_VALUE = "searchValue";
     public static final String LIST_NEW_BOOKING_SERVICE_USAGE = "listNewBookingServiceUsage";
     public static final String LIST_OLD_BOOKING_SERVICE_USAGE = "listOldBookingServiceUsage";
+    public static final String REPORT_TYPE = "reportType";
+    public static final String SERVICES_PROVIDED_TODAY_REPORT = "servicesProvidedTodayReport";
+    public static final String SERVICES_PROVIDED_PERIOD_REPORT = "servicesProvidedPeriodReport";
+    public static final String SERVICES_REQUEST_REPORT = "servicesRequestReport";
+    public static final String SERVICES_COMPLETED_REPORT = "servicesCompletedReport";
+    public static final String START_DATE = "startDate";
+    public static final String END_DATE = "endDate";
 }

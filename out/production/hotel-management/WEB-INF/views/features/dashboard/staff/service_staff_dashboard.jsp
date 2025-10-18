@@ -10,6 +10,12 @@
     <title>Service Dashboard</title>
 </head>
 <body>
+<!-- Navigation Menu -->
+<div class="nav-menu" style="background-color: #f0f0f0; padding: 10px; margin-bottom: 20px; border-bottom: 2px solid #ddd;">
+    <a href="service-staff" style="padding: 10px 15px; text-decoration: none; color: #333; font-weight: bold; background-color: #fff; border-radius: 4px;">Dashboard</a>
+    <a href="service-staff/statistics" style="padding: 10px 15px; text-decoration: none; color: #333; margin-left: 10px; border-radius: 4px;">Service Reports</a>
+</div>
+
 <!-- Search Form -->
 <form action="service-staff" method="get" class="search-bar">
     <input type="text" name="searchValue" placeholder="Enter search value" value="${param.searchValue}">
