@@ -13,4 +13,5 @@ public final class Page {
     public static final String SERVICE_USAGE_DETAIL_PAGE = "/WEB-INF/views/features/dashboard/staff/service_usage_detail.jsp";
     public static final String SERVICE_REPORT_PAGE = "/WEB-INF/views/features/dashboard/staff/service_report.jsp";
     public static final String HOUSEKEEPING_DASHBOARD_PAGE = "/WEB-INF/views/features/dashboard/housekeeping/housekeeping_dashboard.jsp";
+    public static final String HOUSEKEEPING_REPORT_PAGE = "/WEB-INF/views/features/dashboard/housekeeping/housekeeping_report.jsp";
 }
