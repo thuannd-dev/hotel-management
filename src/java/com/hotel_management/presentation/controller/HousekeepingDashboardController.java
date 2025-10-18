@@ -3,6 +3,8 @@ package com.hotel_management.presentation.controller;
 import com.hotel_management.application.service.RoomService;
 import com.hotel_management.domain.dto.room.RoomDetailViewModel;
 import com.hotel_management.domain.entity.enums.RoomStatus;
+import com.hotel_management.infrastructure.dao.HousekeepingTaskDAO;
+import com.hotel_management.infrastructure.dao.MaintenanceIssueDAO;
 import com.hotel_management.infrastructure.dao.RoomDAO;
 import com.hotel_management.infrastructure.dao.RoomDetailDAO;
 import com.hotel_management.infrastructure.provider.DataSourceProvider;
@@ -30,12 +32,12 @@ public class HousekeepingDashboardController extends HttpServlet {
 
     @Override
     public void init() {
-        RoomDAO roomDAO;
-        RoomDetailDAO roomDetailDAO;
         DataSource ds = DataSourceProvider.getDataSource();
-        roomDAO = new RoomDAO(ds);
-        roomDetailDAO = new RoomDetailDAO(ds);
-        this.roomService = new RoomService(roomDAO, roomDetailDAO);
+        RoomDAO roomDAO = new RoomDAO(ds);
+        RoomDetailDAO roomDetailDAO = new RoomDetailDAO(ds);
+        HousekeepingTaskDAO housekeepingTaskDao = new HousekeepingTaskDAO(ds);
+        MaintenanceIssueDAO maintenanceIssueDao = new MaintenanceIssueDAO(ds);
+        this.roomService = new RoomService(roomDAO, roomDetailDAO, housekeepingTaskDao, maintenanceIssueDao);
     }
 
     @Override
