@@ -32,7 +32,7 @@
     <p style="text-align:center; color:green;"> Room status updated successfully!</p>
 </c:if>
 <c:if test="${param.msg == 'invalid_transition'}">
-    <p style="text-align:center; color:red;"> Invalid status transition: ${param.error}</p>
+    <p style="text-align:center; color:red;"> Invalid status transition: <c:out value="${param.error}" /></p>
 </c:if>
 
 <!-- Status quick-links UI (plain anchors) -->
