@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
- */
 package com.hotel_management.presentation.controller;
 
 import com.hotel_management.application.service.RoomService;
@@ -14,8 +10,6 @@ import com.hotel_management.infrastructure.dao.RoomDetailDAO;
 import com.hotel_management.infrastructure.provider.DataSourceProvider;
 import com.hotel_management.presentation.constants.Path;
 import com.hotel_management.presentation.constants.SessionAttribute;
-import org.apache.catalina.Session;
-
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
