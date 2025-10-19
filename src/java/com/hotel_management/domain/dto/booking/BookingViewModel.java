@@ -36,7 +36,7 @@ public class BookingViewModel implements Serializable {
                 booking.getCheckOutDate(),
                 booking.getBookingDate(),
                 booking.getStatus().name(),
-                booking.getTotalGuest(),
+                booking.getTotalGuests(),
                 booking.getSpecialRequests(),
                 booking.getPaymentStatus().name(),
                 booking.getCancellationDate(),

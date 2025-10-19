@@ -30,7 +30,7 @@ public class BookingCreateModel implements Serializable {
         booking.setCheckInDate(model.getCheckInDate());
         booking.setCheckOutDate(model.getCheckOutDate());
         booking.setBookingDate(LocalDate.now()); // ngày đặt phòng hiện tại
-        booking.setTotalGuest(model.getTotalGuest());
+        booking.setTotalGuests(model.getTotalGuest());
         booking.setSpecialRequests(model.getSpecialRequests());
         booking.setStatus(BookingStatus.RESERVED); // mặc định trạng thái ban đầu
         booking.setPaymentStatus(PaymentStatus.PENDING); // mặc định chưa thanh toán
