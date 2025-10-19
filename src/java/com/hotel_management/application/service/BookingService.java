@@ -1,5 +1,6 @@
 package com.hotel_management.application.service;
 
+import com.hotel_management.domain.dto.booking.BookingCreateModel;
 import com.hotel_management.domain.dto.booking.BookingDetailViewModel;
 import com.hotel_management.domain.entity.Booking;
 import com.hotel_management.domain.entity.enums.BookingStatus;
@@ -83,5 +84,9 @@ public class BookingService {
             default:
                 throw new ServletException("Invalid search type");
         }
+    }
+
+    public int bookingCreate(BookingCreateModel models){
+        return bookingDao.bookingCreate(BookingCreateModel.toEntity(models));
     }
 }

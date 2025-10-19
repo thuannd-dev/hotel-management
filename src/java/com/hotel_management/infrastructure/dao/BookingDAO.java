@@ -63,4 +63,21 @@ public class BookingDAO extends BaseDAO<Booking> {
                 "B.CancellationReason FROM BOOKING B\n" +
                 "WHERE B.Status = ?", status.getDbValue());
     }
+
+    public int bookingCreate(Booking booking) {
+        String sql = "INSERT INTO BOOKING (\n"
+                + "    GuestID,\n"
+                + "    RoomID,\n"
+                + "    CheckInDate,\n"
+                + "    CheckOutDate,\n"
+                + "    Status,\n"
+                + "    TotalGuests,\n"
+                + "    SpecialRequests,\n"
+                + "    PaymentStatus\n"
+                + ")\n"
+                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        return insertAndReturnId(sql, booking.getBookingId(), booking.getCheckInDate(),
+                booking.getCheckOutDate(), booking.getStatus(), booking.getTotalGuest(),
+                booking.getSpecialRequests(), booking.getPaymentStatus());
+    }
 }

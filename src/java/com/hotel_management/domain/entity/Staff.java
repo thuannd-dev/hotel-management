@@ -18,6 +18,4 @@ public class Staff {
     private String password;
     private String phone;
     private String email;
-
-    
 }
