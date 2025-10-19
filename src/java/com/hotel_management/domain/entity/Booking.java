@@ -21,7 +21,7 @@ public class Booking {
     private LocalDate checkOutDate;
     private LocalDate bookingDate;
     private BookingStatus status;
-    private int totalGuest;
+    private int totalGuests;
     private String specialRequests;
     private PaymentStatus paymentStatus;
     private LocalDate cancellationDate;

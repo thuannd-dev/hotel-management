@@ -3,6 +3,7 @@ package com.hotel_management.infrastructure.dao;
 import com.hotel_management.domain.entity.Booking;
 import com.hotel_management.domain.entity.enums.BookingStatus;
 import com.hotel_management.domain.entity.enums.PaymentStatus;
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
@@ -38,33 +39,36 @@ public class BookingDAO extends BaseDAO<Booking> {
     }
 
     public List<Booking> findAll() {
-        return query("SELECT\n" +
-                "B.BookingID, B.GuestID, B.RoomID,\n" +
-                "B.CheckInDate, B.CheckOutDate, B.BookingDate, B.Status,\n" +
-                "B.TotalGuests, B.SpecialRequests, B.PaymentStatus, B.CancellationDate,\n" +
-                "B.CancellationReason FROM BOOKING B");
+        return query("SELECT\n"
+                + "B.BookingID, B.GuestID, B.RoomID,\n"
+                + "B.CheckInDate, B.CheckOutDate, B.BookingDate, B.Status,\n"
+                + "B.TotalGuests, B.SpecialRequests, B.PaymentStatus, B.CancellationDate,\n"
+                + "B.CancellationReason FROM BOOKING B");
     }
 
     public Optional<Booking> findById(int id) {
-        List<Booking> bookings = query("SELECT\n" +
-                "B.BookingID, B.GuestID, B.RoomID,\n" +
-                "B.CheckInDate, B.CheckOutDate, B.BookingDate, B.Status,\n" +
-                "B.TotalGuests, B.SpecialRequests, B.PaymentStatus, B.CancellationDate,\n" +
-                "B.CancellationReason FROM BOOKING B\n" +
-                "WHERE B.BookingID = ?", id);
+        List<Booking> bookings = query("SELECT\n"
+                + "B.BookingID, B.GuestID, B.RoomID,\n"
+                + "B.CheckInDate, B.CheckOutDate, B.BookingDate, B.Status,\n"
+                + "B.TotalGuests, B.SpecialRequests, B.PaymentStatus, B.CancellationDate,\n"
+                + "B.CancellationReason FROM BOOKING B\n"
+                + "WHERE B.BookingID = ?", id);
         return bookings.stream().findFirst();
     }
 
     public List<Booking> findByStatus(BookingStatus status) {
-        return query("SELECT\n" +
-                "B.BookingID, B.GuestID, B.RoomID,\n" +
-                "B.CheckInDate, B.CheckOutDate, B.BookingDate, B.Status,\n" +
-                "B.TotalGuests, B.SpecialRequests, B.PaymentStatus, B.CancellationDate,\n" +
-                "B.CancellationReason FROM BOOKING B\n" +
-                "WHERE B.Status = ?", status.getDbValue());
+        return query("SELECT\n"
+                + "B.BookingID, B.GuestID, B.RoomID,\n"
+                + "B.CheckInDate, B.CheckOutDate, B.BookingDate, B.Status,\n"
+                + "B.TotalGuests, B.SpecialRequests, B.PaymentStatus, B.CancellationDate,\n"
+                + "B.CancellationReason FROM BOOKING B\n"
+                + "WHERE B.Status = ?", status.getDbValue());
     }
 
     public int bookingCreate(Booking booking) {
+        Date checkInDate = Date.valueOf(booking.getCheckInDate());
+        Date checkOutDate = Date.valueOf(booking.getCheckOutDate());
+
         String sql = "INSERT INTO BOOKING (\n"
                 + "    GuestID,\n"
                 + "    RoomID,\n"
@@ -76,8 +80,8 @@ public class BookingDAO extends BaseDAO<Booking> {
                 + "    PaymentStatus\n"
                 + ")\n"
                 + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-        return insertAndReturnId(sql, booking.getBookingId(), booking.getCheckInDate(),
-                booking.getCheckOutDate(), booking.getStatus(), booking.getTotalGuest(),
-                booking.getSpecialRequests(), booking.getPaymentStatus());
+        return insertAndReturnId(sql, booking.getGuestId(), booking.getRoomId(), checkInDate,
+               checkOutDate, booking.getStatus().getDbValue(), booking.getTotalGuests(),
+                booking.getSpecialRequests(), booking.getPaymentStatus().getDbValue());
     }
 }
