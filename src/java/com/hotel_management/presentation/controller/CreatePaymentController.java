@@ -51,7 +51,6 @@ public class CreatePaymentController extends HttpServlet {
             return;
         }
 
-       
         BookingDetailViewModel bookingDetail = bookingService.getBookingDetailById(unpaidBooking.getBookingId());
         if (bookingDetail == null) {
             response.sendError(HttpServletResponse.SC_NOT_FOUND, "Booking detail not found.");
@@ -62,7 +61,6 @@ public class CreatePaymentController extends HttpServlet {
         request.getRequestDispatcher(Page.CREATE_PAYMENT_PAGE).forward(request, response);
     }
 
-    // ✅ Cập nhật trạng thái thanh toán
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -78,7 +76,7 @@ public class CreatePaymentController extends HttpServlet {
                 response.sendRedirect(request.getContextPath() + "/receptionist");
 
             } else {
-                
+
                 response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Payment update failed or booking not found");
             }
 

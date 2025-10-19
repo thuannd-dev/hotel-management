@@ -34,7 +34,6 @@ public class BookingDAO extends BaseDAO<Booking> {
         );
     }
 
-    
     public List<Booking> findAll() {
         String sql = "SELECT B.BookingID, B.GuestID, B.RoomID, "
                 + "B.CheckInDate, B.CheckOutDate, B.BookingDate, B.Status, "
@@ -79,7 +78,8 @@ public class BookingDAO extends BaseDAO<Booking> {
     }
 
     public Optional<Booking> findUnpaidBookingByGuestId(int guestId) {
-        String sql = "SELECT * FROM BOOKING\n"
+        String sql = "SELECT BookingID, GuestID, RoomID, CheckInDate, CheckOutDate, BookingDate, Status, TotalGuests, SpecialRequests, PaymentStatus, CancellationDate, CancellationReason "
+                + "FROM BOOKING\n"
                 + "WHERE GuestID = ?\n"
                 + "AND PaymentStatus IN ('Pending', 'Deposit Paid', 'Guaranteed');";
         List<Booking> result = query(sql, guestId);
@@ -87,7 +87,7 @@ public class BookingDAO extends BaseDAO<Booking> {
     }
 
     public int markAsPaid(int bookingId) {
-        String sql = "UPDATE BOOKING SET PaymentStatus = 'PAID' WHERE BookingID = ?";
-        return update(sql, bookingId);
+        String sql = "UPDATE BOOKING SET PaymentStatus = ? WHERE BookingID = ?";
+        return update(sql, PaymentStatus.PAID.getDbValue(), bookingId);
     }
 }

@@ -152,44 +152,32 @@
             <p class="no-data">No guests were found.</p>
         </c:if>
         <script>
-            // --- LOGIC HIỂN THỊ POPUP TỪ SESSION (Tự động tắt) ---
-
-            // Hàm hiển thị popup tùy chỉnh
+           
             function showSuccessPopup(message) {
                 var popupElement = document.getElementById('successPopup');
 
                 if (popupElement) {
-                    // Đặt nội dung
                     popupElement.textContent = "Success: " + message;
 
-                    // Hiển thị popup bằng cách thêm class 'show' (dùng opacity transition)
                     popupElement.style.display = 'block';
                     setTimeout(() => {
                         popupElement.classList.add('show');
-                    }, 10); // Đảm bảo display:block có hiệu lực trước khi thêm class show
-
-                    // Tự động ẩn popup sau 5000 mili giây (5 giây)
+                    }, 10); 
                     setTimeout(function () {
                         popupElement.classList.remove('show');
-                        // Ẩn hoàn toàn sau khi transition opacity kết thúc
                         setTimeout(() => {
                             popupElement.style.display = 'none';
-                        }, 500); // 500ms là thời gian transition mặc định
-                    }, 5000); // <-- Thời gian hiển thị: 5 giây
+                        }, 500); 
+                    }, 5000); 
                 } else {
-                    // Dự phòng nếu không tìm thấy phần tử
                     alert("Success: " + message);
                 }
             }
 
-            // --- KIỂM TRA SESSION VÀ KÍCH HOẠT POPUP ---
-
             <%
-            // Lấy thông báo từ Session. Key: "popupMessage"
             String successMessage = (String) session.getAttribute("popupMessage");
 
             if (successMessage != null) {
-                // Xóa attribute khỏi session
                 session.removeAttribute("popupMessage");
             %>
             var message = "<%= successMessage%>";

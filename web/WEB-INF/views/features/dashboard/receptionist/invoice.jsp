@@ -145,30 +145,36 @@
             <c:if test="${not empty sessionScope.popupMessage}">
                 <script>
                     document.querySelector('form').addEventListener('submit', function (e) {
-                        e.preventDefault();
-                        fetch(this.action, {
+                    e.preventDefault();
+                            fetch(this.action, {
                             method: 'POST',
-                            body: new FormData(this)
-                        })
-                                .then(res => {
-                                    if (res.ok) {
-                                        Swal.fire({
-                                            icon: 'success',
-                                            title: 'Payment Successful!',
-                                            showConfirmButton: false,
-                                            timer: 1500
-                                        });
-                                    } else {
-                                        Swal.fire({
-                                            icon: 'error',
-                                            title: 'Payment Failed'
-                                        });
-                                    }
-                                });
-                    });
+                                    body: new FormData(this)
+                            })
+                            .then(res => {
+                            if (res.ok) {
+                            Swal.fire({
+                            icon: 'success',
+                                    title: 'Payment Successful!',
+                                    showConfirmButton: false,
+                                    timer: 1500
+                            });
+                            } else {
+                            Swal.fire({
+                            icon: 'error',
+                                    title: 'Payment Failed'
+                            });
+                            }
+                            })
+                            .catch(error => {
+                            Swal.fire({
+                            icon: 'error',
+                                    title: 'Network Error',
+                                    text: 'Unable to process payment. Please check your connection and try again.'
+                            });
+                            });
                 </script>
 
-                <c:remove var="paymentSuccess" scope="session"/>
+                <c:remove var="popupMessage" scope="session"/>
             </c:if>
             <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
