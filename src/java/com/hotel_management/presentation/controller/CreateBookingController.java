@@ -128,7 +128,10 @@ public class CreateBookingController extends HttpServlet {
             }
 
             // ✅ Chuyển hướng về danh sách booking
-            response.sendRedirect("booking-list?success=true");
+            // ✅ Thêm thông báo thành công vào session
+            //HttpSession session = request.getSession();
+            session.setAttribute("popupMessage", "Booking created successfully!!!"); // Dùng biến 'popupMessage'
+            response.sendRedirect(request.getContextPath() + "/receptionist");
 
         } catch (NumberFormatException e) {
             response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid input (guestId, roomId, or serviceId)");

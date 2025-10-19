@@ -82,9 +82,9 @@
             .quantity-input {
                 width: 70px; /* Độ rộng nhỏ hơn cho Quantity */
             }
-            
+
             a{
-                
+
                 background-color: var(--color-primary);
                 text-decoration: none;
                 color: white;
@@ -220,6 +220,31 @@
                     }
                 }
             }
+        </script>
+        <script>
+            // Hàm hiển thị popup
+            function showSuccessPopup(message) {
+                // Sử dụng cửa sổ alert() mặc định cho đơn giản
+                alert("Success: " + message);
+
+                // HOẶC sử dụng mã HTML/CSS/JS để tạo popup đẹp hơn
+            }
+
+            // --- LOGIC HIỂN THỊ POPUP TỪ SESSION ---
+
+            <%
+            // Lấy thông báo từ Session
+            String successMessage = (String) session.getAttribute("popupMessage");
+
+            if (successMessage != null) {
+                // Xóa attribute khỏi session sau khi đã lấy để nó không hiển thị lại khi refresh
+                session.removeAttribute("popupMessage");
+            %>
+            var message = "<%= successMessage%>";
+            showSuccessPopup(message);
+            <%
+            }
+            %>
         </script>
 
         <hr>
