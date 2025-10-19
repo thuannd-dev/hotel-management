@@ -28,4 +28,6 @@ public final class RequestAttribute {
     public static final String MAINTENANCE_ISSUE_REPORT = "maintenanceIssueReport";
     public static final String PENDING_CLEANING_TASK_REPORT = "pendingCleaningTaskReport";
     public static final String ROOM_STATUS_REPORT = "roomStatusReport";
+    //GUEST
+    public static final String GUESTS = "guests";
 }

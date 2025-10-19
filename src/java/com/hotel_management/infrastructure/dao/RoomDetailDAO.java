@@ -43,5 +43,6 @@ public class RoomDetailDAO extends BaseDAO<RoomDetailViewModel> {
         String condition = "WHERE R.Status = ?";
         return query(BASE_QUERY + condition, status.getDbValue());
     }
+
 }
 

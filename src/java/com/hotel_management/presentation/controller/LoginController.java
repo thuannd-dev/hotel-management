@@ -72,6 +72,7 @@ public class LoginController extends HttpServlet {
             case "MANAGER":
                 break;
             case "RECEPTIONIST":
+                url = request.getContextPath() + Path.RECEPTIONIST_DASHBOARD_PATH;
                 break;
             case "HOUSEKEEPING":
                 url = request.getContextPath() + Path.HOUSEKEEPING_DASHBOARD_PATH;
