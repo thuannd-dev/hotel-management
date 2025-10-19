@@ -21,7 +21,7 @@ public class BookingCreateModel implements Serializable {
     private LocalDate checkOutDate;
     private int totalGuest;
     private String specialRequests;
-    //private int staffId; // lễ tân thực hiện thao tác
+    
 
     public static Booking toEntity(BookingCreateModel model) {
         Booking booking = new Booking();
@@ -29,11 +29,11 @@ public class BookingCreateModel implements Serializable {
         booking.setRoomId(model.getRoomId());
         booking.setCheckInDate(model.getCheckInDate());
         booking.setCheckOutDate(model.getCheckOutDate());
-        booking.setBookingDate(LocalDate.now()); // ngày đặt phòng hiện tại
+        booking.setBookingDate(LocalDate.now()); 
         booking.setTotalGuests(model.getTotalGuest());
         booking.setSpecialRequests(model.getSpecialRequests());
-        booking.setStatus(BookingStatus.RESERVED); // mặc định trạng thái ban đầu
-        booking.setPaymentStatus(PaymentStatus.PENDING); // mặc định chưa thanh toán
+        booking.setStatus(BookingStatus.RESERVED); 
+        booking.setPaymentStatus(PaymentStatus.PENDING); 
         booking.setCancellationDate(null);
         booking.setCancellationReason(null);
         return booking;

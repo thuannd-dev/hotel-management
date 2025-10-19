@@ -34,7 +34,7 @@ public class BookingDAO extends BaseDAO<Booking> {
         );
     }
 
-    // 🔍 Lấy toàn bộ booking
+    
     public List<Booking> findAll() {
         String sql = "SELECT B.BookingID, B.GuestID, B.RoomID, "
                 + "B.CheckInDate, B.CheckOutDate, B.BookingDate, B.Status, "
@@ -43,7 +43,6 @@ public class BookingDAO extends BaseDAO<Booking> {
         return query(sql);
     }
 
-    // 🔍 Lấy booking theo ID
     public Optional<Booking> findById(int id) {
         String sql = "SELECT B.BookingID, B.GuestID, B.RoomID, "
                 + "B.CheckInDate, B.CheckOutDate, B.BookingDate, B.Status, "
@@ -54,7 +53,6 @@ public class BookingDAO extends BaseDAO<Booking> {
         return bookings.stream().findFirst();
     }
 
-    // 🔍 Lấy danh sách theo trạng thái
     public List<Booking> findByStatus(BookingStatus status) {
         String sql = "SELECT B.BookingID, B.GuestID, B.RoomID, "
                 + "B.CheckInDate, B.CheckOutDate, B.BookingDate, B.Status, "
@@ -64,7 +62,6 @@ public class BookingDAO extends BaseDAO<Booking> {
         return query(sql, status.getDbValue());
     }
 
-    // 🆕 Tạo mới booking
     public int bookingCreate(Booking booking) {
         String sql = "INSERT INTO BOOKING ("
                 + "GuestID, RoomID, CheckInDate, CheckOutDate, "
@@ -81,7 +78,6 @@ public class BookingDAO extends BaseDAO<Booking> {
                 booking.getPaymentStatus().getDbValue());
     }
 
-    // 🧾 Tìm booking chưa thanh toán (Pending, Deposit Paid, Guaranteed)
     public Optional<Booking> findUnpaidBookingByGuestId(int guestId) {
         String sql = "SELECT * FROM BOOKING\n"
                 + "WHERE GuestID = ?\n"
@@ -90,7 +86,6 @@ public class BookingDAO extends BaseDAO<Booking> {
         return result.isEmpty() ? Optional.empty() : Optional.of(result.get(0));
     }
 
-    // 💰 Cập nhật trạng thái thanh toán
     public int markAsPaid(int bookingId) {
         String sql = "UPDATE BOOKING SET PaymentStatus = 'PAID' WHERE BookingID = ?";
         return update(sql, bookingId);

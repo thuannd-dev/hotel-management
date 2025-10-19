@@ -142,7 +142,7 @@
                     <button type="submit">Confirm Payment</button>
                 </form>
             </c:if>
-            <c:if test="${not empty sessionScope.paymentSuccess}">
+            <c:if test="${not empty sessionScope.popupMessage}">
                 <script>
                     document.querySelector('form').addEventListener('submit', function (e) {
                         e.preventDefault();

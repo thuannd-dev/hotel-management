@@ -44,8 +44,6 @@ public class ReceptionistDashboardController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-//        String guestName = request.getParameter("guestName");
-//        String roomNumber = request.getParameter("roomNumber");
 
         List<GuestViewModel> guests = guestService.getAllGuests();
         request.setAttribute(RequestAttribute.GUESTS, guests);

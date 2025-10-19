@@ -25,7 +25,7 @@ public abstract class BaseDAO<T> {
     }
 
     protected Connection getConnection() throws SQLException {
-        return ds.getConnection(); // lấy từ pool
+        return ds.getConnection(); 
     }
 
     protected void close(AutoCloseable c) {
