@@ -5,7 +5,7 @@
 <%@ page import="com.hotel_management.domain.dto.staff.StaffViewModel" %>
 
 <%
-    // Lấy session hiện tại nếu có (không tạo mới)
+    // Get the current session if it exists (do not create a new one)
     HttpSession userSession = request.getSession(false);
     Object currentUser = null;
     String fullName = null;
@@ -153,7 +153,7 @@
 
     .user-fullname {
       font-size: 13px;
-      /* Hiển thị full tên, không cắt */
+        /* Display full name, do not truncate */
     }
 
     .user-icon {
