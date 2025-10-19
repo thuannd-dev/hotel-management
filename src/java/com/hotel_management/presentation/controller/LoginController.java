@@ -68,6 +68,7 @@ public class LoginController extends HttpServlet {
         String url = request.getContextPath();
         switch(role){
             case "GUEST":
+                url = request.getContextPath();
                 break;
             case "MANAGER":
                 break;
