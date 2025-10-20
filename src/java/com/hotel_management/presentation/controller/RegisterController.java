@@ -7,10 +7,12 @@ import com.hotel_management.domain.entity.Guest;
 import com.hotel_management.infrastructure.dao.GuestDAO;
 import com.hotel_management.infrastructure.dao.StaffDAO;
 import com.hotel_management.infrastructure.provider.DataSourceProvider;
+import com.hotel_management.infrastructure.security.CsrfTokenUtil;
 import com.hotel_management.presentation.constants.Page;
 import com.hotel_management.presentation.constants.RequestAttribute;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -28,6 +30,8 @@ public class RegisterController extends HttpServlet {
     private static final long serialVersionUID = 1L;
     private static final int MIN_PASSWORD_LENGTH = 6;
     private static final int MIN_AGE = 18;
+    private static final String CSRF_TOKEN_COOKIE_NAME = "CSRF-TOKEN";
+    private static final String CSRF_TOKEN_PARAM_NAME = "csrfToken";
 
     private GuestService guestService;
     private StaffService staffService;
@@ -44,6 +48,34 @@ public class RegisterController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        // Set character encoding
+        request.setCharacterEncoding("UTF-8");
+        response.setCharacterEncoding("UTF-8");
+
+        // Generate CSRF token and set as cookie (double-submit pattern)
+        String csrfToken = CsrfTokenUtil.generateToken();
+
+        // Set cookie using Set-Cookie header for better control
+        String cookiePath = request.getContextPath().isEmpty() ? "/" : request.getContextPath();
+        String cookieValue = String.format(
+            "%s=%s; Path=%s; Max-Age=%d; SameSite=Lax",
+            CSRF_TOKEN_COOKIE_NAME,
+            csrfToken,
+            cookiePath,
+            15 * 60  // 15 minutes
+        );
+
+        // Add Secure flag if HTTPS
+        if (request.isSecure()) {
+            cookieValue += "; Secure";
+        }
+
+        response.addHeader("Set-Cookie", cookieValue);
+
+        // Also set as request attribute for immediate use in JSP if needed
+        request.setAttribute("csrfToken", csrfToken);
+
+        // Forward to register page
         request.getRequestDispatcher(Page.REGISTER_PAGE).forward(request, response);
     }
 
@@ -54,6 +86,20 @@ public class RegisterController extends HttpServlet {
         // Set character encoding to UTF-8 for Vietnamese characters
         request.setCharacterEncoding("UTF-8");
         response.setCharacterEncoding("UTF-8");
+
+        // === CSRF Token Validation (Double-Submit Cookie Pattern) ===
+        String submittedToken = request.getParameter(CSRF_TOKEN_PARAM_NAME);
+        String cookieToken = getCsrfTokenFromCookie(request);
+
+        if (submittedToken == null || cookieToken == null || !cookieToken.equals(submittedToken)) {
+            // CSRF validation failed - clear cookie and show error
+            clearCsrfCookie(request, response);
+            request.setAttribute(RequestAttribute.ERROR_MESSAGE,
+                "Invalid CSRF token. Please refresh the page and try again.");
+            request.getRequestDispatcher(Page.REGISTER_PAGE).forward(request, response);
+            return;
+        }
+        // === End CSRF Validation ===
 
         // Parse form parameters into DTO
         GuestCreateModel createModel = parseRequestToModel(request);
@@ -173,5 +219,32 @@ public class RegisterController extends HttpServlet {
             password,
             confirmPassword
         );
+    }
+
+    /**
+     * Get CSRF token value from cookie
+     */
+    private String getCsrfTokenFromCookie(HttpServletRequest request) {
+        Cookie[] cookies = request.getCookies();
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if (CSRF_TOKEN_COOKIE_NAME.equals(cookie.getName())) {
+                    return cookie.getValue();
+                }
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Clear CSRF token cookie
+     */
+    private void clearCsrfCookie(HttpServletRequest request, HttpServletResponse response) {
+        Cookie cookie = new Cookie(CSRF_TOKEN_COOKIE_NAME, null);
+        cookie.setPath(request.getContextPath().isEmpty() ? "/" : request.getContextPath());
+        cookie.setHttpOnly(false);
+        cookie.setSecure(request.isSecure());
+        cookie.setMaxAge(0); // Expire immediately
+        response.addCookie(cookie);
     }
 }

@@ -34,7 +34,7 @@ public class AuthenticationFilter implements Filter {
 		String uri = req.getRequestURI();
 		this.context.log("Requested Resource::"+ uri);
 
-		// Bỏ qua xác thực cho file tĩnh trong /public/
+		// Skip validation for static files in /public/
 		if (uri.contains("/public/")) {
 			chain.doFilter(request, response);
 			return;
@@ -42,17 +42,15 @@ public class AuthenticationFilter implements Filter {
 
 		HttpSession session = req.getSession(false);
 
-		if(
-            session == null &&
-            !(
-                    uri.endsWith("/hotel-management.up.railway.app") ||
-                    uri.endsWith("/hotel_management/") ||
-                    uri.endsWith("/hotel-management/")||
-                    uri.endsWith("html") ||
-                    uri.endsWith("login") ||
-                    uri.endsWith("register")
-            )
-        ){
+		// URIs that do not require authentication
+		boolean isPublicEndpoint = uri.endsWith("/") ||  // Root path (home)
+									uri.endsWith("html") ||
+									uri.endsWith("login") ||
+									uri.endsWith("register") ||
+									uri.equals("/hotel_management") ||
+									uri.equals("/hotel-management");
+
+		if(session == null && !isPublicEndpoint){
             req.setAttribute(RequestAttribute.ERROR_MESSAGE, "Please sign in to continue your action");
             req.getRequestDispatcher(Page.LOGIN_PAGE).forward(request, response);
 		}else{

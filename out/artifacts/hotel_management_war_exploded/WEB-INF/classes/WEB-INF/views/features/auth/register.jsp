@@ -62,7 +62,10 @@
             </div>
 
             <!-- Register Form -->
-            <form class="space-y-5" action="register" method="POST" id="registerForm">
+            <form class="space-y-5" action="${pageContext.request.contextPath}/register" method="POST" id="registerForm">
+                <!-- CSRF Token Hidden Field - populate from server-side attribute as fallback -->
+                <input type="hidden" id="csrfToken" name="csrfToken" value="${csrfToken}" />
+
                 <div class="form-grid">
                     <!-- Full Name Field -->
                     <div>
@@ -91,6 +94,7 @@
                                 </svg>
                             </div>
                             <input
+                                required
                                 type="text"
                                 id="fullName"
                                 name="fullName"
@@ -129,6 +133,7 @@
                                 </svg>
                             </div>
                             <input
+                                required
                                 type="tel"
                                 id="phone"
                                 name="phone"
@@ -166,6 +171,7 @@
                                 </svg>
                             </div>
                             <input
+                                required
                                 type="email"
                                 id="email"
                                 name="email"
@@ -203,6 +209,7 @@
                                 </svg>
                             </div>
                             <input
+                                required
                                 type="text"
                                 id="idNumber"
                                 name="idNumber"
@@ -241,6 +248,7 @@
                                 </svg>
                             </div>
                             <input
+                                required
                                 type="date"
                                 id="dateOfBirth"
                                 name="dateOfBirth"
@@ -276,6 +284,7 @@
                                 </svg>
                             </div>
                             <input
+                                required
                                 type="text"
                                 id="username"
                                 name="username"
@@ -321,6 +330,7 @@
                             </svg>
                         </div>
                         <textarea
+                            required
                             id="address"
                             name="address"
                             rows="2"
@@ -349,6 +359,7 @@
                                     fill="none"
                                     stroke="currentColor"
                                     viewBox="0 0 24 24"
+                                    aria-hidden="true"
                                 >
                                     <path
                                         stroke-linecap="round"
@@ -359,6 +370,7 @@
                                 </svg>
                             </div>
                             <input
+                                required
                                 type="password"
                                 id="password"
                                 name="password"
@@ -370,7 +382,10 @@
                             <button
                                 type="button"
                                 class="absolute inset-y-0 right-0 pr-3 flex items-center"
-                                onclick="togglePassword('password', 'eye-icon-1')"
+                                onclick="togglePassword('password', 'eye-icon-1', 'toggle-password-btn-1')"
+                                id="toggle-password-btn-1"
+                                aria-label="Show password"
+                                aria-pressed="false"
                             >
                                 <svg
                                     id="eye-icon-1"
@@ -378,6 +393,7 @@
                                     fill="none"
                                     stroke="currentColor"
                                     viewBox="0 0 24 24"
+                                    aria-hidden="true"
                                 >
                                     <path
                                         stroke-linecap="round"
@@ -413,6 +429,7 @@
                                     fill="none"
                                     stroke="currentColor"
                                     viewBox="0 0 24 24"
+                                    aria-hidden="true"
                                 >
                                     <path
                                         stroke-linecap="round"
@@ -423,6 +440,7 @@
                                 </svg>
                             </div>
                             <input
+                                required
                                 type="password"
                                 id="confirmPassword"
                                 name="confirmPassword"
@@ -434,7 +452,10 @@
                             <button
                                 type="button"
                                 class="absolute inset-y-0 right-0 pr-3 flex items-center"
-                                onclick="togglePassword('confirmPassword', 'eye-icon-2')"
+                                onclick="togglePassword('confirmPassword', 'eye-icon-2', 'toggle-password-btn-2')"
+                                id="toggle-password-btn-2"
+                                aria-label="Show password"
+                                aria-pressed="false"
                             >
                                 <svg
                                     id="eye-icon-2"
@@ -442,6 +463,7 @@
                                     fill="none"
                                     stroke="currentColor"
                                     viewBox="0 0 24 24"
+                                    aria-hidden="true"
                                 >
                                     <path
                                         stroke-linecap="round"
@@ -541,17 +563,37 @@
     </div>
 
     <script>
-        function togglePassword(inputId, iconId) {
+        // Helper function to read cookie value by name
+        function getCookie(name) {
+            const value = `; ${document.cookie}`;
+            const parts = value.split(`; ${name}=`);
+            if (parts.length === 2) return parts.pop().split(';').shift();
+            return null;
+        }
+
+        // Populate CSRF token from a cookie on page load
+        (function populateCsrfToken() {
+            const token = getCookie('CSRF-TOKEN');
+            const csrfInput = document.getElementById('csrfToken');
+            if (csrfInput && token) {
+                csrfInput.value = token;
+            }
+        })();
+
+        function togglePassword(inputId, iconId, btnId) {
             const passwordInput = document.getElementById(inputId);
             const eyeIcon = document.getElementById(iconId);
+            const toggleBtn = document.getElementById(btnId);
+            const isPassword = passwordInput.type === 'password';
 
-            if (passwordInput.type === 'password') {
-                passwordInput.type = 'text';
+            passwordInput.type = isPassword ? 'text' : 'password';
+            toggleBtn.setAttribute('aria-pressed', !isPassword);
+
+            if (isPassword) {
                 eyeIcon.innerHTML = `
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21"></path>
                 `;
             } else {
-                passwordInput.type = 'password';
                 eyeIcon.innerHTML = `
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
@@ -565,7 +607,7 @@
             errorText.textContent = message;
             errorContainer.classList.remove('hidden');
 
-            // Scroll to error message
+            // Scroll to an error message
             errorContainer.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
 
@@ -577,6 +619,14 @@
         // Form validation
         document.getElementById('registerForm').addEventListener('submit', function(e) {
             hideError(); // Clear previous errors
+
+            // Validate CSRF token exists (client-side check)
+            const csrfToken = document.getElementById('csrfToken').value;
+            if (!csrfToken) {
+                e.preventDefault();
+                showError('Security token missing. Please refresh the page and try again.');
+                return false;
+            }
 
             const password = document.getElementById('password').value;
             const confirmPassword = document.getElementById('confirmPassword').value;
@@ -599,7 +649,7 @@
         document.querySelectorAll('.login-input').forEach(input => {
             input.addEventListener('focus', function() {
                 this.classList.add('input-focused');
-                hideError(); // Hide error when user starts typing
+                hideError(); // Hide error when the user starts typing
             });
             input.addEventListener('blur', function() {
                 this.classList.remove('input-focused');

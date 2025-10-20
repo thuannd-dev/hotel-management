@@ -63,7 +63,7 @@ public class GuestDAO extends BaseDAO<Guest>{
     }
 
     public int insert(Guest guest) {
-        Date dateOfBirth = Date.valueOf(guest.getDateOfBirth());
+        Date dateOfBirth = guest.getDateOfBirth() == null ? null : Date.valueOf(guest.getDateOfBirth());
         String sql = "INSERT INTO GUEST (FullName, Phone, Email, Address, IDNumber, DateOfBirth, Username, Password) " +
                      "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         return insertAndReturnId(sql,
