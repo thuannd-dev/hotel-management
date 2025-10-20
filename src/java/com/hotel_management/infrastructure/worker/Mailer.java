@@ -33,6 +33,7 @@ public class Mailer {
         props.put("mail.smtp.port", String.valueOf(SMTP_PORT));
         props.put("mail.smtp.auth", "true");
         props.put("mail.smtp.starttls.enable", "true"); // TLS
+        props.put("mail.smtp.starttls.required", "true");
         props.put("mail.smtp.connectiontimeout", "10000");
         props.put("mail.smtp.timeout", "10000");
 
