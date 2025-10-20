@@ -8,6 +8,7 @@ import com.hotel_management.infrastructure.dao.GuestDAO;
 import com.hotel_management.infrastructure.dao.StaffDAO;
 import com.hotel_management.infrastructure.provider.DataSourceProvider;
 import com.hotel_management.infrastructure.security.CsrfTokenUtil;
+import com.hotel_management.infrastructure.worker.Mailer;
 import com.hotel_management.presentation.constants.Page;
 import com.hotel_management.presentation.constants.RequestAttribute;
 import javax.servlet.ServletException;
@@ -176,6 +177,16 @@ public class RegisterController extends HttpServlet {
         if (guestId > 0) {
             // Registration successful
             request.setAttribute("success", "Registration successful! Please check email and login with your credentials.");
+
+            // Send welcome email to guest (async, non-blocking)
+            if (createModel.getEmail() != null && !createModel.getEmail().trim().isEmpty()) {
+                Mailer.sendWelcomeEmail(
+                    createModel.getEmail(),
+                    createModel.getFullName(),
+                    createModel.getUsername()
+                );
+            }
+
             request.getRequestDispatcher(Page.LOGIN_PAGE).forward(request, response);
         } else {
             // Registration failed
