@@ -10,25 +10,59 @@ import java.util.regex.Pattern;
 
 public class Mailer {
     private static final String SMTP_HOST = "smtp.gmail.com";
-    private static final int SMTP_PORT = 587; // TLS
+    private static final int SMTP_PORT_TLS = 587; // TLS
+    private static final int SMTP_PORT_SSL = 465; // SSL
     private static final String FROM_EMAIL = "thuannd.dev@gmail.com";
     private static final String FROM_PASSWORD = "eqfs fblr dtvc iqwk";
 
 
     // Send email HTML (UTF-8)
     public static void sendHtmlEmail(String toEmail, String subject, String htmlBody) throws MessagingException {
-        Session session = createSession();
+        // Try TLS first, if fails, try SSL
+        MessagingException lastException = null;
+
+        try {
+            sendEmailWithTLS(toEmail, subject, htmlBody);
+            return;
+        } catch (MessagingException e) {
+            lastException = e;
+            System.err.println("TLS connection failed, trying SSL...");
+        }
+
+        // If TLS fails, try SSL
+        try {
+            sendEmailWithSSL(toEmail, subject, htmlBody);
+        } catch (MessagingException e) {
+            // If both fail, throw the last exception
+            throw lastException != null ? lastException : e;
+        }
+    }
+
+    /**
+     * Send email using TLS (port 587)
+     */
+    private static void sendEmailWithTLS(String toEmail, String subject, String htmlBody) throws MessagingException {
+        Session session = createSessionTLS();
         Message msg = new MimeMessage(session);
         msg.setFrom(new InternetAddress(FROM_EMAIL));
         msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(toEmail, false));
-
-        // Set subject with proper encoding
         msg.setSubject(subject);
         msg.setSentDate(new Date());
-
-        // Set HTML content directly without using MimeBodyPart to avoid activation framework issues
         msg.setContent(htmlBody, "text/html; charset=UTF-8");
+        Transport.send(msg);
+    }
 
+    /**
+     * Send email using SSL (port 465)
+     */
+    private static void sendEmailWithSSL(String toEmail, String subject, String htmlBody) throws MessagingException {
+        Session session = createSessionSSL();
+        Message msg = new MimeMessage(session);
+        msg.setFrom(new InternetAddress(FROM_EMAIL));
+        msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(toEmail, false));
+        msg.setSubject(subject);
+        msg.setSentDate(new Date());
+        msg.setContent(htmlBody, "text/html; charset=UTF-8");
         Transport.send(msg);
     }
 
@@ -164,22 +198,55 @@ public class Mailer {
         return result;
     }
 
-    private static Session createSession() {
+    /**
+     * Create email session with TLS (port 587)
+     */
+    private static Session createSessionTLS() {
         Properties props = new Properties();
         props.put("mail.smtp.host", SMTP_HOST);
-        props.put("mail.smtp.port", String.valueOf(SMTP_PORT));
+        props.put("mail.smtp.port", String.valueOf(SMTP_PORT_TLS));
         props.put("mail.smtp.auth", "true");
-        props.put("mail.smtp.starttls.enable", "true"); // TLS
+        props.put("mail.smtp.starttls.enable", "true");
         props.put("mail.smtp.starttls.required", "true");
-        props.put("mail.smtp.connectiontimeout", "10000");
-        props.put("mail.smtp.timeout", "10000");
+        props.put("mail.smtp.connectiontimeout", "30000"); // 30 seconds
+        props.put("mail.smtp.timeout", "30000");
+        props.put("mail.smtp.writetimeout", "30000");
 
         Authenticator auth = new Authenticator() {
+            @Override
             protected PasswordAuthentication getPasswordAuthentication() {
                 return new PasswordAuthentication(FROM_EMAIL, FROM_PASSWORD);
             }
         };
         return Session.getInstance(props, auth);
+    }
+
+    /**
+     * Create email session with SSL (port 465)
+     */
+    private static Session createSessionSSL() {
+        Properties props = new Properties();
+        props.put("mail.smtp.host", SMTP_HOST);
+        props.put("mail.smtp.port", String.valueOf(SMTP_PORT_SSL));
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.ssl.enable", "true");
+        props.put("mail.smtp.ssl.protocols", "TLSv1.2");
+        props.put("mail.smtp.connectiontimeout", "30000"); // 30 seconds
+        props.put("mail.smtp.timeout", "30000");
+        props.put("mail.smtp.writetimeout", "30000");
+
+        Authenticator auth = new Authenticator() {
+            @Override
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication(FROM_EMAIL, FROM_PASSWORD);
+            }
+        };
+        return Session.getInstance(props, auth);
+    }
+
+    private static Session createSession() {
+        // Legacy method - use TLS by default
+        return createSessionTLS();
     }
 }
 
