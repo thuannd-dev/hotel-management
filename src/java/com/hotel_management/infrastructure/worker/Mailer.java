@@ -113,7 +113,7 @@ public class Mailer {
                 "                                You can now log in to the system and start using our services." +
                 "                            </p>" +
                 "                            <div style='text-align: center; margin: 30px 0;'>" +
-                "                                <a href='#' style='display: inline-block; padding: 12px 30px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: #ffffff; text-decoration: none; border-radius: 5px; font-weight: bold;'>Login Now</a>" +
+                "                                <a href='https://hotel-management.up.railway.app/login' style='display: inline-block; padding: 12px 30px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: #ffffff; text-decoration: none; border-radius: 5px; font-weight: bold;'>Login Now</a>" +
                 "                            </div>" +
                 "                            <p style='color: #999999; font-size: 14px; line-height: 1.6;'>" +
                 "                                If you did not register for this account, please ignore this email." +
@@ -182,3 +182,4 @@ public class Mailer {
         return Session.getInstance(props, auth);
     }
 }
+
