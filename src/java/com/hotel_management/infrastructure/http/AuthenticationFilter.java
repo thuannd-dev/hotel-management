@@ -45,6 +45,7 @@ public class AuthenticationFilter implements Filter {
 		if(
             session == null &&
             !(
+                    uri.endsWith("/hotel-management.up.railway.app") ||
                     uri.endsWith("/hotel_management/") ||
                     uri.endsWith("/hotel-management/")||
                     uri.endsWith("html") ||
