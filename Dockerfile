@@ -12,7 +12,7 @@ RUN ant -noinput -buildfile build.xml -Dj2ee.server.home=/usr/local/tomcat dist
 
 
 # -------- STAGE 2: RUNTIME --------
-FROM tomcat:9.0-jdk8
+FROM tomcat:9.0.92-jdk8-temurin AS builder
 
 # Xóa ROOT mặc định
 RUN rm -rf /usr/local/tomcat/webapps/ROOT
