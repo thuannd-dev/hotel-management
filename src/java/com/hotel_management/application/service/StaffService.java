@@ -38,4 +38,11 @@ public class StaffService {
         return staff != null && BCrypt.checkpw(password, staff.getPassword()) ? StaffViewModel.fromEntity(staff) : null;
     }
 
+    /**
+     * Check if username already exists in staff table
+     */
+    public boolean isUsernameExists(String username) {
+        return staffDao.findByUsername(username).isPresent();
+    }
+
 }
