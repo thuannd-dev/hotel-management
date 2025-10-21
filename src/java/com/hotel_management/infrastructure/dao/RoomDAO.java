@@ -3,10 +3,8 @@ package com.hotel_management.infrastructure.dao;
 import com.hotel_management.domain.entity.Room;
 import com.hotel_management.domain.entity.enums.RoomStatus;
 import javax.sql.DataSource;
-import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.List;
 
 public class RoomDAO extends BaseDAO<Room> {
 
