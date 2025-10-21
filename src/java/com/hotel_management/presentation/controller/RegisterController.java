@@ -23,7 +23,6 @@ import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 
 /**
- * Register Controller for Guest Registration
  * @author thuannd.dev
  */
 @WebServlet(name = "RegisterController", urlPatterns = {"/register"})

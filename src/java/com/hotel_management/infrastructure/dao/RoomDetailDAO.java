@@ -4,6 +4,7 @@ import com.hotel_management.domain.dto.room.RoomDetailViewModel;
 import com.hotel_management.domain.entity.enums.RoomStatus;
 
 import javax.sql.DataSource;
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
@@ -42,6 +43,28 @@ public class RoomDetailDAO extends BaseDAO<RoomDetailViewModel> {
     public List<RoomDetailViewModel> findByStatus(RoomStatus status) {
         String condition = "WHERE R.Status = ?";
         return query(BASE_QUERY + condition, status.getDbValue());
+    }
+
+    /**
+     * Find available room details based on check-in/check-out dates and guest capacity
+     */
+    public List<RoomDetailViewModel> findAvailableRoomDetails(Date checkInDate, Date checkOutDate, int totalGuests) {
+        String sql = "SELECT R.RoomID, R.RoomNumber, R.RoomTypeID, R.Status, \n" +
+                "       RT.TypeName, RT.Capacity, RT.PricePerNight\n" +
+                "FROM ROOM R\n" +
+                "INNER JOIN ROOM_TYPE RT ON R.RoomTypeID = RT.RoomTypeID\n" +
+                "WHERE RT.Capacity >= ?\n" +
+                "  AND R.RoomID NOT IN (\n" +
+                "      SELECT B.RoomID \n" +
+                "      FROM BOOKING B\n" +
+                "      WHERE B.Status != 'Canceled'\n" +
+                "        AND (\n" +
+                "            (B.CheckInDate <= ? AND B.CheckOutDate > ?) \n" +
+                "            OR (B.CheckInDate < ? AND B.CheckOutDate >= ?)\n" +
+                "            OR (B.CheckInDate >= ? AND B.CheckOutDate <= ?)\n" +
+                "        )\n" +
+                "  );";
+        return query(sql, totalGuests, checkOutDate, checkInDate, checkOutDate, checkInDate, checkInDate, checkOutDate);
     }
 
 }
