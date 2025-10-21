@@ -53,13 +53,13 @@ public class RegisterController extends HttpServlet {
         request.setCharacterEncoding("UTF-8");
         response.setCharacterEncoding("UTF-8");
 
-        // Generate CSRF token and set as cookie (double-submit pattern)
+        // Generate CSRF token and set as HttpOnly cookie (double-submit pattern with XSS protection)
         String csrfToken = CsrfTokenUtil.generateToken();
 
-        // Set cookie using Set-Cookie header for better control
+        // Set HttpOnly cookie for security (prevents XSS attacks from stealing token)
         String cookiePath = request.getContextPath().isEmpty() ? "/" : request.getContextPath();
         String cookieValue = String.format(
-            "%s=%s; Path=%s; Max-Age=%d; SameSite=Lax",
+            "%s=%s; Path=%s; Max-Age=%d; HttpOnly; SameSite=Lax",
             CSRF_TOKEN_COOKIE_NAME,
             csrfToken,
             cookiePath,
@@ -73,8 +73,8 @@ public class RegisterController extends HttpServlet {
 
         response.addHeader("Set-Cookie", cookieValue);
 
-        // Also set as request attribute for immediate use in JSP if needed
-        request.setAttribute("csrfToken", csrfToken);
+        // Set as request attribute for JSP to render in hidden form field
+        request.setAttribute(CSRF_TOKEN_PARAM_NAME, csrfToken);
 
         // Forward to register page
         request.getRequestDispatcher(Page.REGISTER_PAGE).forward(request, response);
@@ -93,10 +93,12 @@ public class RegisterController extends HttpServlet {
         String cookieToken = getCsrfTokenFromCookie(request);
 
         if (submittedToken == null || cookieToken == null || !cookieToken.equals(submittedToken)) {
-            // CSRF validation failed - clear cookie and show error
-            clearCsrfCookie(request, response);
+            // CSRF validation failed - regenerate token and show error
+            String newCsrfToken = CsrfTokenUtil.generateToken();
+            setCsrfTokenCookie(request, response, newCsrfToken);
+            request.setAttribute(CSRF_TOKEN_PARAM_NAME, newCsrfToken);
             request.setAttribute(RequestAttribute.ERROR_MESSAGE,
-                "Invalid CSRF token. Please refresh the page and try again.");
+                "Invalid CSRF token. Please try again.");
             request.getRequestDispatcher(Page.REGISTER_PAGE).forward(request, response);
             return;
         }
@@ -110,6 +112,7 @@ public class RegisterController extends HttpServlet {
 
         // Validate required fields
         if (!createModel.hasRequiredFields()) {
+            regenerateCsrfToken(request, response);
             request.setAttribute(RequestAttribute.ERROR_MESSAGE, "Please fill all required fields");
             request.getRequestDispatcher(Page.REGISTER_PAGE).forward(request, response);
             return;
@@ -117,6 +120,7 @@ public class RegisterController extends HttpServlet {
 
         // Validate password match
         if (!createModel.passwordsMatch()) {
+            regenerateCsrfToken(request, response);
             request.setAttribute(RequestAttribute.ERROR_MESSAGE, "Passwords do not match");
             request.getRequestDispatcher(Page.REGISTER_PAGE).forward(request, response);
             return;
@@ -124,6 +128,7 @@ public class RegisterController extends HttpServlet {
 
         // Validate password length
         if (!createModel.isPasswordValid(MIN_PASSWORD_LENGTH)) {
+            regenerateCsrfToken(request, response);
             request.setAttribute(RequestAttribute.ERROR_MESSAGE,
                 "Password must be at least " + MIN_PASSWORD_LENGTH + " characters");
             request.getRequestDispatcher(Page.REGISTER_PAGE).forward(request, response);
@@ -133,6 +138,7 @@ public class RegisterController extends HttpServlet {
         // Check if username already exists in both Guest and Staff tables
         if (guestService.isUsernameExists(createModel.getUsername()) ||
             staffService.isUsernameExists(createModel.getUsername())) {
+            regenerateCsrfToken(request, response);
             request.setAttribute(RequestAttribute.ERROR_MESSAGE, "Username already exists");
             request.getRequestDispatcher(Page.REGISTER_PAGE).forward(request, response);
             return;
@@ -141,6 +147,7 @@ public class RegisterController extends HttpServlet {
         // Check if email already exists (if provided)
         if (createModel.getEmail() != null && !createModel.getEmail().isEmpty() &&
             guestService.isEmailExists(createModel.getEmail())) {
+            regenerateCsrfToken(request, response);
             request.setAttribute(RequestAttribute.ERROR_MESSAGE, "Email already exists");
             request.getRequestDispatcher(Page.REGISTER_PAGE).forward(request, response);
             return;
@@ -149,6 +156,7 @@ public class RegisterController extends HttpServlet {
         // Check if phone already exists (if provided)
         if (createModel.getPhone() != null && !createModel.getPhone().isEmpty() &&
             guestService.isPhoneExists(createModel.getPhone())) {
+            regenerateCsrfToken(request, response);
             request.setAttribute(RequestAttribute.ERROR_MESSAGE, "Phone number already exists");
             request.getRequestDispatcher(Page.REGISTER_PAGE).forward(request, response);
             return;
@@ -156,6 +164,7 @@ public class RegisterController extends HttpServlet {
 
         // Check if ID number already exists
         if (guestService.isIdNumberExists(createModel.getIdNumber())) {
+            regenerateCsrfToken(request, response);
             request.setAttribute(RequestAttribute.ERROR_MESSAGE, "ID number already exists");
             request.getRequestDispatcher(Page.REGISTER_PAGE).forward(request, response);
             return;
@@ -164,6 +173,7 @@ public class RegisterController extends HttpServlet {
         // Validate age (must be at least 18 years old)
         if (createModel.getDateOfBirth() != null &&
             createModel.getDateOfBirth().isAfter(LocalDate.now().minusYears(MIN_AGE))) {
+            regenerateCsrfToken(request, response);
             request.setAttribute(RequestAttribute.ERROR_MESSAGE,
                 "You must be at least " + MIN_AGE + " years old");
             request.getRequestDispatcher(Page.REGISTER_PAGE).forward(request, response);
@@ -190,6 +200,7 @@ public class RegisterController extends HttpServlet {
             request.getRequestDispatcher(Page.LOGIN_PAGE).forward(request, response);
         } else {
             // Registration failed
+            regenerateCsrfToken(request, response);
             request.setAttribute(RequestAttribute.ERROR_MESSAGE, "Registration failed. Please try again.");
             request.getRequestDispatcher(Page.REGISTER_PAGE).forward(request, response);
         }
@@ -248,14 +259,32 @@ public class RegisterController extends HttpServlet {
     }
 
     /**
-     * Clear CSRF token cookie
+     * Set CSRF token as HttpOnly cookie (XSS protection)
      */
-    private void clearCsrfCookie(HttpServletRequest request, HttpServletResponse response) {
-        Cookie cookie = new Cookie(CSRF_TOKEN_COOKIE_NAME, null);
-        cookie.setPath(request.getContextPath().isEmpty() ? "/" : request.getContextPath());
-        cookie.setHttpOnly(false);
-        cookie.setSecure(request.isSecure());
-        cookie.setMaxAge(0); // Expire immediately
-        response.addCookie(cookie);
+    private void setCsrfTokenCookie(HttpServletRequest request, HttpServletResponse response, String token) {
+        String cookiePath = request.getContextPath().isEmpty() ? "/" : request.getContextPath();
+        String cookieValue = String.format(
+            "%s=%s; Path=%s; Max-Age=%d; HttpOnly; SameSite=Lax",
+            CSRF_TOKEN_COOKIE_NAME,
+            token,
+            cookiePath,
+            15 * 60  // 15 minutes
+        );
+
+        // Add Secure flag if HTTPS
+        if (request.isSecure()) {
+            cookieValue += "; Secure";
+        }
+
+        response.addHeader("Set-Cookie", cookieValue);
+    }
+
+    /**
+     * Regenerate CSRF token for form resubmission
+     */
+    private void regenerateCsrfToken(HttpServletRequest request, HttpServletResponse response) {
+        String newCsrfToken = CsrfTokenUtil.generateToken();
+        setCsrfTokenCookie(request, response, newCsrfToken);
+        request.setAttribute(CSRF_TOKEN_PARAM_NAME, newCsrfToken);
     }
 }
