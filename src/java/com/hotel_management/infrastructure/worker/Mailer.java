@@ -68,6 +68,7 @@ public class Mailer {
 
     /**
      * Send welcome email to newly registered guest (async)
+     * Silently fails if email cannot be sent (e.g., on production with blocked SMTP ports)
      * @param toEmail Guest email address
      * @param guestName Guest full name
      * @param username Guest username
@@ -78,9 +79,17 @@ public class Mailer {
                 String subject = "Welcome to Hotel Management System";
                 String htmlBody = buildWelcomeEmailTemplate(toEmail, guestName, username);
                 sendHtmlEmail(toEmail, subject, htmlBody);
-                System.out.println("Welcome email sent successfully to: " + toEmail);
+                System.out.println("✓ Welcome email sent successfully to: " + toEmail);
             } catch (MessagingException e) {
-                System.err.println("Failed to send welcome email to: " + toEmail);
+                // Silently fail - don't crash the app on production
+                // This is expected on cloud platforms that block SMTP ports
+                System.err.println("✗ Failed to send welcome email to: " + toEmail);
+                System.err.println("  Reason: " + e.getMessage());
+                System.err.println("  Note: This is expected on cloud platforms that block SMTP ports (587, 465)");
+                System.err.println("  Recommendation: Use email service API (SendGrid, Mailgun, AWS SES) instead of SMTP");
+                // Don't print full stack trace to avoid cluttering logs
+            } catch (Exception e) {
+                System.err.println("✗ Unexpected error sending email to: " + toEmail);
                 e.printStackTrace();
             }
         });
@@ -96,9 +105,12 @@ public class Mailer {
         CompletableFuture.runAsync(() -> {
             try {
                 sendHtmlEmail(toEmail, subject, htmlBody);
-                System.out.println("Email sent successfully to: " + toEmail);
+                System.out.println("✓ Email sent successfully to: " + toEmail);
             } catch (MessagingException e) {
-                System.err.println("Failed to send email to: " + toEmail);
+                System.err.println("✗ Failed to send email to: " + toEmail);
+                System.err.println("  Reason: " + e.getMessage());
+            } catch (Exception e) {
+                System.err.println("✗ Unexpected error sending email to: " + toEmail);
                 e.printStackTrace();
             }
         });
@@ -208,9 +220,9 @@ public class Mailer {
         props.put("mail.smtp.auth", "true");
         props.put("mail.smtp.starttls.enable", "true");
         props.put("mail.smtp.starttls.required", "true");
-        props.put("mail.smtp.connectiontimeout", "30000"); // 30 seconds
-        props.put("mail.smtp.timeout", "30000");
-        props.put("mail.smtp.writetimeout", "30000");
+        props.put("mail.smtp.connectiontimeout", "10000"); // 10 seconds
+        props.put("mail.smtp.timeout", "10000");
+        props.put("mail.smtp.writetimeout", "10000");
 
         Authenticator auth = new Authenticator() {
             @Override
@@ -231,9 +243,9 @@ public class Mailer {
         props.put("mail.smtp.auth", "true");
         props.put("mail.smtp.ssl.enable", "true");
         props.put("mail.smtp.ssl.protocols", "TLSv1.2");
-        props.put("mail.smtp.connectiontimeout", "30000"); // 30 seconds
-        props.put("mail.smtp.timeout", "30000");
-        props.put("mail.smtp.writetimeout", "30000");
+        props.put("mail.smtp.connectiontimeout", "10000"); // 10 seconds
+        props.put("mail.smtp.timeout", "10000");
+        props.put("mail.smtp.writetimeout", "10000");
 
         Authenticator auth = new Authenticator() {
             @Override

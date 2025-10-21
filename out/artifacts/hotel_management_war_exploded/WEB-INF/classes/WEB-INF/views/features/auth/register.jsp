@@ -63,7 +63,7 @@
 
             <!-- Register Form -->
             <form class="space-y-5" action="${pageContext.request.contextPath}/register" method="POST" id="registerForm">
-                <!-- CSRF Token Hidden Field - populate from server-side attribute as fallback -->
+                <!-- CSRF Token Hidden Field - populated from server-side only (HttpOnly cookie prevents XSS) -->
                 <input type="hidden" id="csrfToken" name="csrfToken" value="${csrfToken}" />
 
                 <div class="form-grid">
@@ -655,6 +655,22 @@
                 this.classList.remove('input-focused');
             });
         });
+
+        // === CSRF Token Validation ===
+        // Note: CSRF token cookie is HttpOnly (cannot be read by JavaScript)
+        // This prevents XSS attacks from stealing the token
+        // Token is validated server-side by comparing cookie value with form field value
+        document.getElementById('registerForm').addEventListener('submit', function(e) {
+            const csrfTokenInput = document.getElementById('csrfToken');
+
+            // Verify token exists in form field (should be populated by server)
+            if (!csrfTokenInput.value || csrfTokenInput.value === '') {
+                e.preventDefault();
+                showError('Security token missing. Please reload the page and try again.');
+                return false;
+            }
+        });
+        // === End CSRF Token Validation ===
     </script>
 </body>
 </html>
