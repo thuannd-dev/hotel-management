@@ -49,20 +49,21 @@ public class RoomDetailDAO extends BaseDAO<RoomDetailViewModel> {
      * Find available room details based on check-in/check-out dates and guest capacity
      */
     public List<RoomDetailViewModel> findAvailableRoomDetails(Date checkInDate, Date checkOutDate, int totalGuests) {
-        String sql = "SELECT R.RoomID, R.RoomNumber, R.RoomTypeID, R.Status, RT.TypeName, RT.Capacity, RT.PricePerNight " +
-                     "FROM ROOM R " +
-                     "INNER JOIN ROOM_TYPE RT ON R.RoomTypeID = RT.RoomTypeID " +
-                     "WHERE R.Status = 'Available' " +
-                     "AND RT.Capacity >= ? " +
-                     "AND R.RoomID NOT IN ( " +
-                     "    SELECT B.RoomID FROM BOOKING B " +
-                     "    WHERE B.Status != 'Canceled' " +
-                     "    AND ( " +
-                     "        (B.CheckInDate <= ? AND B.CheckOutDate > ?) " +
-                     "        OR (B.CheckInDate < ? AND B.CheckOutDate >= ?) " +
-                     "        OR (B.CheckInDate >= ? AND B.CheckOutDate <= ?) " +
-                     "    ) " +
-                     ")";
+        String sql = "SELECT R.RoomID, R.RoomNumber, R.RoomTypeID, R.Status, \n" +
+                "       RT.TypeName, RT.Capacity, RT.PricePerNight\n" +
+                "FROM ROOM R\n" +
+                "INNER JOIN ROOM_TYPE RT ON R.RoomTypeID = RT.RoomTypeID\n" +
+                "WHERE RT.Capacity >= ?\n" +
+                "  AND R.RoomID NOT IN (\n" +
+                "      SELECT B.RoomID \n" +
+                "      FROM BOOKING B\n" +
+                "      WHERE B.Status != 'Canceled'\n" +
+                "        AND (\n" +
+                "            (B.CheckInDate <= ? AND B.CheckOutDate > ?) \n" +
+                "            OR (B.CheckInDate < ? AND B.CheckOutDate >= ?)\n" +
+                "            OR (B.CheckInDate >= ? AND B.CheckOutDate <= ?)\n" +
+                "        )\n" +
+                "  );";
         return query(sql, totalGuests, checkOutDate, checkInDate, checkOutDate, checkInDate, checkInDate, checkOutDate);
     }
 

@@ -27,29 +27,4 @@ public class RoomDAO extends BaseDAO<Room> {
         return update(sql, status.getDbValue(), roomId);
     }
 
-    /**
-     * Find available rooms based on check-in/check-out dates and guest capacity
-     * A room is available if:
-     * 1. Status is 'Available'
-     * 2. Room capacity >= total guests (adults + children)
-     * 3. No overlapping bookings for the date range (excluding Canceled bookings)
-     */
-    public List<Room> findAvailableRooms(Date checkInDate, Date checkOutDate, int totalGuests) {
-        String sql = "SELECT R.RoomID, R.RoomNumber, R.RoomTypeID, R.Status " +
-                     "FROM ROOM R " +
-                     "INNER JOIN ROOM_TYPE RT ON R.RoomTypeID = RT.RoomTypeID " +
-                     "WHERE R.Status = 'Available' " +
-                     "AND RT.Capacity >= ? " +
-                     "AND R.RoomID NOT IN ( " +
-                     "    SELECT B.RoomID FROM BOOKING B " +
-                     "    WHERE B.Status != 'Canceled' " +
-                     "    AND ( " +
-                     "        (B.CheckInDate <= ? AND B.CheckOutDate > ?) " +
-                     "        OR (B.CheckInDate < ? AND B.CheckOutDate >= ?) " +
-                     "        OR (B.CheckInDate >= ? AND B.CheckOutDate <= ?) " +
-                     "    ) " +
-                     ")";
-        return query(sql, totalGuests, checkOutDate, checkInDate, checkOutDate, checkInDate, checkInDate, checkOutDate);
-    }
-
 }
