@@ -1,4 +1,4 @@
-<%-- Document : login Created on : Oct 1, 2025, 11:32:31 PM Author : DELL --%>
+<%-- Document : login Created on : Oct 1, 2025, 11:32:31 PM Author : thuannd.dev --%>
 <%@page contentType="text/html" pageEncoding="UTF-8" session="false"%>
 <%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
@@ -188,6 +188,24 @@
             Sign In
           </button>
 
+          <!-- Success Message -->
+          <c:if test="${not empty success}">
+            <div
+              class="bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-lg text-sm"
+            >
+              <div class="flex items-center">
+                <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                  <path
+                    fill-rule="evenodd"
+                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                    clip-rule="evenodd"
+                  ></path>
+                </svg>
+                ${success}
+              </div>
+            </div>
+          </c:if>
+
           <!-- Error Message Placeholder -->
           <c:if test="${not empty error}">
             <div
@@ -230,11 +248,11 @@
           <p class="text-sm text-gray-600">
             Don't have an account?
             <a
-              href="#"
+              href="${pageContext.request.contextPath}/register"
               class="forgot-link font-medium transition-colors duration-200"
               style="color: #cc8c18"
             >
-              Contact Administrator
+              Register here
             </a>
           </p>
         </div>

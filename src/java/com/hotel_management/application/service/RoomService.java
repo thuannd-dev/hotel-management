@@ -42,6 +42,41 @@ public class RoomService {
         return roomDetailDao.findByStatus(status);
     }
 
+    /**
+     * Search for available rooms based on check-in/check-out dates and guest count
+     * @param checkInDate Check-in date
+     * @param checkOutDate Check-out date
+     * @param adults Number of adults
+     * @param children Number of children
+     * @return List of available room details
+     */
+    public List<RoomDetailViewModel> searchAvailableRooms(java.time.LocalDate checkInDate, 
+                                                           java.time.LocalDate checkOutDate, 
+                                                           int adults, 
+                                                           int children) {
+        // Validate input
+        if (checkInDate == null || checkOutDate == null) {
+            throw new IllegalArgumentException("Check-in and check-out dates are required");
+        }
+        if (checkOutDate.isBefore(checkInDate) || checkOutDate.isEqual(checkInDate)) {
+            throw new IllegalArgumentException("Check-out date must be after check-in date");
+        }
+        if (adults < 0 || children < 0) {
+            throw new IllegalArgumentException("Number of guests cannot be negative");
+        }
+        
+        int totalGuests = adults + children;
+        if (totalGuests == 0) {
+            throw new IllegalArgumentException("At least one guest is required");
+        }
+        
+        // Convert LocalDate to SQL Date
+        java.sql.Date sqlCheckInDate = java.sql.Date.valueOf(checkInDate);
+        java.sql.Date sqlCheckOutDate = java.sql.Date.valueOf(checkOutDate);
+        
+        return roomDetailDao.findAvailableRoomDetails(sqlCheckInDate, sqlCheckOutDate, totalGuests);
+    }
+
     public Boolean updateRoomStatus(int staffId, int roomId, RoomStatus newStatus) {
         // Get current room detail to check current status
         RoomDetailViewModel currentRoom = roomDetailDao.findById(roomId).orElse(null);

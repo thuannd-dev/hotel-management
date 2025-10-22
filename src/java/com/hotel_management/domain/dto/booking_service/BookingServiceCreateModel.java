@@ -18,7 +18,7 @@ public class BookingServiceCreateModel implements Serializable {
     private int bookingId;
     private int serviceId;
     private int quantity;
-    private int assignedStaffId;
+    private Integer assignedStaffId;  // Changed to Integer to allow null
 
     public static BookingService toEntity(BookingServiceCreateModel bookingServiceCreateModel) {
         BookingService bookingService = new BookingService();

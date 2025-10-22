@@ -118,7 +118,7 @@
         </div>
 
         <form action="create-booking" method="post">
-            <%-- DỮ LIỆU BẮT BUỘC CHO BOOKING --%>
+            <%-- DATA REQUIRED FOR BOOKING --%>
             <input type="hidden" name="guestId" value="${guest.guestId}" />
 
             <div class="form-section">
@@ -134,7 +134,7 @@
                     </tr>
                     <tr>
                         <td><label for="totalGuest">Total Guests:</label></td>
-                        <td><input type="number" name="totalGuest" id="totalGuest" min="1" required /></td>
+                        <td><input type="number" name="totalGuest" id="totalGuest" min="1"/></td>
                     </tr>
                     <tr>
                         <td><label for="specialRequests">Special Requests:</label></td>
