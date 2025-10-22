@@ -47,11 +47,23 @@
             color: #555;
         }
 
-        .form-group input {
+        .form-group input,
+        .form-group select {
             padding: 10px;
             border: 1px solid #ddd;
             border-radius: 5px;
             font-size: 14px;
+        }
+
+        .form-group select {
+            cursor: pointer;
+            background-color: white;
+        }
+
+        .form-group select:focus {
+            outline: none;
+            border-color: #007bff;
+            box-shadow: 0 0 0 2px rgba(0,123,255,0.1);
         }
 
         .search-btn {
@@ -350,6 +362,12 @@
                 </div>
             </c:if>
 
+            <c:if test="${not empty infoMessage}">
+                <div class="info-message" style="background: #d1ecf1; color: #0c5460; padding: 15px; border-radius: 5px; margin-bottom: 20px; border: 1px solid #bee5eb;">
+                    <i class="fas fa-info-circle"></i> ${infoMessage}
+                </div>
+            </c:if>
+
             <c:if test="${not empty error}">
                 <div class="error-message">
                     <i class="fas fa-exclamation-circle"></i> ${error}
@@ -370,6 +388,17 @@
                         <input type="date" id="checkOutDate" name="checkOutDate"
                                value="${checkOutDate}" required
                                min="${java.time.LocalDate.now()}">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="roomType"><i class="fas fa-bed"></i> Room Type</label>
+                        <select id="roomType" name="roomType">
+                            <option value="">All Room Types</option>
+                            <option value="Single" ${roomType == 'Single' ? 'selected' : ''}>Single Room (1 guest)</option>
+                            <option value="Double" ${roomType == 'Double' ? 'selected' : ''}>Double Room (2 guests)</option>
+                            <option value="Deluxe" ${roomType == 'Deluxe' ? 'selected' : ''}>Deluxe Room (2 guests)</option>
+                            <option value="Suite" ${roomType == 'Suite' ? 'selected' : ''}>Suite Room (4 guests)</option>
+                        </select>
                     </div>
 
                     <div class="form-group">
@@ -400,10 +429,21 @@
                     <h3>
                         <c:choose>
                             <c:when test="${not empty rooms}">
-                                Found ${rooms.size()} Available Room(s)
+                                Found ${rooms.size()} Available
+                                <c:if test="${not empty roomType}">
+                                    ${roomType}
+                                </c:if>
+                                Room(s)
                             </c:when>
                             <c:otherwise>
-                                Search Results
+                                <c:choose>
+                                    <c:when test="${not empty roomType}">
+                                        No ${roomType} rooms available for the selected dates
+                                    </c:when>
+                                    <c:otherwise>
+                                        No rooms available for the selected dates
+                                    </c:otherwise>
+                                </c:choose>
                             </c:otherwise>
                         </c:choose>
                     </h3>

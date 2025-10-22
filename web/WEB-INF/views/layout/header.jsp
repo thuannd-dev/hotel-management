@@ -299,8 +299,8 @@
               <i class="caret-icon fas fa-caret-down"></i>
             </button>
             <div class="dropdown-content">
-              <a href="${pageContext.request.contextPath}/profile">
-                <i class="profile-icon fas fa-user"></i> Profile
+              <a href="${pageContext.request.contextPath}/my-booking">
+                <i class="profile-icon fas fa-user"></i> My Booking
               </a>
               <a href="${pageContext.request.contextPath}/logout">
                 <i class="logout-icon fas fa-sign-out-alt"></i> Logout

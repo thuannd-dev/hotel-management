@@ -89,4 +89,8 @@ public class BookingService {
     public int bookingCreate(BookingCreateModel models){
         return bookingDao.bookingCreate(BookingCreateModel.toEntity(models));
     }
+
+    public List<BookingDetailViewModel> getBookingsByGuestId(int guestId) {
+        return bookingDetailDao.findByGuestId(guestId);
+    }
 }
