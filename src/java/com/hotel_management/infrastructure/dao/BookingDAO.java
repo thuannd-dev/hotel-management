@@ -10,10 +10,6 @@ import java.util.List;
 import java.util.Optional;
 import javax.sql.DataSource;
 
-/**
- *
- * @author thuannd.dev
- */
 public class BookingDAO extends BaseDAO<Booking> {
 
     public BookingDAO(DataSource ds) {
@@ -39,50 +35,60 @@ public class BookingDAO extends BaseDAO<Booking> {
     }
 
     public List<Booking> findAll() {
-        return query("SELECT\n"
-                + "B.BookingID, B.GuestID, B.RoomID,\n"
-                + "B.CheckInDate, B.CheckOutDate, B.BookingDate, B.Status,\n"
-                + "B.TotalGuests, B.SpecialRequests, B.PaymentStatus, B.CancellationDate,\n"
-                + "B.CancellationReason FROM BOOKING B");
+        String sql = "SELECT B.BookingID, B.GuestID, B.RoomID, "
+                + "B.CheckInDate, B.CheckOutDate, B.BookingDate, B.Status, "
+                + "B.TotalGuests, B.SpecialRequests, B.PaymentStatus, B.CancellationDate, "
+                + "B.CancellationReason FROM BOOKING B";
+        return query(sql);
     }
 
     public Optional<Booking> findById(int id) {
-        List<Booking> bookings = query("SELECT\n"
-                + "B.BookingID, B.GuestID, B.RoomID,\n"
-                + "B.CheckInDate, B.CheckOutDate, B.BookingDate, B.Status,\n"
-                + "B.TotalGuests, B.SpecialRequests, B.PaymentStatus, B.CancellationDate,\n"
-                + "B.CancellationReason FROM BOOKING B\n"
-                + "WHERE B.BookingID = ?", id);
+        String sql = "SELECT B.BookingID, B.GuestID, B.RoomID, "
+                + "B.CheckInDate, B.CheckOutDate, B.BookingDate, B.Status, "
+                + "B.TotalGuests, B.SpecialRequests, B.PaymentStatus, B.CancellationDate, "
+                + "B.CancellationReason FROM BOOKING B "
+                + "WHERE B.BookingID = ?";
+        List<Booking> bookings = query(sql, id);
         return bookings.stream().findFirst();
     }
 
     public List<Booking> findByStatus(BookingStatus status) {
-        return query("SELECT\n"
-                + "B.BookingID, B.GuestID, B.RoomID,\n"
-                + "B.CheckInDate, B.CheckOutDate, B.BookingDate, B.Status,\n"
-                + "B.TotalGuests, B.SpecialRequests, B.PaymentStatus, B.CancellationDate,\n"
-                + "B.CancellationReason FROM BOOKING B\n"
-                + "WHERE B.Status = ?", status.getDbValue());
+        String sql = "SELECT B.BookingID, B.GuestID, B.RoomID, "
+                + "B.CheckInDate, B.CheckOutDate, B.BookingDate, B.Status, "
+                + "B.TotalGuests, B.SpecialRequests, B.PaymentStatus, B.CancellationDate, "
+                + "B.CancellationReason FROM BOOKING B "
+                + "WHERE B.Status = ?";
+        return query(sql, status.getDbValue());
     }
 
     public int bookingCreate(Booking booking) {
-        Date checkInDate = Date.valueOf(booking.getCheckInDate());
-        Date checkOutDate = Date.valueOf(booking.getCheckOutDate());
+        String sql = "INSERT INTO BOOKING ("
+                + "GuestID, RoomID, CheckInDate, CheckOutDate, "
+                + "Status, TotalGuests, SpecialRequests, PaymentStatus"
+                + ") VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        return insertAndReturnId(sql,
+                booking.getGuestId(),
+                booking.getRoomId(),
+                Date.valueOf(booking.getCheckInDate()),
+                Date.valueOf(booking.getCheckOutDate()),
+                booking.getStatus().getDbValue(),
+                booking.getTotalGuests(),
+                booking.getSpecialRequests(),
+                booking.getPaymentStatus().getDbValue());
+    }
 
-        String sql = "INSERT INTO BOOKING (\n"
-                + "    GuestID,\n"
-                + "    RoomID,\n"
-                + "    CheckInDate,\n"
-                + "    CheckOutDate,\n"
-                + "    Status,\n"
-                + "    TotalGuests,\n"
-                + "    SpecialRequests,\n"
-                + "    PaymentStatus\n"
-                + ")\n"
-                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-        return insertAndReturnId(sql, booking.getGuestId(), booking.getRoomId(), checkInDate,
-               checkOutDate, booking.getStatus().getDbValue(), booking.getTotalGuests(),
-                booking.getSpecialRequests(), booking.getPaymentStatus().getDbValue());
+    public Optional<Booking> findUnpaidBookingByGuestId(int guestId) {
+        String sql = "SELECT BookingID, GuestID, RoomID, CheckInDate, CheckOutDate, BookingDate, Status, TotalGuests, SpecialRequests, PaymentStatus, CancellationDate, CancellationReason "
+                + "FROM BOOKING\n"
+                + "WHERE GuestID = ?\n"
+                + "AND PaymentStatus IN ('Pending', 'Deposit Paid', 'Guaranteed');";
+        List<Booking> result = query(sql, guestId);
+        return result.isEmpty() ? Optional.empty() : Optional.of(result.get(0));
+    }
+
+    public int markAsPaid(int bookingId) {
+        String sql = "UPDATE BOOKING SET PaymentStatus = ? WHERE BookingID = ?";
+        return update(sql, PaymentStatus.PAID.getDbValue(), bookingId);
     }
 
     public int updateBookingStatus(int bookingId, BookingStatus status) {

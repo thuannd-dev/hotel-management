@@ -10,7 +10,6 @@ import com.hotel_management.infrastructure.dao.BookingDetailDAO;
 import com.hotel_management.infrastructure.dao.ServiceDAO;
 import com.hotel_management.infrastructure.provider.DataSourceProvider;
 import com.hotel_management.presentation.constants.SessionAttribute;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;

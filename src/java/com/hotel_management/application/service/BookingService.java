@@ -2,21 +2,18 @@ package com.hotel_management.application.service;
 
 import com.hotel_management.domain.dto.booking.BookingCreateModel;
 import com.hotel_management.domain.dto.booking.BookingDetailViewModel;
+import com.hotel_management.domain.dto.booking.BookingViewModel;
 import com.hotel_management.domain.entity.Booking;
 import com.hotel_management.domain.entity.enums.BookingStatus;
 import com.hotel_management.infrastructure.dao.BookingDAO;
-import com.hotel_management.domain.dto.booking.BookingViewModel;
 import com.hotel_management.infrastructure.dao.BookingDetailDAO;
+
 import javax.servlet.ServletException;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-/**
- *
- * @author thuannd.dev
- */
 public class BookingService {
     private final BookingDAO bookingDao;
     private final BookingDetailDAO bookingDetailDao;
@@ -26,7 +23,6 @@ public class BookingService {
         this.bookingDetailDao = bookingDetailDao;
     }
 
-    // (method reference)
     public List<BookingViewModel> getAllBookings() {
         return bookingDao.findAll().stream()
                 .map(BookingViewModel::fromEntity)
@@ -51,6 +47,10 @@ public class BookingService {
         return booking != null &&
                 booking.getStatus().equalsIgnoreCase(BookingStatus.CHECK_IN.getDbValue())
                 ? booking : null;
+    }
+
+    public BookingDetailViewModel getBookingDetailById(int bookingId) {
+        return bookingDetailDao.findById(bookingId).orElse(null);
     }
 
     public BookingDetailViewModel getCheckInBookingDetailByRoomNumber(String roomNumber) {
@@ -86,9 +86,11 @@ public class BookingService {
         }
     }
 
-    public int bookingCreate(BookingCreateModel models){
-        return bookingDao.bookingCreate(BookingCreateModel.toEntity(models));
+    // CREATE NEW BOOKING
+    public int bookingCreate(BookingCreateModel model) {
+        return bookingDao.bookingCreate(BookingCreateModel.toEntity(model));
     }
+
 
     public List<BookingDetailViewModel> getBookingsByGuestId(int guestId) {
         return bookingDetailDao.findByGuestId(guestId);

@@ -57,7 +57,6 @@ public class CreateBookingController extends HttpServlet {
         this.roomService = new RoomService(roomDao, roomDetailDao, housekeepingTaskDao, maintenanceIssueDao);
     }
 
-    // ✅ Hiển thị form đặt phòng
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -80,7 +79,6 @@ public class CreateBookingController extends HttpServlet {
         }
     }
 
-    // ✅ Xử lý tạo booking + thêm dịch vụ đi kèm
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -98,7 +96,7 @@ public class CreateBookingController extends HttpServlet {
             LocalDate checkInDate = LocalDate.parse(request.getParameter("checkInDate"));
             LocalDate checkOutDate = LocalDate.parse(request.getParameter("checkOutDate"));
 
-            // ✅ Tao va luu booking
+            //  Tao va luu booking
             BookingCreateModel creatModel
                     = new BookingCreateModel(guestId, roomId, checkInDate, checkOutDate, totalGuest, specialRequests);// staffID);
             int bookingId = bookingService.bookingCreate(creatModel);
@@ -106,7 +104,7 @@ public class CreateBookingController extends HttpServlet {
                 throw new IllegalArgumentException("Failed to create booking");
             }
 
-            // ✅ Thêm dịch vụ đi kèm nếu có
+            // ADD SERVICE (OPTIONAL)
             String[] serviceIds = request.getParameterValues("serviceId[]");
             if (serviceIds != null && serviceIds.length > 0) {
                 List<BookingServiceCreateModel> serviceCreateModels = new ArrayList<>();
@@ -126,9 +124,8 @@ public class CreateBookingController extends HttpServlet {
 
                 bookingServiceUsageService.createBatchBookingService(serviceCreateModels);
             }
-
-            // ✅ Chuyển hướng về danh sách booking
-            response.sendRedirect("booking-list?success=true");
+            session.setAttribute("popupMessage", "Booking created successfully!!!");
+            response.sendRedirect(request.getContextPath() + "/receptionist");
 
         } catch (NumberFormatException e) {
             response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid input (guestId, roomId, or serviceId)");

@@ -1,9 +1,12 @@
 package com.hotel_management.presentation.controller;
 
 import com.hotel_management.application.service.BookingService;
+import com.hotel_management.application.service.GuestService;
 import com.hotel_management.domain.dto.booking.BookingDetailViewModel;
+import com.hotel_management.domain.dto.guest.GuestViewModel;
 import com.hotel_management.infrastructure.dao.BookingDAO;
 import com.hotel_management.infrastructure.dao.BookingDetailDAO;
+import com.hotel_management.infrastructure.dao.GuestDAO;
 import com.hotel_management.infrastructure.provider.DataSourceProvider;
 import com.hotel_management.presentation.constants.Page;
 import com.hotel_management.presentation.constants.RequestAttribute;
@@ -22,32 +25,30 @@ import javax.sql.DataSource;
  */
 @WebServlet(name = "ReceptionistDashboardController", urlPatterns = {"/receptionist"})
 public class ReceptionistDashboardController extends HttpServlet {
+
     private static final long serialVersionUID = 1L;
     private BookingService bookingService;
-
+    private GuestService guestService;
 
     @Override
     public void init() {
-        BookingDAO bookingDAO;
-        BookingDetailDAO bookingDetailDAO;
         DataSource ds = DataSourceProvider.getDataSource();
-        bookingDAO = new BookingDAO(ds);
-        bookingDetailDAO = new BookingDetailDAO(ds);
+        GuestDAO guestDAO = new GuestDAO(ds);
+        BookingDAO bookingDAO = new BookingDAO(ds);
+        BookingDetailDAO bookingDetailDAO = new BookingDetailDAO(ds);
+
+        this.guestService = new GuestService(guestDAO);
         this.bookingService = new BookingService(bookingDAO, bookingDetailDAO);
     }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-//        String guestName = request.getParameter("guestName");
-//        String roomNumber = request.getParameter("roomNumber");
 
-        List<BookingDetailViewModel> bookings = bookingService.getAllCheckInBookingDetails();
-
-        request.setAttribute(RequestAttribute.CHECK_IN_BOOKING_DETAILS, bookings);
+        List<GuestViewModel> guests = guestService.getAllGuests();
+        request.setAttribute(RequestAttribute.GUESTS, guests);
         request.getRequestDispatcher(Page.RECEPTIONIST_DASHBOARD_PAGE).forward(request, response);
 
     }
 
 }
-
