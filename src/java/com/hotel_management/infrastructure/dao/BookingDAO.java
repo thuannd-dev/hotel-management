@@ -84,4 +84,14 @@ public class BookingDAO extends BaseDAO<Booking> {
                checkOutDate, booking.getStatus().getDbValue(), booking.getTotalGuests(),
                 booking.getSpecialRequests(), booking.getPaymentStatus().getDbValue());
     }
+
+    public int updateBookingStatus(int bookingId, BookingStatus status) {
+        String sql = "UPDATE BOOKING SET Status = ? WHERE BookingID = ?";
+        return update(sql, status.getDbValue(), bookingId);
+    }
+
+    public int updateBookingStatusAndPaymentStatus(int bookingId, BookingStatus status, PaymentStatus paymentStatus) {
+        String sql = "UPDATE BOOKING SET Status = ?, PaymentStatus = ? WHERE BookingID = ?";
+        return update(sql, status.getDbValue(), paymentStatus.getDbValue(), bookingId);
+    }
 }

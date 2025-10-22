@@ -281,7 +281,7 @@
   <div class="container flex1">
     <div class="address">
       <i class="fas fa-map-marker-alt"></i>
-      <span>205 Fida Walinton, Tongo Street Front, USA</span>
+      <span>7 Đ. D1, Long Thạnh Mỹ, Thủ Đức</span>
     </div>
     <div class="logo">
       <img
@@ -301,6 +301,9 @@
             <div class="dropdown-content">
               <a href="${pageContext.request.contextPath}/my-booking">
                 <i class="profile-icon fas fa-user"></i> My Booking
+              </a>
+              <a href="${pageContext.request.contextPath}/guest/checkout">
+                <i class="profile-icon fas fa-user"></i> Check Out
               </a>
               <a href="${pageContext.request.contextPath}/logout">
                 <i class="logout-icon fas fa-sign-out-alt"></i> Logout
@@ -332,7 +335,6 @@
         <li><a href="#about">about</a></li>
         <li><a href="#room">room</a></li>
         <li><a href="#services">services</a></li>
-        <li><a href="#shop">shop</a></li>
         <li><a href="#testimonials">testimonials</a></li>
         <li><a href="#gallary">gallary</a></li>
         <li><a href="#blog">blog</a></li>

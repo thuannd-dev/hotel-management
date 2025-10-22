@@ -25,10 +25,6 @@
           proident, sunt in culpa qui officia deserunt mollit anim id est
           laborum.
         </p>
-        <button class="flex1">
-          <span>Check Availability</span>
-          <i class="fas fa-arrow-circle-right"></i>
-        </button>
       </div>
       <div class="right">
         <img
