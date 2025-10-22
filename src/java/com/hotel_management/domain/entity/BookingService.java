@@ -20,7 +20,7 @@ public class BookingService {
     private int quantity;
     private LocalDate serviceDate;
     private BookingServiceStatus status;
-    private int assignedStaffId;
+    private Integer assignedStaffId;  // Changed to Integer to allow null
     private LocalDateTime requestTime;
     private LocalDateTime completionTime;
 }

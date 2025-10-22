@@ -233,6 +233,56 @@
             color: #721c24;
         }
 
+        .booking-actions {
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 2px solid #f0f0f0;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .btn-request-service {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            background: #cc8c18;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 500;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-request-service:hover {
+            background: #b57a15;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(204, 140, 24, 0.3);
+        }
+
+        .btn-view-services {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            background: #6c757d;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 500;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-view-services:hover {
+            background: #5a6268;
+            transform: translateY(-2px);
+        }
+
         @media (max-width: 768px) {
             .my-booking-container {
                 padding: 15px;
@@ -292,6 +342,7 @@
             </c:when>
             <c:otherwise>
                 <div class="bookings-grid">
+                    <%--@elvariable id="booking" type="com.hotel_management.domain.dto.booking.BookingDetailViewModel"--%>
                     <c:forEach var="booking" items="${bookings}">
                         <div class="booking-card">
                             <div class="booking-header">
@@ -389,6 +440,20 @@
                                     </div>
                                 </c:if>
                             </div>
+
+                        <%-- Action buttons - Only show for bookings that haven't checked out --%>
+                            <c:if test="${booking.status != 'Checked-out' && booking.status != 'Canceled'}">
+                                <div class="booking-actions">
+                                    <a href="${pageContext.request.contextPath}/guest/request-services?bookingId=${booking.bookingId}"
+                                       class="btn-request-service">
+                                        <i class="fas fa-plus-circle"></i> Request Additional Services
+                                    </a>
+                                    <a href="${pageContext.request.contextPath}/guest/view-services?bookingId=${booking.bookingId}"
+                                       class="btn-view-services">
+                                        <i class="fas fa-list"></i> View Requested Services
+                                    </a>
+                                </div>
+                            </c:if>
                         </div>
                     </c:forEach>
                 </div>
