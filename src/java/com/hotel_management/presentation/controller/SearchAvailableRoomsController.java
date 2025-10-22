@@ -50,9 +50,18 @@ public class SearchAvailableRoomsController extends HttpServlet {
             String checkOutDateStr = request.getParameter("checkOutDate");
             String adultsStr = request.getParameter("adults");
             String childrenStr = request.getParameter("children");
+            String roomType = request.getParameter("roomType");
 
             List<RoomDetailViewModel> availableRooms = new ArrayList<>();
             String errorMessage = null;
+            String infoMessage = null;
+
+            // If room type is provided, show informational message
+            if (roomType != null && !roomType.isEmpty()) {
+                infoMessage = "You have selected " + roomType + " room. Please enter your booking details below to check availability.";
+                request.setAttribute("roomType", roomType);
+                request.setAttribute("infoMessage", infoMessage);
+            }
 
             // Only search if all parameters are provided
             if (checkInDateStr != null && !checkInDateStr.isEmpty() &&
@@ -67,6 +76,13 @@ public class SearchAvailableRoomsController extends HttpServlet {
 
                     // Search for available rooms
                     availableRooms = roomService.searchAvailableRooms(checkInDate, checkOutDate, adults, children);
+
+                    // Filter by room type if specified
+                    if (roomType != null && !roomType.isEmpty()) {
+                        availableRooms = availableRooms.stream()
+                                .filter(room -> roomType.equalsIgnoreCase(room.getTypeName()))
+                                .collect(java.util.stream.Collectors.toList());
+                    }
 
                     // Set search parameters back to the request for form retention
                     request.setAttribute("checkInDate", checkInDateStr);
