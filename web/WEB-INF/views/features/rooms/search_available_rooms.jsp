@@ -690,7 +690,8 @@
         document.getElementById('bookingForm').addEventListener('submit', function(e) {
             const guestId = document.getElementById('guestId').value;
 
-            if (!guestId || guestId <= 0) {
+            const guestIdNum = parseInt(guestId, 10);
+            if (!guestId || isNaN(guestIdNum) || guestIdNum <= 0) {
                 e.preventDefault();
                 // Redirect to login page
                 window.location.href = '${pageContext.request.contextPath}/login';
