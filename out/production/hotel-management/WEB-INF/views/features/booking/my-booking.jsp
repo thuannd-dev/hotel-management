@@ -452,6 +452,14 @@
                                        class="btn-view-services">
                                         <i class="fas fa-list"></i> View Requested Services
                                     </a>
+
+                                    <%-- Show checkout button only for Checked-in bookings --%>
+                                    <c:if test="${booking.status == 'Checked-in'}">
+                                        <a href="${pageContext.request.contextPath}/guest/checkout?action=summary&bookingId=${booking.bookingId}"
+                                           class="btn-request-service" style="background: #28a745;">
+                                            <i class="fas fa-cash-register"></i> Checkout & Pay
+                                        </a>
+                                    </c:if>
                                 </div>
                             </c:if>
                         </div>
