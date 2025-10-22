@@ -84,4 +84,9 @@ public class BookingDetailDAO extends BaseDAO<BookingDetailViewModel> {
         List<BookingDetailViewModel> bookings = query(BASE_QUERY + condition, idNumber, status.getDbValue());
         return bookings.stream().findFirst();
     }
+
+    public List<BookingDetailViewModel> findByGuestId(int guestId) {
+        String condition = "WHERE B.GuestID = ? ORDER BY B.BookingDate DESC";
+        return query(BASE_QUERY + condition, guestId);
+    }
 }
