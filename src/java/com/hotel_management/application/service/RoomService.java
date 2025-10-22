@@ -50,9 +50,9 @@ public class RoomService {
      * @param children Number of children
      * @return List of available room details
      */
-    public List<RoomDetailViewModel> searchAvailableRooms(java.time.LocalDate checkInDate,
-                                                           java.time.LocalDate checkOutDate,
-                                                           int adults,
+    public List<RoomDetailViewModel> searchAvailableRooms(java.time.LocalDate checkInDate, 
+                                                           java.time.LocalDate checkOutDate, 
+                                                           int adults, 
                                                            int children) {
         // Validate input
         if (checkInDate == null || checkOutDate == null) {
@@ -64,16 +64,16 @@ public class RoomService {
         if (adults < 0 || children < 0) {
             throw new IllegalArgumentException("Number of guests cannot be negative");
         }
-
+        
         int totalGuests = adults + children;
         if (totalGuests == 0) {
             throw new IllegalArgumentException("At least one guest is required");
         }
-
+        
         // Convert LocalDate to SQL Date
         java.sql.Date sqlCheckInDate = java.sql.Date.valueOf(checkInDate);
         java.sql.Date sqlCheckOutDate = java.sql.Date.valueOf(checkOutDate);
-
+        
         return roomDetailDao.findAvailableRoomDetails(sqlCheckInDate, sqlCheckOutDate, totalGuests);
     }
 
