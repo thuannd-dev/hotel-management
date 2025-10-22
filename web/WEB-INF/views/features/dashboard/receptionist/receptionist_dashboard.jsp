@@ -5,6 +5,8 @@
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ page import="java.time.format.DateTimeFormatter" %>
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -85,7 +87,7 @@
                 background-color: var(--color-accent-sand);
                 color: var(--color-primary);
                 text-decoration: none;
-                padding: 3px 10px;
+                padding: 5px 10px;
                 border-radius: 4px;
                 font-size: 14px;
                 font-weight: bold;
@@ -137,9 +139,12 @@
                             <td>${g.email}</td>
                             <td>${g.address}</td>
                             <td>${g.idNumber}</td>
-                            <td>${g.dateOfBirth}</td>
+                            <td>
+                                ${g.dateOfBirth.format(DateTimeFormatter.ofPattern("dd-MM-yyyy"))}
+                            </td>
                             <td>
                                 <a href="receptionist-dashboard/create-booking?guestId=${g.guestId}" class="action-link">Create booking</a>
+                                <a href="receptionist-dashboard/detail-booking?guestId=${g.guestId}" class="action-link">Booking information</a>
                                 <a href="receptionist-dashboard/create-payment?guestId=${g.guestId}" class="action-link">Get Payment</a>
                             </td>
                         </tr>
@@ -170,7 +175,8 @@
                         }, 500); 
                     }, 5000); 
                 } else {
-                    alert("Success: " + message);
+                    alert("Success2: " + message);
+                    location.reload();
                 }
             }
 
