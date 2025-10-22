@@ -17,7 +17,7 @@ public class CheckoutDAO extends BaseDAO<Object> {
 
     @Override
     public Object mapRow(ResultSet rs) throws SQLException {
-        return null; // Not used for this DAO
+        throw new UnsupportedOperationException("mapRow is not supported in CheckoutDAO"); // Not used for this DAO
     }
 
     /**
