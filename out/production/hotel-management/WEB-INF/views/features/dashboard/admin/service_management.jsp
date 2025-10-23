@@ -1,11 +1,23 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ page import="com.hotel_management.domain.dto.staff.StaffViewModel" %>
+<%
+    HttpSession userSession = request.getSession(false);
+    String fullName = "User";
+    if (userSession != null) {
+        Object currentUser = userSession.getAttribute("currentUser");
+        if (currentUser instanceof StaffViewModel) {
+            fullName = ((StaffViewModel) currentUser).getFullName();
+        }
+    }
+%>
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Service Management</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root {
             --color-primary: #1B4965;
@@ -26,6 +38,19 @@
             color: var(--color-primary);
             border-bottom: 3px solid var(--color-secondary);
             padding-bottom: 10px;
+            margin: 0;
+        }
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            border-bottom: 3px solid var(--color-secondary);
+            padding-bottom: 10px;
+        }
+        .header-container h2 {
+            border-bottom: none;
+            padding-bottom: 0;
         }
         .header-actions {
             display: flex;
@@ -123,10 +148,59 @@
             background-color: var(--color-primary);
             color: white;
         }
+        .user-info-bar {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .user-name {
+            color: var(--color-primary);
+            font-weight: bold;
+            font-size: 16px;
+        }
+        .btn-logout {
+            background-color: var(--color-danger);
+            color: white;
+            padding: 8px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            transition: background-color 0.3s;
+        }
+        .btn-logout:hover {
+            background-color: #a83e41;
+        }
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border-width: 0;
+        }
     </style>
 </head>
 <body>
-<h2>Admin Management</h2>
+<div class="header-container">
+    <h2>Admin Management</h2>
+    <div class="user-info-bar">
+        <span class="user-name">
+            <i class="fas fa-user" aria-hidden="true"></i>
+            <span class="sr-only">Current user: </span><%= fullName %>
+        </span>
+        <a href="${pageContext.request.contextPath}/logout" class="btn-logout" aria-label="Logout from the system">
+            <i class="fas fa-sign-out-alt" aria-hidden="true"></i>
+            <span>Logout</span>
+        </a>
+    </div>
+</div>
 
 <div class="nav-tabs">
     <a href="${pageContext.request.contextPath}/admin/staff" class="nav-tab">Staff Management</a>
