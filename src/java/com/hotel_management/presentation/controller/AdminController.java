@@ -136,8 +136,8 @@ public class AdminController extends HttpServlet {
         String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt(12));
 
         // Create staff
-        StaffCreateModel createModel = new StaffCreateModel(fullName, role, username, password, phone, email);
-        Staff staff = createModel.toEntity(hashedPassword);
+        StaffCreateModel createModel = new StaffCreateModel(fullName, role, username, hashedPassword, phone, email);
+        Staff staff = createModel.toEntity();
 
         int staffId = staffService.createStaff(staff);
 
@@ -204,9 +204,6 @@ public class AdminController extends HttpServlet {
                 return;
             }
 
-            // Get current staff for validation
-            StaffViewModel currentStaff = staffService.getStaffById(staffId);
-
             boolean success;
             if (password != null && !password.trim().isEmpty()) {
                 // Hash new password and update including password
@@ -224,6 +221,8 @@ public class AdminController extends HttpServlet {
                 response.sendRedirect(request.getContextPath() + "/admin/staff?success=Staff updated successfully");
             } else {
                 request.setAttribute(RequestAttribute.ERROR_MESSAGE, "Failed to update staff");
+                // Get current staff for validation
+                StaffViewModel currentStaff = staffService.getStaffById(staffId);
                 request.setAttribute(RequestAttribute.STAFF, currentStaff);
                 request.setAttribute("roles", StaffRole.values());
                 request.getRequestDispatcher(Page.ADMIN_STAFF_EDIT_PAGE).forward(request, response);

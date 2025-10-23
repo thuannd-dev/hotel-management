@@ -21,13 +21,13 @@ public class StaffCreateModel {
     private String phone;
     private String email;
 
-    public Staff toEntity(String hashedPassword) {
+    public Staff toEntity() {
         return new Staff(
                 0, // ID will be auto-generated
                 fullName,
                 StaffRole.fromDbValue(role),
                 username,
-                hashedPassword,
+                password,
                 phone,
                 email
         );
