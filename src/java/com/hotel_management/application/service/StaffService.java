@@ -45,4 +45,41 @@ public class StaffService {
         return staffDao.findByUsername(username).isPresent();
     }
 
+    /**
+     * Check if username exists for another staff (used in update)
+     */
+    public boolean isUsernameExistsForOther(String username, int staffId) {
+        return staffDao.findByUsername(username)
+                .map(staff -> staff.getStaffId() != staffId)
+                .orElse(false);
+    }
+
+    /**
+     * Create a new staff member
+     */
+    public int createStaff(Staff staff) {
+        return staffDao.insert(staff);
+    }
+
+    /**
+     * Update an existing staff member
+     */
+    public boolean updateStaff(Staff staff) {
+        return staffDao.update(staff) > 0;
+    }
+
+    /**
+     * Update staff without changing password
+     */
+    public boolean updateStaffWithoutPassword(Staff staff) {
+        return staffDao.updateWithoutPassword(staff) > 0;
+    }
+
+    /**
+     * Delete a staff member by ID
+     */
+    public boolean deleteStaff(int staffId) {
+        return staffDao.delete(staffId) > 0;
+    }
+
 }

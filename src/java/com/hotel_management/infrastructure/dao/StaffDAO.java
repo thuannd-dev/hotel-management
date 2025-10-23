@@ -45,4 +45,46 @@ public class StaffDAO extends BaseDAO<Staff> {
         List<Staff> staffs = query("SELECT * FROM STAFF WHERE Username = ?", userName);
         return staffs.stream().findFirst();
     }
+
+    public int insert(Staff staff) {
+        String sql = "INSERT INTO STAFF (FullName, Role, Username, Password, Phone, Email) VALUES (?, ?, ?, ?, ?, ?)";
+        return insertAndReturnId(sql,
+            staff.getFullName(),
+            staff.getRole().getDbValue(),
+            staff.getUsername(),
+            staff.getPassword(),
+            staff.getPhone(),
+            staff.getEmail()
+        );
+    }
+
+    public int update(Staff staff) {
+        String sql = "UPDATE STAFF SET FullName = ?, Role = ?, Username = ?, Password = ?, Phone = ?, Email = ? WHERE StaffID = ?";
+        return update(sql,
+            staff.getFullName(),
+            staff.getRole().getDbValue(),
+            staff.getUsername(),
+            staff.getPassword(),
+            staff.getPhone(),
+            staff.getEmail(),
+            staff.getStaffId()
+        );
+    }
+
+    public int updateWithoutPassword(Staff staff) {
+        String sql = "UPDATE STAFF SET FullName = ?, Role = ?, Username = ?, Phone = ?, Email = ? WHERE StaffID = ?";
+        return update(sql,
+            staff.getFullName(),
+            staff.getRole().getDbValue(),
+            staff.getUsername(),
+            staff.getPhone(),
+            staff.getEmail(),
+            staff.getStaffId()
+        );
+    }
+
+    public int delete(int staffId) {
+        String sql = "DELETE FROM STAFF WHERE StaffID = ?";
+        return update(sql, staffId);
+    }
 }
