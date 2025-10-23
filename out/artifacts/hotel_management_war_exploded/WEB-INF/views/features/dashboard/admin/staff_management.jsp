@@ -12,10 +12,11 @@
     }
 %>
 <!DOCTYPE html>
-<html>
+<html lang="en">
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Staff Management</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
         <style>
             :root {
                 --color-primary: #1B4965;
@@ -172,15 +173,30 @@
             .btn-logout:hover {
                 background-color: #a83e41;
             }
+            .sr-only {
+                position: absolute;
+                width: 1px;
+                height: 1px;
+                padding: 0;
+                margin: -1px;
+                overflow: hidden;
+                clip: rect(0, 0, 0, 0);
+                white-space: nowrap;
+                border-width: 0;
+            }
         </style>
     </head>
     <body>
         <div class="header-container">
             <h2>Admin Management</h2>
             <div class="user-info-bar">
-                <span class="user-name">👤 <%= fullName %></span>
-                <a href="${pageContext.request.contextPath}/logout" class="btn-logout">
-                    🚪 Logout
+                <span class="user-name">
+                    <i class="fas fa-user" aria-hidden="true"></i>
+                    <span class="sr-only">Current user: </span><%= fullName %>
+                </span>
+                <a href="${pageContext.request.contextPath}/logout" class="btn-logout" aria-label="Logout from the system">
+                    <i class="fas fa-sign-out-alt" aria-hidden="true"></i>
+                    <span>Logout</span>
                 </a>
             </div>
         </div>
