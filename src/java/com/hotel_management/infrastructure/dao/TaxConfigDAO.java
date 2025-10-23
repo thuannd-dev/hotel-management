@@ -107,7 +107,7 @@ public class TaxConfigDAO extends BaseDAO<TaxConfig> {
 
         int exclude = excludeId != null ? excludeId : -1;
 
-        // Nếu effectiveTo null thì coi như vô hạn (9999-12-31)
+        // If effectiveTo is null, treat as infinite (9999-12-31)
         LocalDate toCheck = effectiveTo != null ? effectiveTo : LocalDate.of(9999, 12, 31);
 
         try (Connection conn = getConnection();
@@ -115,7 +115,7 @@ public class TaxConfigDAO extends BaseDAO<TaxConfig> {
 
             ps.setInt(1, exclude);                           // TaxConfigID != ?
             ps.setDate(2, java.sql.Date.valueOf(toCheck));   // existing.EffectiveFrom <= new.to
-            ps.setDate(3, java.sql.Date.valueOf(effectiveFrom)); // existing.EffectiveTo >= new.from (hoặc null)
+            ps.setDate(3, java.sql.Date.valueOf(effectiveFrom)); // existing.EffectiveTo >= new.from (or null)
 
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
