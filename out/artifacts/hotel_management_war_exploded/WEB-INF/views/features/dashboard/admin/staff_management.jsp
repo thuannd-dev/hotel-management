@@ -98,10 +98,39 @@
                 display: flex;
                 gap: 5px;
             }
+            .nav-tabs {
+                display: flex;
+                gap: 10px;
+                margin-bottom: 20px;
+                border-bottom: 2px solid var(--color-secondary);
+                padding-bottom: 10px;
+            }
+            .nav-tab {
+                padding: 10px 20px;
+                background-color: white;
+                color: var(--color-primary);
+                text-decoration: none;
+                border-radius: 4px 4px 0 0;
+                transition: all 0.3s;
+                border: 1px solid #ddd;
+            }
+            .nav-tab:hover {
+                background-color: var(--color-secondary);
+                color: white;
+            }
+            .nav-tab.active {
+                background-color: var(--color-primary);
+                color: white;
+            }
         </style>
     </head>
     <body>
-        <h2>Staff Management</h2>
+        <h2>Admin Management</h2>
+
+        <div class="nav-tabs">
+            <a href="${pageContext.request.contextPath}/admin/staff" class="nav-tab active">Staff Management</a>
+            <a href="${pageContext.request.contextPath}/admin/tax" class="nav-tab">Tax Configuration</a>
+        </div>
 
         <div class="header-actions">
             <div>

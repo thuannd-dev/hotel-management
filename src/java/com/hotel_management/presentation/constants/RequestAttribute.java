@@ -34,4 +34,7 @@ public final class RequestAttribute {
     public static final String STAFFS = "staffs";
     public static final String STAFF = "staff";
     public static final String SUCCESS_MESSAGE = "success";
+    //TAX
+    public static final String TAX_CONFIGS = "taxConfigs";
+    public static final String TAX_CONFIG = "taxConfig";
 }

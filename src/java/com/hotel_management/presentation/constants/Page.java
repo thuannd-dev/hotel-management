@@ -21,5 +21,8 @@ public final class Page {
     public static final String ADMIN_STAFF_MANAGEMENT_PAGE = "/WEB-INF/views/features/dashboard/admin/staff_management.jsp";
     public static final String ADMIN_STAFF_CREATE_PAGE = "/WEB-INF/views/features/dashboard/admin/staff_create.jsp";
     public static final String ADMIN_STAFF_EDIT_PAGE = "/WEB-INF/views/features/dashboard/admin/staff_edit.jsp";
+    public static final String ADMIN_TAX_MANAGEMENT_PAGE = "/WEB-INF/views/features/dashboard/admin/tax_management.jsp";
+    public static final String ADMIN_TAX_CREATE_PAGE = "/WEB-INF/views/features/dashboard/admin/tax_create.jsp";
+    public static final String ADMIN_TAX_EDIT_PAGE = "/WEB-INF/views/features/dashboard/admin/tax_edit.jsp";
 
 }
