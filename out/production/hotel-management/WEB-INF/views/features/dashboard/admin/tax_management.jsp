@@ -1,10 +1,11 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Staff Management</title>
+        <title>Tax Configuration Management</title>
         <style>
             :root {
                 --color-primary: #1B4965;
@@ -14,6 +15,7 @@
                 --color-accent-sand: #D4B483;
                 --color-danger: #D34E51;
                 --color-success: #28a745;
+                --color-info: #17a2b8;
             }
             body {
                 font-family: Arial, sans-serif;
@@ -54,6 +56,10 @@
             }
             .btn-danger {
                 background-color: var(--color-danger);
+                color: white;
+            }
+            .btn-secondary {
+                background-color: #6c757d;
                 color: white;
             }
             .btn-sm {
@@ -97,6 +103,30 @@
             .actions {
                 display: flex;
                 gap: 5px;
+                flex-wrap: wrap;
+            }
+            .badge {
+                padding: 4px 8px;
+                border-radius: 3px;
+                font-size: 12px;
+                font-weight: bold;
+                display: inline-block;
+            }
+            .badge-success {
+                background-color: #28a745;
+                color: white;
+            }
+            .badge-info {
+                background-color: #17a2b8;
+                color: white;
+            }
+            .badge-secondary {
+                background-color: #6c757d;
+                color: white;
+            }
+            .badge-danger {
+                background-color: #dc3545;
+                color: white;
             }
             .nav-tabs {
                 display: flex;
@@ -128,13 +158,13 @@
         <h2>Admin Management</h2>
 
         <div class="nav-tabs">
-            <a href="${pageContext.request.contextPath}/admin/staff" class="nav-tab active">Staff Management</a>
-            <a href="${pageContext.request.contextPath}/admin/tax" class="nav-tab">Tax Configuration</a>
+            <a href="${pageContext.request.contextPath}/admin/staff" class="nav-tab">Staff Management</a>
+            <a href="${pageContext.request.contextPath}/admin/tax" class="nav-tab active">Tax Configuration</a>
         </div>
 
         <div class="header-actions">
             <div>
-                <a href="${pageContext.request.contextPath}/admin/staff/create" class="btn btn-primary">Add New Staff</a>
+                <a href="${pageContext.request.contextPath}/admin/tax/create" class="btn btn-primary">Add New Tax Configuration</a>
             </div>
         </div>
 
@@ -150,45 +180,61 @@
             </div>
         </c:if>
 
-        <c:if test="${not empty error}">
-            <div class="alert alert-error">
-                ${error}
-            </div>
-        </c:if>
-
         <table>
             <thead>
                 <tr>
                     <th>ID</th>
-                    <th>Full Name</th>
-                    <th>Role</th>
-                    <th>Username</th>
-                    <th>Phone</th>
-                    <th>Email</th>
+                    <th>Tax Name</th>
+                    <th>Tax Rate (%)</th>
+                    <th>Description</th>
+                    <th>Effective From</th>
+                    <th>Effective To</th>
+                    <th>Status</th>
+                    <th>Created Date</th>
                     <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
-                <c:forEach var="staff" items="${staffs}">
+                <c:forEach var="tax" items="${taxConfigs}">
                     <tr>
-                        <td>${staff.staffId}</td>
-                        <td>${staff.fullName}</td>
-                        <td>${staff.role}</td>
-                        <td>${staff.username}</td>
-                        <td>${staff.phone != null ? staff.phone : 'N/A'}</td>
-                        <td>${staff.email != null ? staff.email : 'N/A'}</td>
+                        <td>${tax.taxConfigId}</td>
+                        <td>${tax.taxName}</td>
+                        <td><fmt:formatNumber value="${tax.taxRate}" pattern="#0.00"/></td>
+                        <td>${tax.description != null ? tax.description : 'N/A'}</td>
+                        <td>${tax.effectiveFrom}</td>
+                        <td>
+                            <c:choose>
+                                <c:when test="${tax.effectiveTo != null}">
+                                    ${tax.effectiveTo}
+                                </c:when>
+                                <c:otherwise>
+                                    <strong>No End Date</strong>
+                                </c:otherwise>
+                            </c:choose>
+                        </td>
+                        <td>
+                            <span class="badge ${tax.statusBadgeClass}">
+                                ${tax.statusLabel}
+                            </span>
+                        </td>
+                        <td>${tax.createdDate}</td>
                         <td class="actions">
-                            <a href="${pageContext.request.contextPath}/admin/staff/edit?id=${staff.staffId}"
+                            <a href="${pageContext.request.contextPath}/admin/tax/edit?id=${tax.taxConfigId}"
                                class="btn btn-warning btn-sm">Edit</a>
-                            <a href="${pageContext.request.contextPath}/admin/staff/delete?id=${staff.staffId}"
+                            <c:if test="${tax.active}">
+                                <a href="${pageContext.request.contextPath}/admin/tax/deactivate?id=${tax.taxConfigId}"
+                                   class="btn btn-secondary btn-sm"
+                                   onclick="return confirm('Are you sure you want to deactivate this tax configuration?');">Deactivate</a>
+                            </c:if>
+                            <a href="${pageContext.request.contextPath}/admin/tax/delete?id=${tax.taxConfigId}"
                                class="btn btn-danger btn-sm"
-                               onclick="return confirm('Are you sure you want to delete staff member: ${staff.fullName}?');">Delete</a>
+                               onclick="return confirm('Are you sure you want to delete this tax configuration? This action cannot be undone.');">Delete</a>
                         </td>
                     </tr>
                 </c:forEach>
-                <c:if test="${empty staffs}">
+                <c:if test="${empty taxConfigs}">
                     <tr>
-                        <td colspan="7" style="text-align: center;">No staff members found</td>
+                        <td colspan="9" style="text-align: center;">No tax configurations found</td>
                     </tr>
                 </c:if>
             </tbody>
