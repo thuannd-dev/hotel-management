@@ -18,15 +18,24 @@
 
         .search-form {
             background: white;
-            padding: 30px;
+            padding: 40px;
             border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            box-shadow: 0 0 20px 3px rgb(0 0 0 / 5%);
             margin-bottom: 30px;
+            border: 2px solid #f3f3f3;
         }
 
         .search-form h2 {
-            margin-bottom: 20px;
-            color: #333;
+            margin-bottom: 25px;
+            color: #24416b;
+            font-family: serif;
+            font-size: 35px;
+            font-weight: bold;
+        }
+
+        .search-form h2 i {
+            color: #cc8c18;
+            margin-right: 10px;
         }
 
         .form-grid {
@@ -42,17 +51,27 @@
         }
 
         .form-group label {
-            margin-bottom: 5px;
+            margin-bottom: 8px;
             font-weight: 600;
-            color: #555;
+            color: #24416b;
+            font-size: 14px;
         }
 
         .form-group input,
         .form-group select {
-            padding: 10px;
-            border: 1px solid #ddd;
+            padding: 12px 15px;
+            border: 1px solid #e0e0e0;
             border-radius: 5px;
             font-size: 14px;
+            font-family: 'Poppins', sans-serif;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #cc8c18;
+            box-shadow: 0 0 0 3px rgba(204, 140, 24, 0.1);
         }
 
         .form-group select {
@@ -60,36 +79,56 @@
             background-color: white;
         }
 
-        .form-group select:focus {
-            outline: none;
-            border-color: #007bff;
-            box-shadow: 0 0 0 2px rgba(0,123,255,0.1);
-        }
-
         .search-btn {
-            background: #007bff;
+            background: #cc8c18;
             color: white;
-            padding: 12px 30px;
+            padding: 12px 35px;
             border: none;
-            border-radius: 5px;
+            border-radius: 30px;
             cursor: pointer;
             font-size: 16px;
+            font-weight: 500;
             display: flex;
             align-items: center;
             gap: 10px;
+            transition: all 0.3s ease;
+            font-family: 'Poppins', sans-serif;
         }
 
         .search-btn:hover {
-            background: #0056b3;
+            background: #b37916;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(204, 140, 24, 0.3);
         }
 
         .error-message {
             background: #f8d7da;
             color: #721c24;
-            padding: 15px;
-            border-radius: 5px;
+            padding: 15px 20px;
+            border-radius: 8px;
             margin-bottom: 20px;
             border: 1px solid #f5c6cb;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .success-message {
+            background: #d4edda;
+            color: #155724;
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border: 1px solid #c3e6cb;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .info-message {
+            background: #d1ecf1;
+            color: #0c5460;
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border: 1px solid #bee5eb;
+            font-family: 'Poppins', sans-serif;
         }
 
         .results-section {
@@ -101,7 +140,10 @@
         }
 
         .results-header h3 {
-            color: #333;
+            color: #24416b;
+            font-family: 'Poppins', sans-serif;
+            font-size: 24px;
+            font-weight: 600;
         }
 
         .rooms-grid {
@@ -113,14 +155,16 @@
         .room-card {
             background: white;
             border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            padding: 20px;
-            transition: transform 0.3s ease;
+            box-shadow: 0 0 20px 3px rgb(0 0 0 / 5%);
+            padding: 25px;
+            transition: all 0.3s ease;
+            border: 2px solid #f3f3f3;
         }
 
         .room-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+            box-shadow: 0 5px 20px rgba(204, 140, 24, 0.2);
+            border-color: #cc8c18;
         }
 
         .room-header {
@@ -129,21 +173,22 @@
             align-items: center;
             margin-bottom: 15px;
             padding-bottom: 15px;
-            border-bottom: 2px solid #f0f0f0;
+            border-bottom: 2px solid #f3f3f3;
         }
 
         .room-number {
             font-size: 24px;
             font-weight: bold;
-            color: #007bff;
+            color: #24416b;
+            font-family: 'Poppins', sans-serif;
         }
 
         .room-status {
-            padding: 5px 15px;
+            padding: 6px 16px;
             border-radius: 20px;
             font-size: 12px;
             font-weight: 600;
-            background: #28a745;
+            background: #cc8c18;
             color: white;
         }
 
@@ -157,24 +202,26 @@
             gap: 10px;
             margin-bottom: 10px;
             color: #666;
+            font-family: 'Poppins', sans-serif;
         }
 
         .room-info-item i {
-            color: #007bff;
+            color: #cc8c18;
             width: 20px;
         }
 
         .room-price {
             font-size: 28px;
             font-weight: bold;
-            color: #28a745;
+            color: #cc8c18;
             margin-top: 15px;
             text-align: right;
+            font-family: 'Poppins', sans-serif;
         }
 
         .room-price span {
             font-size: 14px;
-            color: #666;
+            color: #a4a4a4;
             font-weight: normal;
         }
 
@@ -199,11 +246,11 @@
 
         .book-now-btn {
             width: 100%;
-            background: #28a745;
+            background: #cc8c18;
             color: white;
             padding: 12px;
             border: none;
-            border-radius: 5px;
+            border-radius: 30px;
             cursor: pointer;
             font-size: 16px;
             font-weight: 600;
@@ -212,11 +259,14 @@
             align-items: center;
             justify-content: center;
             gap: 10px;
-            transition: background 0.3s ease;
+            transition: all 0.3s ease;
+            font-family: 'Poppins', sans-serif;
         }
 
         .book-now-btn:hover {
-            background: #218838;
+            background: #b37916;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(204, 140, 24, 0.3);
         }
 
         /* Modal Styles */
@@ -248,12 +298,19 @@
             align-items: center;
             margin-bottom: 20px;
             padding-bottom: 15px;
-            border-bottom: 2px solid #f0f0f0;
+            border-bottom: 2px solid #f3f3f3;
         }
 
         .modal-header h2 {
             margin: 0;
-            color: #333;
+            color: #24416b;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+        }
+
+        .modal-header h2 i {
+            color: #cc8c18;
+            margin-right: 10px;
         }
 
         .close {
@@ -272,19 +329,26 @@
         .booking-summary {
             background: #f8f9fa;
             padding: 15px;
-            border-radius: 5px;
+            border-radius: 8px;
             margin-bottom: 20px;
+            border: 2px solid #f3f3f3;
         }
 
         .booking-summary-item {
             display: flex;
             justify-content: space-between;
             margin-bottom: 10px;
-            color: #555;
+            color: #666;
+            font-family: 'Poppins', sans-serif;
         }
 
         .booking-summary-item strong {
-            color: #333;
+            color: #24416b;
+        }
+
+        .booking-summary-item i {
+            color: #cc8c18;
+            margin-right: 5px;
         }
 
         .booking-form .form-group {
@@ -295,7 +359,13 @@
             display: block;
             margin-bottom: 5px;
             font-weight: 600;
-            color: #555;
+            color: #24416b;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .booking-form label i {
+            color: #cc8c18;
+            margin-right: 5px;
         }
 
         .booking-form input,
@@ -303,10 +373,20 @@
         .booking-form textarea {
             width: 100%;
             padding: 10px;
-            border: 1px solid #ddd;
+            border: 1px solid #e0e0e0;
             border-radius: 5px;
             font-size: 14px;
             box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+            transition: all 0.3s ease;
+        }
+
+        .booking-form input:focus,
+        .booking-form select:focus,
+        .booking-form textarea:focus {
+            outline: none;
+            border-color: #cc8c18;
+            box-shadow: 0 0 0 3px rgba(204, 140, 24, 0.1);
         }
 
         .booking-form textarea {
@@ -324,11 +404,12 @@
             flex: 1;
             padding: 12px;
             border: none;
-            border-radius: 5px;
+            border-radius: 30px;
             font-size: 16px;
             font-weight: 600;
             cursor: pointer;
-            transition: background 0.3s ease;
+            transition: all 0.3s ease;
+            font-family: 'Poppins', sans-serif;
         }
 
         .btn-cancel {
@@ -338,15 +419,19 @@
 
         .btn-cancel:hover {
             background: #5a6268;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(108, 117, 125, 0.3);
         }
 
         .btn-confirm {
-            background: #28a745;
+            background: #cc8c18;
             color: white;
         }
 
         .btn-confirm:hover {
-            background: #218838;
+            background: #b37916;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(204, 140, 24, 0.3);
         }
     </style>
 </head>
