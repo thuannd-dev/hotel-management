@@ -489,7 +489,7 @@
             </table>
         </c:when>
         <c:otherwise>
-            <p class="no-data">Don't have pending cleaning tasks were found.</p>
+            <p class="no-data">No pending cleaning tasks were found.</p>
         </c:otherwise>
     </c:choose>
 </c:if>

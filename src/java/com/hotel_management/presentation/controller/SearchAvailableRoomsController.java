@@ -56,11 +56,18 @@ public class SearchAvailableRoomsController extends HttpServlet {
             String errorMessage = null;
             String infoMessage = null;
 
-            // If room type is provided, show informational message
-            if (roomType != null && !roomType.isEmpty()) {
+            // If room type is provided but other fields are empty, show informational message
+            if (roomType != null && !roomType.isEmpty() &&
+                (checkInDateStr == null || checkInDateStr.isEmpty()) &&
+                (checkOutDateStr == null || checkOutDateStr.isEmpty()) &&
+                (adultsStr == null || adultsStr.isEmpty())) {
                 infoMessage = "You have selected " + roomType + " room. Please enter your booking details below to check availability.";
-                request.setAttribute("roomType", roomType);
                 request.setAttribute("infoMessage", infoMessage);
+            }
+
+            // Set roomType for form retention if provided
+            if (roomType != null && !roomType.isEmpty()) {
+                request.setAttribute("roomType", roomType);
             }
 
             // Only search if all parameters are provided
