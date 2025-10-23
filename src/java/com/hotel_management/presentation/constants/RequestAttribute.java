@@ -30,4 +30,8 @@ public final class RequestAttribute {
     public static final String ROOM_STATUS_REPORT = "roomStatusReport";
     //GUEST
     public static final String GUESTS = "guests";
+    //STAFF
+    public static final String STAFFS = "staffs";
+    public static final String STAFF = "staff";
+    public static final String SUCCESS_MESSAGE = "success";
 }

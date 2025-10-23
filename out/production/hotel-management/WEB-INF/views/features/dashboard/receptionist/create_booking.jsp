@@ -14,11 +14,11 @@
         <style>
             /* Coastal Elegance Color Palette */
             :root {
-                --color-primary: #1B4965; /* Xanh Dương Sâu - Headers, Buttons */
-                --color-secondary: #75C3B3; /* Xanh Ngọc Lam - Accent */
-                --color-background: #F8F9FA; /* Trắng Ngà */
+                --color-primary: #1B4965; 
+                --color-secondary: #75C3B3; 
+                --color-background: #F8F9FA; 
                 --color-text: #333333;
-                --color-accent: #D4B483; /* Vàng Cát - Highlight/Error */
+                --color-accent: #D4B483; 
             }
             body {
                 font-family: Arial, sans-serif;
@@ -71,20 +71,20 @@
                 transition: background-color 0.3s;
             }
             button[type="submit"]:hover {
-                background-color: #0E2938; /* Màu Primary tối hơn */
+                background-color: #0E2938; 
             }
             .error-message {
-                color: var(--color-accent); /* Vàng Cát làm màu lỗi */
+                color: var(--color-accent); 
                 font-weight: bold;
                 margin-bottom: 15px;
             }
             /* Style cho input number Quantity */
             .quantity-input {
-                width: 70px; /* Độ rộng nhỏ hơn cho Quantity */
+                width: 70px; 
             }
-            
+
             a{
-                
+
                 background-color: var(--color-primary);
                 text-decoration: none;
                 color: white;
@@ -96,14 +96,14 @@
                 transition: background-color 0.3s;
             }
             a:hover {
-                background-color: #0E2938; /* Màu Primary tối hơn */
+                background-color: #0E2938; 
             }
         </style>
     </head>
     <body>
         <h2>Create new booking</h2>
 
-        <%-- HIỂN THỊ THÔNG BÁO LỖI TỪ CONTROLLER --%>
+        <%-- PRINT ERROR MESS FROM CONTROLLER --%>
         <c:if test="${not empty requestScope['error']}">
             <div class="error-message">
                 Error: <c:out value="${requestScope['error']}" />
@@ -118,7 +118,7 @@
         </div>
 
         <form action="create-booking" method="post">
-            <%-- DỮ LIỆU BẮT BUỘC CHO BOOKING --%>
+            <%-- DATA REQUIRED FOR BOOKING --%>
             <input type="hidden" name="guestId" value="${guest.guestId}" />
 
             <div class="form-section">
@@ -134,7 +134,7 @@
                     </tr>
                     <tr>
                         <td><label for="totalGuest">Total Guests:</label></td>
-                        <td><input type="number" name="totalGuest" id="totalGuest" min="1" required /></td>
+                        <td><input type="number" name="totalGuest" id="totalGuest" min="1"/></td>
                     </tr>
                     <tr>
                         <td><label for="specialRequests">Special Requests:</label></td>
@@ -209,9 +209,9 @@
         </form>
 
         <script>
-            // JavaScript này vẫn giữ nguyên chức năng bật/tắt Quantity
+           
             function toggleQuantity(checkbox) {
-                // Tìm kiếm input[type=number] trong cùng hàng
+               
                 var quantityInput = checkbox.closest('tr').querySelector('input[type=number]');
                 if (quantityInput) {
                     quantityInput.disabled = !checkbox.checked;
@@ -220,6 +220,30 @@
                     }
                 }
             }
+        </script>
+        <script>
+                    //FUNCTION SHOW POPUP
+            function showSuccessPopup(message) {
+                
+                alert("Success: " + message);
+
+                // OR use HTML/CSS/JS code to create a nicer popup
+            }
+
+            // --- LOGIC SHOW POPUP FROM SESSION ---
+
+            <%
+            String successMessage = (String) session.getAttribute("popupMessage");
+
+            if (successMessage != null) {
+                // DELETE attribute FROM session
+                session.removeAttribute("popupMessage");
+            %>
+            var message = "<%= successMessage%>";
+            showSuccessPopup(message);
+            <%
+            }
+            %>
         </script>
 
         <hr>
