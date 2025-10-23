@@ -202,7 +202,7 @@
     <jsp:include page="../../layout/header.jsp"/>
 
     <div class="checkout-container">
-        <a href="${pageContext.request.contextPath}/my-booking" class="back-link">
+        <a href="${pageContext.request.contextPath}/guest/my-booking" class="back-link">
             <i class="fas fa-arrow-left"></i> Back to My Bookings
         </a>
 
@@ -217,7 +217,7 @@
                     <i class="fas fa-bed"></i>
                     <h3>No Bookings Available for Checkout</h3>
                     <p>You don't have any active checked-in bookings at the moment.</p>
-                    <a href="${pageContext.request.contextPath}/my-booking" class="btn-checkout">
+                    <a href="${pageContext.request.contextPath}/guest/my-booking" class="btn-checkout">
                         <i class="fas fa-list"></i> View All Bookings
                     </a>
                 </div>

@@ -291,7 +291,7 @@
     <jsp:include page="../../layout/header.jsp"/>
 
     <div class="view-services-container">
-        <a href="${pageContext.request.contextPath}/my-booking" class="back-link">
+        <a href="${pageContext.request.contextPath}/guest/my-booking" class="back-link">
             <i class="fas fa-arrow-left"></i> Back to My Bookings
         </a>
 

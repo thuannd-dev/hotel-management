@@ -20,6 +20,7 @@
 <html lang="en" xml:lang="en">
 <head>
     <title>Housekeeping Dashboard - Room Status</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         /* Coastal Elegance Color Palette */
         :root {
@@ -37,6 +38,19 @@
             background-color: var(--color-background);
             color: var(--color-text);
             margin: 25px;
+        }
+
+        /* Screen Reader Only */
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border-width: 0;
         }
 
         /* Header with User Info */
@@ -289,9 +303,13 @@
 <div class="header-container">
     <h2>Housekeeping - Room Status Management</h2>
     <div class="user-info-bar">
-        <span class="user-name">👤 <%= fullName %></span>
-        <a href="${pageContext.request.contextPath}/logout" class="btn-logout">
-            🚪 Logout
+        <span class="user-name">
+            <i class="fas fa-user" aria-hidden="true"></i>
+            <span class="sr-only">Current user: </span><%= fullName %>
+        </span>
+        <a href="${pageContext.request.contextPath}/logout" class="btn-logout" aria-label="Logout from the system">
+            <i class="fas fa-sign-out-alt" aria-hidden="true"></i>
+            <span>Logout</span>
         </a>
     </div>
 </div>

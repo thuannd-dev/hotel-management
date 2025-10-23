@@ -306,7 +306,7 @@
     <jsp:include page="../../layout/header.jsp"/>
 
     <div class="request-services-container">
-        <a href="${pageContext.request.contextPath}/my-booking" class="back-link">
+        <a href="${pageContext.request.contextPath}/guest/my-booking" class="back-link">
             <i class="fas fa-arrow-left"></i> Back to My Bookings
         </a>
 
@@ -401,7 +401,7 @@
                         </div>
 
                         <div class="form-actions">
-                            <a href="${pageContext.request.contextPath}/my-booking" class="btn btn-secondary">
+                            <a href="${pageContext.request.contextPath}/guest/my-booking" class="btn btn-secondary">
                                 <i class="fas fa-times"></i> Cancel
                             </a>
                             <button type="submit" class="btn btn-primary">
