@@ -1,5 +1,16 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ page import="com.hotel_management.domain.dto.staff.StaffViewModel" %>
+<%
+    HttpSession userSession = request.getSession(false);
+    String fullName = "User";
+    if (userSession != null) {
+        Object currentUser = userSession.getAttribute("currentUser");
+        if (currentUser instanceof StaffViewModel) {
+            fullName = ((StaffViewModel) currentUser).getFullName();
+        }
+    }
+%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -25,6 +36,19 @@
                 color: var(--color-primary);
                 border-bottom: 3px solid var(--color-secondary);
                 padding-bottom: 10px;
+                margin: 0;
+            }
+            .header-container {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 20px;
+                border-bottom: 3px solid var(--color-secondary);
+                padding-bottom: 10px;
+            }
+            .header-container h2 {
+                border-bottom: none;
+                padding-bottom: 0;
             }
             .header-actions {
                 display: flex;
@@ -122,14 +146,49 @@
                 background-color: var(--color-primary);
                 color: white;
             }
+            .user-info-bar {
+                display: flex;
+                align-items: center;
+                gap: 15px;
+            }
+            .user-name {
+                color: var(--color-primary);
+                font-weight: bold;
+                font-size: 16px;
+            }
+            .btn-logout {
+                background-color: var(--color-danger);
+                color: white;
+                padding: 8px 15px;
+                border: none;
+                border-radius: 4px;
+                cursor: pointer;
+                text-decoration: none;
+                display: inline-flex;
+                align-items: center;
+                gap: 5px;
+                transition: background-color 0.3s;
+            }
+            .btn-logout:hover {
+                background-color: #a83e41;
+            }
         </style>
     </head>
     <body>
-        <h2>Admin Management</h2>
+        <div class="header-container">
+            <h2>Admin Management</h2>
+            <div class="user-info-bar">
+                <span class="user-name">👤 <%= fullName %></span>
+                <a href="${pageContext.request.contextPath}/logout" class="btn-logout">
+                    🚪 Logout
+                </a>
+            </div>
+        </div>
 
         <div class="nav-tabs">
             <a href="${pageContext.request.contextPath}/admin/staff" class="nav-tab active">Staff Management</a>
             <a href="${pageContext.request.contextPath}/admin/tax" class="nav-tab">Tax Configuration</a>
+            <a href="${pageContext.request.contextPath}/admin/service" class="nav-tab">Service Management</a>
         </div>
 
         <div class="header-actions">

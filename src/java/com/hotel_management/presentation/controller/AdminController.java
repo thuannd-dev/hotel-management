@@ -241,7 +241,7 @@ public class AdminController extends HttpServlet {
             if (success) {
                 response.sendRedirect(request.getContextPath() + "/admin/staff?success=Staff deleted successfully");
             } else {
-                response.sendRedirect(request.getContextPath() + "/admin/staff?error=Failed to delete staff");
+                response.sendRedirect(request.getContextPath() + "/admin/staff?error=Failed to delete staff because it is being used");
             }
         } catch (NumberFormatException e) {
             response.sendRedirect(request.getContextPath() + "/admin/staff?error=Invalid staff ID");

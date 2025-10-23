@@ -37,4 +37,6 @@ public final class RequestAttribute {
     //TAX
     public static final String TAX_CONFIGS = "taxConfigs";
     public static final String TAX_CONFIG = "taxConfig";
+    //SERVICE
+    public static final String SERVICE = "service";
 }

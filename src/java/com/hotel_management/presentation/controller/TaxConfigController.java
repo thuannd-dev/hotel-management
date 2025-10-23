@@ -312,7 +312,7 @@ public class TaxConfigController extends HttpServlet {
             if (result > 0) {
                 response.sendRedirect(request.getContextPath() + "/admin/tax?success=Tax configuration deleted successfully");
             } else {
-                response.sendRedirect(request.getContextPath() + "/admin/tax?error=Failed to delete tax configuration");
+                response.sendRedirect(request.getContextPath() + "/admin/tax?error=Failed to delete tax configuration because it is being used");
             }
         } catch (NumberFormatException e) {
             response.sendRedirect(request.getContextPath() + "/admin/tax?error=Invalid tax configuration ID");
