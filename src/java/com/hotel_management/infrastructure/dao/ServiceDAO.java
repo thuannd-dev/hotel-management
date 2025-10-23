@@ -39,4 +39,26 @@ public class ServiceDAO extends BaseDAO<Service>{
         return services.stream().findFirst();
     }
 
+    public int insert(Service service) {
+        String sql = "INSERT INTO SERVICE (ServiceName, ServiceType, Price) VALUES (?, ?, ?)";
+        return insertAndReturnId(sql,
+                service.getServiceName(),
+                service.getServiceType(),
+                service.getPrice());
+    }
+
+    public int update(Service service) {
+        String sql = "UPDATE SERVICE SET ServiceName = ?, ServiceType = ?, Price = ? WHERE ServiceID = ?";
+        return update(sql,
+                service.getServiceName(),
+                service.getServiceType(),
+                service.getPrice(),
+                service.getServiceId());
+    }
+
+    public int delete(int serviceId) {
+        String sql = "DELETE FROM SERVICE WHERE ServiceID = ?";
+        return update(sql, serviceId);
+    }
+
 }

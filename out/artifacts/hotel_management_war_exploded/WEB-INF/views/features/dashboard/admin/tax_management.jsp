@@ -160,6 +160,7 @@
         <div class="nav-tabs">
             <a href="${pageContext.request.contextPath}/admin/staff" class="nav-tab">Staff Management</a>
             <a href="${pageContext.request.contextPath}/admin/tax" class="nav-tab active">Tax Configuration</a>
+            <a href="${pageContext.request.contextPath}/admin/service" class="nav-tab">Service Management</a>
         </div>
 
         <div class="header-actions">
