@@ -28,7 +28,7 @@
         .search-form h2 {
             margin-bottom: 25px;
             color: #24416b;
-            font-family: serif;
+            font-family: 'Poppins', sans-serif;
             font-size: 35px;
             font-weight: bold;
         }
