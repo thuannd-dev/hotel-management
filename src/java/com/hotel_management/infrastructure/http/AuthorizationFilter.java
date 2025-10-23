@@ -35,7 +35,14 @@ public class AuthorizationFilter implements Filter {
         HttpSession session = req.getSession(false);
 
         if(session == null) {
-            if (uri.contains("/admin")) {
+            if (
+                uri.contains("/admin") ||
+                uri.contains("/service-staff") ||
+                uri.contains("/housekeeping") ||
+                uri.contains("/guest") ||
+                uri.contains("/receptionist") ||
+                uri.contains("/manager")
+            ) {
                 req.getRequestDispatcher(Page.ACCESS_DENIED_PAGE).forward(req, res);
                 return;
             }
@@ -55,9 +62,12 @@ public class AuthorizationFilter implements Filter {
         }
 
         if(
-            (uri.contains("/admin") && !"ADMIN".equals(role)) ||
-            (uri.contains("/service-staff") && !"SERVICE_STAFF".equals(role)) ||
-            (uri.contains("/housekeeping") && !"HOUSEKEEPING".equals(role))
+            (uri.contains("/admin") && !"ADMIN".equalsIgnoreCase(role)) ||
+            (uri.contains("/service-staff") && !"SERVICE_STAFF".equalsIgnoreCase(role)) ||
+            (uri.contains("/housekeeping") && !"HOUSEKEEPING".equalsIgnoreCase(role)) ||
+            (uri.contains("/guest") && !"GUEST".equalsIgnoreCase(role)) ||
+            (uri.contains("/receptionist") && !"RECEPTIONIST".equalsIgnoreCase(role)) ||
+            (uri.contains("/manager") && !"MANAGER".equalsIgnoreCase(role))
         ) {
             this.context.log("Access denied for user: " + session.getAttribute("username"));
             request.getRequestDispatcher(Page.ACCESS_DENIED_PAGE).forward(req, res);

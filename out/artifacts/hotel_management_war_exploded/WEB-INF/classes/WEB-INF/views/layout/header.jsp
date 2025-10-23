@@ -299,7 +299,7 @@
               <i class="caret-icon fas fa-caret-down"></i>
             </button>
             <div class="dropdown-content">
-              <a href="${pageContext.request.contextPath}/my-booking">
+              <a href="${pageContext.request.contextPath}/guest/my-booking">
                 <i class="profile-icon fas fa-user"></i> My Booking
               </a>
               <a href="${pageContext.request.contextPath}/guest/checkout">

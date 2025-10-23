@@ -22,7 +22,7 @@ import java.util.List;
  * Controller for guest to view their bookings
  * @author thuannd.dev
  */
-@WebServlet(name = "MyBookingController", urlPatterns = {"/my-booking"})
+@WebServlet(name = "MyBookingController", urlPatterns = {"/guest/my-booking"})
 public class MyBookingController extends HttpServlet {
 
     private static final long serialVersionUID = 1L;

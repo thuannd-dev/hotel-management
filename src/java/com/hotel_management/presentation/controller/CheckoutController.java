@@ -187,7 +187,7 @@ public class CheckoutController extends HttpServlet {
             if (success) {
                 // Redirect to success page
                 session.setAttribute("successMessage", "Checkout completed successfully!");
-                response.sendRedirect(request.getContextPath() + "/my-booking");
+                response.sendRedirect(request.getContextPath() + "/guest/my-booking");
             } else {
                 request.setAttribute("errorMessage", "Failed to process checkout. Please try again.");
                 request.getRequestDispatcher("/WEB-INF/views/error/error.jsp")
