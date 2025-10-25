@@ -286,15 +286,172 @@ header.sticky ul li a {
   color: white;
 }
 
+.home form {
+  animation: fadeInUp 0.8s ease-in-out;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 .home .content {
   text-align: left;
   color: black;
   margin-top: 7%;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border-radius: 15px;
+  padding: 20px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
 }
 
 .home .box {
   background: white;
-  padding: 35px;
+  padding: 25px 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.home .box::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: linear-gradient(90deg, #cc8c18, #b87a15);
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
+}
+
+.home .box:hover::before {
+  transform: scaleX(1);
+}
+
+.home .box:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+
+.home .box span {
+  font-weight: 600;
+  font-size: 12px;
+  color: #24416b;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.home .box input[type="date"],
+.home .box input[type="number"] {
+  width: 100%;
+  padding: 12px 15px;
+  margin-top: 10px;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 16px;
+  font-family: "Poppins", sans-serif;
+  color: #333;
+  background: #fafafa;
+  transition: all 0.3s ease;
+}
+
+.home .box input[type="number"]::placeholder {
+  color: #999;
+  font-size: 14px;
+}
+
+.home .box input[type="date"]::-webkit-calendar-picker-indicator {
+  cursor: pointer;
+  border-radius: 4px;
+  padding: 4px;
+  transition: background 0.3s ease;
+}
+
+.home .box input[type="date"]::-webkit-calendar-picker-indicator:hover {
+  background: #f0f0f0;
+}
+
+.home .box input[type="number"]::-webkit-inner-spin-button,
+.home .box input[type="number"]::-webkit-outer-spin-button {
+  opacity: 1;
+  height: 30px;
+}
+
+.home .box input[type="date"]:focus,
+.home .box input[type="number"]:focus {
+  outline: none;
+  border-color: #cc8c18;
+  background: white;
+  box-shadow: 0 0 0 3px rgba(204, 140, 24, 0.1);
+}
+
+.home .box input[type="date"]:hover,
+.home .box input[type="number"]:hover {
+  border-color: #cc8c18;
+  background: white;
+}
+
+.home .box button {
+  width: 100%;
+  padding: 15px 20px;
+  margin-top: 0;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 10px rgba(204, 140, 24, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.home .box button::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  transform: translate(-50%, -50%);
+  transition: width 0.5s, height 0.5s;
+}
+
+.home .box button:hover::before {
+  width: 300px;
+  height: 300px;
+}
+
+.home .box button:hover {
+  background: #b87a15;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(204, 140, 24, 0.4);
+}
+
+.home .box button:hover i {
+  transform: translateX(5px);
+}
+
+.home .box button i {
+  transition: transform 0.3s ease;
+}
+
+.home .box button:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 5px rgba(204, 140, 24, 0.3);
 }
 
 .home input {
@@ -746,7 +903,7 @@ p {
   color: #cc8c18;
   text-align: left;
   font-weight: 400;
-  list-style: 5px;
+  letter-spacing: 1px;
   word-spacing: 10px;
 }
 
@@ -852,7 +1009,7 @@ p {
 }
 
 .blog .box {
-  box-shadow: 0 0 20px 3px rgb(0, 0, 0 / 5%);
+  box-shadow: 0 0 20px 3px rgba(0, 0, 0, 0.05);
   transition: 0.5s;
 }
 
