@@ -831,6 +831,73 @@ p {
   transform: translateY(-10px);
 }
 
+.offer button {
+  padding: 12px 24px;
+  margin-top: 15px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(204, 140, 24, 0.3);
+  position: relative;
+  overflow: hidden;
+  border-radius: 30px;
+  background: #cc8c18;
+  color: white;
+  border: 2px solid #cc8c18;
+}
+
+.offer button::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.15);
+  transform: translate(-50%, -50%);
+  transition: width 0.5s, height 0.5s;
+}
+
+.offer button:hover::before {
+  width: 350px;
+  height: 350px;
+}
+
+.offer button:hover {
+  background: #b87a15;
+  border-color: #b87a15;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(204, 140, 24, 0.5);
+}
+
+.offer button:hover i {
+  transform: translateX(5px);
+}
+
+.offer button i {
+  margin-left: 15px;
+  font-size: 18px;
+  transition: transform 0.3s ease;
+}
+
+.offer button span {
+  position: relative;
+  z-index: 1;
+  margin-top: 0;
+}
+
+.offer button:active {
+  transform: translateY(0);
+  box-shadow: 0 3px 8px rgba(204, 140, 24, 0.3);
+}
+
+.offer button:focus {
+  outline: 2px solid #cc8c18;
+  outline-offset: 3px;
+}
+
 /*------------offer------------*/
 /*------------area------------*/
 .area img {

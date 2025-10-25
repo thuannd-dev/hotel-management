@@ -72,7 +72,7 @@
           </div>
           <div class="text">
             <h3>Address</h3>
-            <p>205 Fida Walinton, Tongo Street Front The USA</p>
+            <p>7 Đ. D1, Long Thạnh Mỹ, Thủ Đức</p>
           </div>
         </div>
         <div class="icon flex">
