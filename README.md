@@ -4,7 +4,7 @@
 [![GitHub Issues](https://img.shields.io/github/issues/thuannd-dev/hotel-management.svg?style=flat&label=Issues&maxAge=2592000)](https://www.github.com/thuannd-dev/hotel-management/issues)
 [![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat&label=Contributions&colorA=red&colorB=black)](#)
 
-A **fully responsive** web-based Hotel Management System for Ecorik Airlines based on the **Clean Architecture** made using **Java Servlets**, **Java Server Pages (JSPs)**. Moreover authentication and authorization for users is implemented using Tomcat Roles. The web-application is also secured against **SQL Injection**, **Cross-site Request Forgery** and **Cross-Site Scripting** attacks.
+A **fully responsive** web-based Hotel Management System based on the **Clean Architecture** made using **Java Servlets**, **Java Server Pages (JSPs)**. Moreover authentication and authorization for users is implemented using Tomcat Roles. The web-application is also secured against **SQL Injection**, **Cross-site Request Forgery** and **Cross-Site Scripting** attacks.
 
 ## Clean architecture
 -----------------
@@ -41,20 +41,20 @@ Following roles are implemented:
 #### Home Pages
 
 <p align="middle">
-   <img src="https://drive.google.com/file/d/15BVtH4Rx3XbIKYLSpZP8X5Ybfeeax3sB/view?usp=drive_link" width="400"/>
-   <img src="https://drive.google.com/file/d/1mxgscLOFVNn6iiXVZ4cRzevX13YDE3gb/view?usp=drive_link" width="400"/>
+   <img src="https://drive.usercontent.google.com/download?id=15BVtH4Rx3XbIKYLSpZP8X5Ybfeeax3sB" width="400"/>
+   <img src="https://drive.usercontent.google.com/download?id=1mxgscLOFVNn6iiXVZ4cRzevX13YDE3gb" width="400"/>
 </p>
 
 <p align="middle">
-   <img src="https://drive.google.com/file/d/1gh9bnFnfFoV-MLaBSSgzgznQfJpSYT83/view?usp=drive_link" width="400"/>
-   <img src="https://drive.google.com/file/d/1Kg8u0CxGcMoouD4XqvnESMCe5K1FEwqg/view?usp=drive_link" width="400"/>
+   <img src="https://drive.usercontent.google.com/download?id=1gh9bnFnfFoV-MLaBSSgzgznQfJpSYT83" width="400"/>
+   <img src="https://drive.usercontent.google.com/download?id=1Kg8u0CxGcMoouD4XqvnESMCe5K1FEwqg" width="400"/>
 </p>
 
 #### Guest Booking and Additional Services
 
 <p align="middle">
-   <img src="https://drive.google.com/file/d/15LidRW2rOjh4si6gfplweQ71n8u_Or48/view?usp=drive_link" width="400"/>
-   <img src="https://drive.google.com/file/d/15LidRW2rOjh4si6gfplweQ71n8u_Or48/view?usp=drive_link" width="400"/>
+   <img src="https://drive.usercontent.google.com/download?id=15LidRW2rOjh4si6gfplweQ71n8u_Or48" width="400"/>
+   <img src="https://drive.usercontent.google.com/download?id=1JVwt5HQ6XV6vY1px_TFggrDmb_eP4Y83" width="400"/>
 </p>
 
 ##  Installation
@@ -95,7 +95,7 @@ git clone https://github.com/thuannd-dev/hotel-management.git
 
 ### Run with IntelliJ IDEA (Ultimate Edition)
 
-> ⚠ IntelliJ Community Edition does **not support Java Servlet/JSP**, so you must use the **Ultimate Edition**.
+> ⚠ IntelliJ IDEA Community Edition does **not support Java Servlet/JSP**, so you must use the **Ultimate Edition**.
 
 #### Step 1: Import the project
 - Open **IntelliJ IDEA**.
