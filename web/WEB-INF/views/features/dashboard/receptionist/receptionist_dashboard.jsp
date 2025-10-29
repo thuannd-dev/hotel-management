@@ -145,7 +145,7 @@
                             <td>
                                 <a href="receptionist-dashboard/create-booking?guestId=${g.guestId}" class="action-link">Create booking</a>
                                 <a href="receptionist-dashboard/detail-booking?guestId=${g.guestId}" class="action-link">Booking information</a>
-                                <a href="receptionist-dashboard/create-payment?guestId=${g.guestId}" class="action-link">Get Payment</a>
+                                
                             </td>
                         </tr>
                     </c:forEach>

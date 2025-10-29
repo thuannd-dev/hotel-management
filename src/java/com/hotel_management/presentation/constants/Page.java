@@ -17,6 +17,8 @@ public final class Page {
     public static final String HOUSEKEEPING_REPORT_PAGE = "/WEB-INF/views/features/dashboard/housekeeping/housekeeping_report.jsp";
     public static final String CREATE_BOOKING_PAGE = "/WEB-INF/views/features/dashboard/receptionist/create_booking.jsp";
     public static final String CREATE_PAYMENT_PAGE = "/WEB-INF/views/features/dashboard/receptionist/invoice.jsp";
+    public static final String PAYMENT_PAGE = "/WEB-INF/views/features/dashboard/receptionist/payment_page.jsp";
+    public static final String BOOKING_DETAIL_PAGE = "/WEB-INF/views/features/dashboard/receptionist/booking_detail.jsp";
     public static final String RECEPTIONIST_DASHBOARD_PAGE = "/WEB-INF/views/features/dashboard/receptionist/receptionist_dashboard.jsp";
     public static final String ADMIN_STAFF_MANAGEMENT_PAGE = "/WEB-INF/views/features/dashboard/admin/staff_management.jsp";
     public static final String ADMIN_STAFF_CREATE_PAGE = "/WEB-INF/views/features/dashboard/admin/staff_create.jsp";
