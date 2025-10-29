@@ -107,7 +107,7 @@ git clone https://github.com/thuannd-dev/hotel-management.git
 - Click **+** → select **Tomcat Server → Local**.
 - Click **Configure...**, then select the Tomcat installation folder.
 - Go to **Deployment** tab → click **+** → select `war exploded`.
-- Set the **Application context** (e.g. `/MyApp`).
+- Set the **Application context** (e.g. `/hotel-management`).
 
 #### Step 3: Run
 - Click **Run (Shift + F10)**.
@@ -139,5 +139,13 @@ With modern AI tools, solving challenges and contributing effectively is easier 
 ## License
 
 [![MIT](https://img.shields.io/cocoapods/l/AFNetworking.svg?style=style&label=License&maxAge=2592000)](../master/LICENSE)
+
+## References
+
+- **JSP**: [Viem](https://www.tutorialspoint.com/jsp/index.htm)
+- **Servlet**: [Viem](https://www.tutorialspoint.com/servlets/index.htm)
+- **General**: 
+  - **DigitalOcean - Pankaj Kumar**: [Viem](https://www.digitalocean.com/community/tutorials/servlet-jsp-tutorial)
+  - **Oracle**: [Viem](https://docs.oracle.com/javaee/7/api/javax/servlet/Servlet.html)
 
 Copyright (c) 2025-present, thuannd-dev
