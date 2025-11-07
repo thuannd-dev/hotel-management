@@ -57,8 +57,9 @@
             <h2>Scan QR to Pay</h2>
             <p>Booking ID: <strong>${bookingId}</strong></p>
             <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=Booking-${bookingId}" alt="Fake QR Code" class="qr" />
-            <form method="post" action="${pageContext.request.contextPath}/payment-page">
+            <form method="post" action="${pageContext.request.contextPath}/receptionist/payment-page">
                 <input type="hidden" name="bookingId" value="${bookingId}" />
+                <input type="hidden" name="guestId" value="${guestId}" />
                 <button type="submit">Confirm Payment</button>
             </form>
         </div>

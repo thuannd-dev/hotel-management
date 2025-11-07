@@ -3,10 +3,20 @@
     Created on: Oct 19, 2025
 --%>
 
+<%@page import="com.hotel_management.domain.dto.staff.StaffViewModel"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ page import="java.time.format.DateTimeFormatter" %>
-
+<%
+    HttpSession userSession = request.getSession(false);
+    String fullName = "Guest";
+    if (userSession != null) {
+        Object currentUser = userSession.getAttribute("currentUser");
+        if (currentUser instanceof StaffViewModel) {
+            fullName = ((StaffViewModel) currentUser).getFullName();
+        }
+    }
+%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -28,8 +38,52 @@
                 color: var(--color-text);
                 margin: 25px;
             }
+            
+            .navbar {
+                background-color: #2b4c7e;
+                color: white;
+                padding: 15px 25px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+
+            .navbar h2 {
+                margin: 0;
+            }
+           
+            .user-info-bar {
+                display: flex;
+                align-items: center;
+                gap: 15px;
+            }
+
+            .user-name {
+                color: #ffffff;
+                font-weight: bold;
+                font-size: 16px;
+            }
+
+            .btn-logout {
+                background-color: #D34E51;                                                                                                       
+                color: white;
+                padding: 8px 15px;
+                border: none;
+                border-radius: 4px;
+                cursor: pointer;
+                text-decoration: none;
+                display: inline-flex;
+                align-items: center;
+                gap: 5px;
+                transition: background-color 0.3s;
+            }
+
+            .btn-logout:hover {
+                background-color: #a83e41;
+            }
+            
             h2 {
-                color: var(--color-primary);
+                color: #ffffff;
                 border-bottom: 3px solid var(--color-secondary);
                 padding-bottom: 10px;
             }
@@ -105,7 +159,20 @@
         </style>
     </head>
     <body>
-        <h2>Guest List</h2>
+        <div class="navbar">                                
+            <h2>Receptionist - Guest List</h2>     
+            <div class="user-info-bar">                
+                <span class="user-name">
+                    <i class="fas fa-user" aria-hidden="true"></i>
+                    <span class="sr-only">Current user: </span><%=fullName%>
+                </span>
+                <a href="${pageContext.request.contextPath}/logout" class="btn-logout" aria-label="Logout from the system">
+                    <i class="fas fa-sign-out-alt" aria-hidden="true"></i>
+                    <span>Logout</span>
+                </a>
+            </div>
+        </div>
+        
 
         <form action="find-check-in-booking" method="get" class="search-bar">
             <input type="text" name="guestName" placeholder="Search by Guest Name" value="${param.guestName}">
@@ -156,6 +223,7 @@
         <c:if test="${empty guests}">
             <p class="no-data">No guests were found.</p>
         </c:if>
+        <!--...-->
         <script>
            
             function showSuccessPopup(message) {

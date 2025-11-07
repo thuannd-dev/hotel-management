@@ -8,6 +8,7 @@ import com.hotel_management.domain.entity.Payment;
 import com.hotel_management.domain.entity.enums.PaymentMethod;
 import com.hotel_management.domain.entity.enums.PaymentTransactionStatus;
 import com.hotel_management.infrastructure.dao.BookingDAO;
+import com.hotel_management.infrastructure.dao.GuestDAO;
 import com.hotel_management.infrastructure.dao.PaymentDAO;
 import com.hotel_management.infrastructure.provider.DataSourceProvider;
 
@@ -28,17 +29,19 @@ import java.time.LocalDate;
  * invoice, it displays a fake payment page with a QR or button. Once confirmed,
  * it updates the booking status to "Paid".
  */
-@WebServlet(name = "PaymentPageController", urlPatterns = {"/payment-page"})
+@WebServlet(name = "PaymentPageController", urlPatterns = {"/receptionist/payment-page"})
 public class PaymentPageController extends HttpServlet {
 
     private BookingDAO bookingDao;
     private PaymentDAO paymentDao;
+    private GuestDAO guestDao;
 
     @Override
     public void init() throws ServletException {
         DataSource ds = DataSourceProvider.getDataSource();
         this.bookingDao = new BookingDAO(ds);
         this.paymentDao = new PaymentDAO(ds);
+        this.guestDao = new GuestDAO(ds);
     }
 
     @Override
@@ -46,13 +49,15 @@ public class PaymentPageController extends HttpServlet {
             throws ServletException, IOException {
 
         String bookingIdParam = request.getParameter("bookingId");
-        if (bookingIdParam == null) {
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Missing bookingId parameter");
+        String guestIdParam = request.getParameter("guestId");
+        if (bookingIdParam == null || guestIdParam == null) {
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Missing parameters");
             return;
         }
 
         request.setAttribute("bookingId", bookingIdParam);
-        request.getRequestDispatcher("/WEB-INF/views/payment_page.jsp").forward(request, response);
+        request.setAttribute("guestId", guestIdParam);
+        request.getRequestDispatcher("/WEB-INF/views/features/dashboard/receptionist/payment_page.jsp").forward(request, response);
     }
 
     @Override
@@ -62,10 +67,10 @@ public class PaymentPageController extends HttpServlet {
         try {
             int bookingId = Integer.parseInt(request.getParameter("bookingId"));
 
-            // 1️⃣ Get the total amount to insert into Payment table
+            // Get the total amount to insert into Payment table
             BigDecimal totalAmount = bookingDao.calculateTotalAmount(bookingId);
 
-            // 2️⃣ Mark payment status in booking as Paid
+            // Mark payment status in booking as Paid
             int rows = bookingDao.markAsPaid(bookingId);
 
             if (rows <= 0) {
@@ -73,7 +78,7 @@ public class PaymentPageController extends HttpServlet {
                 return;
             }
 
-            // 3️⃣ Create Payment record
+            // Create Payment record
             Payment payment = new Payment();
             payment.setBookingId(bookingId);
             payment.setPaymentDate(LocalDate.now());
@@ -84,16 +89,20 @@ public class PaymentPageController extends HttpServlet {
             PaymentDAO paymentDAO = new PaymentDAO(DataSourceProvider.getDataSource());
             paymentDAO.createPayment(payment);
 
-            // 4️⃣ Show success popup message
+            // Show success popup message
             request.getSession().setAttribute("popupMessage", "Payment completed successfully!");
 
-            // 5️⃣ Redirect back to Booking Detail page
-            response.sendRedirect(request.getContextPath() + "/booking-detail?bookingId=" + bookingId);
+            // Redirect back to Booking Detail of that guest id page
+            int guestId = Integer.parseInt(request.getParameter("guestId"));
+            response.sendRedirect(request.getContextPath()
+                    + "/receptionist-dashboard/detail-booking?guestId=" + guestId);
 
         } catch (NumberFormatException e) {
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid booking ID format");
+            request.setAttribute("errorMessage", "Invalid booking or guest ID format.");
+            request.getRequestDispatcher("/WEB-INF/views/error/error.jsp").forward(request, response);
         } catch (Exception e) {
-            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Unexpected error: " + e.getMessage());
+            request.setAttribute("errorMessage", "Unexpected error: " + e.getMessage());
+            request.getRequestDispatcher("/WEB-INF/views/error/error.jsp").forward(request, response);
         }
     }
 }

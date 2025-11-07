@@ -9,4 +9,5 @@ public final class Path {
     public static final String HOUSEKEEPING_DASHBOARD_PATH = "/housekeeping";
     public static final String ADMIN_DASHBOARD_PATH = "/admin/staff";
     public static final String RECEPTIONIST_DASHBOARD_PATH = "/receptionist";
+    public static final String MANAGER_DASHBOARD_PATH = "/manager";
 }

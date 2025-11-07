@@ -111,8 +111,8 @@
             <c:if test="${not empty booking}">
                 <div class="details-section">
                     <p><strong>Booking ID:</strong> ${booking.bookingId}</p>
-                    <p><strong>Guest:</strong> ${booking.guestFullName}</p>
-                    <p><strong>Room:</strong> ${booking.roomNumber}</p>
+                    <p><strong>Guest:</strong> ${booking.guestId}</p>
+                    <p><strong>Room:</strong> ${booking.roomId}</p>
                     <p><strong>Status:</strong> ${booking.status}</p>
                     <p><strong>Payment Status:</strong> ${booking.paymentStatus}</p>
                     <p><strong>Check-in:</strong> ${booking.checkInDate}</p>
@@ -139,19 +139,21 @@
                     <p class="error-message">No invoice found for this booking.</p>
                 </c:if>
 
-                <form action="${pageContext.request.contextPath}/receptionist/confirm-payment" method="post">
-                    <input type="hidden" name="paymentId" value="${invoice.invoiceId}" />
+                <form method="post" action="${pageContext.request.contextPath}/receptionist/create-payment">
                     <input type="hidden" name="bookingId" value="${booking.bookingId}" />
+                    <input type="hidden" name="guestId" value="${booking.guestId}" />
 
-                    <label for="paymentMethod">Payment Method:</label>
-                    <select name="paymentMethod" id="paymentMethod">
+                    <label>Payment Method:</label>
+                    <select name="paymentMethod" required>
                         <option value="CASH">Cash</option>
-                        <option value="BANK_TRANSFER">Bank Transfer</option>
                         <option value="CREDIT_CARD">Credit Card</option>
+                        <option value="DEBIT_CARD">Debit Card</option>
+                        <option value="ONLINE">Online (QR)</option>
                     </select>
 
                     <button type="submit">Confirm Payment</button>
                 </form>
+
 
 
 
