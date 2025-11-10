@@ -139,24 +139,56 @@
                     <p class="error-message">No invoice found for this booking.</p>
                 </c:if>
 
-                <form method="post" action="${pageContext.request.contextPath}/receptionist/create-payment">
-                    <input type="hidden" name="bookingId" value="${booking.bookingId}" />
-                    <input type="hidden" name="guestId" value="${booking.guestId}" />
+                <c:if test="${not empty invoice and invoice.status.name() ne 'PAID'}">
+                    <form method="post" action="${pageContext.request.contextPath}/receptionist/create-payment">
+                        <input type="hidden" name="bookingId" value="${booking.bookingId}" />
+                        <input type="hidden" name="guestId" value="${booking.guestId}" />
 
-                    <label>Payment Method:</label>
-                    <select name="paymentMethod" required>
-                        <option value="CASH">Cash</option>
-                        <option value="CREDIT_CARD">Credit Card</option>
-                        <option value="DEBIT_CARD">Debit Card</option>
-                        <option value="ONLINE">Online (QR)</option>
-                    </select>
+                        <label>Payment Method:</label>
+                        <select name="paymentMethod" required>
+                            <option value="CASH">Cash</option>
+                            <option value="CREDIT_CARD">Credit Card</option>
+                            <option value="DEBIT_CARD">Debit Card</option>
+                            <option value="ONLINE">Online (QR)</option>
+                        </select>
 
-                    <button type="submit">Confirm Payment</button>
-                </form>
+                        <button type="submit">Confirm Payment</button>
+                    </form>
+                </c:if>
+
+                <c:if test="${not empty invoice and invoice.status.name() eq 'PAID'}">
+                    <p style="text-align: center; color: var(--color-aqua); font-weight: bold; margin-top: 20px; font-size: 16px;">
+                        ✓ This invoice has already been paid.
+                    </p>
+                </c:if>
+
+                <%-- Booking Status Change Buttons --%>
+                <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #ccc;">
+                    <h3 style="color: var(--color-deep-navy); margin-bottom: 15px;">Booking Status Management</h3>
 
 
+                    <c:if test="${booking.status eq 'CHECK_IN'}">
+                        <form method="post" action="${pageContext.request.contextPath}/receptionist/update-booking-status" style="border-top: none; padding: 0; margin: 0;">
+                            <input type="hidden" name="bookingId" value="${booking.bookingId}" />
+                            <input type="hidden" name="action" value="checkout" />
+                            <button type="submit" style="background-color: #dc3545; width: auto;">
+                                ✓ Check-out Guest
+                            </button>
+                        </form>
+                    </c:if>
 
+                    <c:if test="${booking.status eq 'CHECK_OUT'}">
+                        <p style="color: var(--color-aqua); font-weight: bold; font-size: 16px;">
+                            ✓ Guest has already checked out.
+                        </p>
+                    </c:if>
 
+                    <c:if test="${booking.status eq 'CANCELED'}">
+                        <p style="color: var(--color-danger); font-weight: bold; font-size: 16px;">
+                            ✗ This booking has been canceled.
+                        </p>
+                    </c:if>
+                </div>
             </c:if>
 
             <c:if test="${empty booking}">

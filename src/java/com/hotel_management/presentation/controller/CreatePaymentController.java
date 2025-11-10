@@ -91,9 +91,12 @@ public class CreatePaymentController extends HttpServlet {
             }
             Booking booking = bookingOpt.get();
 
-            // Check booking status before checkout
-            if (booking.getStatus() != BookingStatus.CHECK_IN) {
-                request.setAttribute("errorMessage", "Booking must be Checked-in before payment.");
+            // Only allow viewing invoice for CHECK_IN and CHECK_OUT bookings
+            BookingStatus currentStatus = booking.getStatus();
+            if (currentStatus != BookingStatus.CHECK_IN &&
+                currentStatus != BookingStatus.CHECK_OUT) {
+                request.setAttribute("errorMessage",
+                    "Invoice is only available for checked-in or checked-out bookings. Please check-in the guest first.");
                 forwardError(request, response);
                 return;
             }
@@ -105,6 +108,7 @@ public class CreatePaymentController extends HttpServlet {
             if (invoiceOpt.isPresent()) {
                 invoice = invoiceOpt.get();
             } else {
+                // Create invoice for CHECK_IN or CHECK_OUT bookings
                 CheckoutSummaryViewModel summary = checkoutService.calculateCheckoutSummary(bookingId);
 
                 // Create new invoice

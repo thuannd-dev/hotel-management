@@ -71,7 +71,7 @@
                         <th>Check-in Date</th>
                         <th>Check-out Date</th>
                         <th>Status</th>
-                        <th>Total Price</th>
+                        <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -83,8 +83,27 @@
                             <td>${booking.checkOutDate}</td>
                             <td>${booking.status}</td>
                             <td>
-                                <a href="${pageContext.request.contextPath}/receptionist/create-payment?bookingId=${booking.bookingId}"
-                                   class="action-link">Get Invoice</a>
+                                <%-- Show Check-in button for RESERVED bookings --%>
+                                <c:if test="${booking.status eq 'Reserved'}">
+                                    <form method="post" action="${pageContext.request.contextPath}/receptionist/update-booking-status" style="display: inline; margin: 0;">
+                                        <input type="hidden" name="bookingId" value="${booking.bookingId}" />
+                                        <input type="hidden" name="action" value="checkin" />
+                                        <button type="submit" style="background-color: #28a745; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer;">
+                                            Check-in
+                                        </button>
+                                    </form>
+                                </c:if>
+
+                                <%-- Show Get Invoice link for CHECK_IN and CHECK_OUT bookings --%>
+                                <c:if test="${booking.status eq 'Checked-in' or booking.status eq 'Checked-out'}">
+                                    <a href="${pageContext.request.contextPath}/receptionist/create-payment?bookingId=${booking.bookingId}"
+                                       class="action-link" style="background-color: #17a2b8; color: white; padding: 6px 12px; border-radius: 4px; text-decoration: none;">Get Invoice</a>
+                                </c:if>
+
+                                <%-- Show nothing or status message for other statuses --%>
+                                <c:if test="${booking.status eq 'Canceled'}">
+                                    <span style="color: #999;">Canceled</span>
+                                </c:if>
                             </td>
                         </tr>
                     </c:forEach>
