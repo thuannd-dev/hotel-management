@@ -86,12 +86,15 @@
                 padding: 25px;
                 border-radius: 8px;
                 box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-                transition: transform 0.2s ease;
+                transition: transform 0.2s ease, box-shadow 0.2s ease;
                 text-align: center;
+                cursor: pointer;
+                position: relative;
             }
 
             .card:hover {
                 transform: translateY(-5px);
+                box-shadow: 0 4px 12px rgba(0,0,0,0.15);
             }
 
             .card a {
@@ -99,6 +102,22 @@
                 text-decoration: none;
                 font-weight: bold;
                 font-size: 1.1em;
+                display: block;
+                padding: 10px 0;
+            }
+
+            .card a:hover {
+                color: #1a3054;
+                text-decoration: underline;
+            }
+
+            .card a::after {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
             }
 
             .logout-btn {
@@ -134,27 +153,27 @@
             <h3>Reports & Statistics</h3>
             <div class="card-container">
                 <div class="card">
-                    <a href="${pageContext.request.contextPath}/manager/report?type=daily">Revenue Report</a>
+                    <a href="${pageContext.request.contextPath}/manager/report?type=revenue&period=daily">Revenue Report</a>
                     <p>View daily, monthly, and yearly revenue.</p>
                 </div>
 
                 <div class="card">
-                    <a href="#">Top 10 Frequent Guests</a>
+                    <a href="${pageContext.request.contextPath}/manager/report?type=frequent-guests&topN=10">Top 10 Frequent Guests</a>
                     <p>See guests who visit most frequently.</p>
                 </div>
 
                 <div class="card">
-                    <a href="#">Most Used Services</a>
+                    <a href="${pageContext.request.contextPath}/manager/report?type=service-usage">Most Used Services</a>
                     <p>Check which services are most popular.</p>
                 </div>
 
                 <div class="card">
-                    <a href="#">Room Occupancy Rate</a>
+                    <a href="${pageContext.request.contextPath}/manager/report?type=room-occupancy&period=yearly">Room Occupancy Rate</a>
                     <p>View room usage by month.</p>
                 </div>
 
                 <div class="card">
-                    <a href="#">Cancellation Statistics</a>
+                    <a href="${pageContext.request.contextPath}/manager/report?type=cancellation&period=overall">Cancellation Statistics</a>
                     <p>Track booking cancellations and trends.</p>
                 </div>
             </div>
