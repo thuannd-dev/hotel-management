@@ -176,22 +176,11 @@ public class ManagerReportController extends HttpServlet {
             String endDateStr = request.getParameter("endDate");
 
             if (startDateStr != null && endDateStr != null && !startDateStr.isEmpty() && !endDateStr.isEmpty()) {
-                try {
-                    LocalDate startDate = LocalDate.parse(startDateStr);
-                    LocalDate endDate = LocalDate.parse(endDateStr);
-                    if (startDate.isAfter(endDate)) {
-                        request.setAttribute("errorMessage", "Start date must be before or equal to end date.");
-                        request.getRequestDispatcher("/WEB-INF/views/error/error.jsp").forward(request, response);
-                        return;
-                    }
-                    reportData = managerReportService.getMostUsedServicesByDateRange(startDate, endDate);
-                    request.setAttribute("startDate", startDate);
-                    request.setAttribute("endDate", endDate);
-                } catch (java.time.format.DateTimeParseException ex) {
-                    request.setAttribute("errorMessage", "Invalid date format. Please use yyyy-MM-dd.");
-                    request.getRequestDispatcher("/WEB-INF/views/error/error.jsp").forward(request, response);
-                    return;
-                }
+                LocalDate startDate = LocalDate.parse(startDateStr);
+                LocalDate endDate = LocalDate.parse(endDateStr);
+                reportData = managerReportService.getMostUsedServicesByDateRange(startDate, endDate);
+                request.setAttribute("startDate", startDate);
+                request.setAttribute("endDate", endDate);
             } else {
                 reportData = managerReportService.getMostUsedServices();
             }
@@ -298,3 +287,4 @@ public class ManagerReportController extends HttpServlet {
         doGet(request, response);
     }
 }
+

@@ -198,9 +198,29 @@ public class CreatePaymentController extends HttpServlet {
             payment.setPaymentDate(LocalDate.now());
             payment.setStatus(PaymentTransactionStatus.COMPLETED);
 
-            if (paymentDao.createPayment(payment) > 0) {
-                invoiceDao.updateStatus(invoice.getInvoiceId(), InvoiceStatus.PAID);
-                bookingDao.markAsPaid(bookingId);
+            System.out.println("[CreatePaymentController] Creating payment for bookingId: " + bookingId);
+            System.out.println("[CreatePaymentController] Invoice ID: " + invoice.getInvoiceId());
+            System.out.println("[CreatePaymentController] Invoice current status: " + invoice.getStatus());
+            System.out.println("[CreatePaymentController] Payment amount: " + invoice.getFinalAmount());
+            System.out.println("[CreatePaymentController] Payment method: " + method);
+
+            int paymentId = paymentDao.createPayment(payment);
+            if (paymentId > 0) {
+                System.out.println("[CreatePaymentController] Payment created successfully with ID: " + paymentId);
+
+                // Update invoice status to PAID
+                int invoiceUpdateResult = invoiceDao.updateStatus(invoice.getInvoiceId(), InvoiceStatus.PAID);
+                System.out.println("[CreatePaymentController] Invoice status update result: " + invoiceUpdateResult);
+
+                if (invoiceUpdateResult > 0) {
+                    System.out.println("[CreatePaymentController] Invoice status updated to PAID successfully");
+                } else {
+                    System.err.println("[CreatePaymentController] Failed to update invoice status!");
+                }
+
+                // Update booking payment status
+                int bookingUpdateResult = bookingDao.markAsPaid(bookingId);
+                System.out.println("[CreatePaymentController] Booking markAsPaid result: " + bookingUpdateResult);
 
                 session.setAttribute("successMessage", "Payment Success!");
                 response.sendRedirect(request.getContextPath()
@@ -208,11 +228,33 @@ public class CreatePaymentController extends HttpServlet {
                 return;
             }
 
+            System.err.println("[CreatePaymentController] Failed to create payment!");
             request.setAttribute("errorMessage", "Payment failed.");
             forwardError(request, response);
 
-        } catch (IOException | NumberFormatException | ServletException e) {
+        } catch (NumberFormatException e) {
+            System.err.println("[CreatePaymentController] NumberFormatException: " + e.getMessage());
+            e.printStackTrace();
+            request.setAttribute("errorMessage", "Invalid input format: " + e.getMessage());
+            forwardError(request, response);
+        } catch (IllegalArgumentException e) {
+            System.err.println("[CreatePaymentController] IllegalArgumentException: " + e.getMessage());
+            e.printStackTrace();
+            request.setAttribute("errorMessage", "Invalid payment method: " + e.getMessage());
+            forwardError(request, response);
+        } catch (ServletException e) {
+            System.err.println("[CreatePaymentController] ServletException: " + e.getMessage());
+            e.printStackTrace();
             request.setAttribute("errorMessage", "Server error: " + e.getMessage());
+            forwardError(request, response);
+        } catch (IOException e) {
+            System.err.println("[CreatePaymentController] IOException: " + e.getMessage());
+            e.printStackTrace();
+            throw e; // Rethrow IOException
+        } catch (Exception e) {
+            System.err.println("[CreatePaymentController] Unexpected exception: " + e.getMessage());
+            e.printStackTrace();
+            request.setAttribute("errorMessage", "Unexpected error: " + e.getMessage());
             forwardError(request, response);
         }
     }

@@ -59,8 +59,13 @@ public abstract class BaseDAO<T> {
             for (int i = 0; i < params.length; i++) {
                 ps.setObject(i + 1, params[i]);
             }
-            return ps.executeUpdate();
+            int rowsAffected = ps.executeUpdate();
+            System.out.println("[BaseDAO] SQL executed: " + sql);
+            System.out.println("[BaseDAO] Rows affected: " + rowsAffected);
+            return rowsAffected;
         } catch (SQLException e) {
+            System.err.println("[BaseDAO] SQL Error: " + e.getMessage());
+            System.err.println("[BaseDAO] SQL Query: " + sql);
             e.printStackTrace();
         }
         return 0;
