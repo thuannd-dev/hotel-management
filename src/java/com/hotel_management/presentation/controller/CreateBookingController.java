@@ -61,7 +61,7 @@ public class CreateBookingController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
-            int guestId = Integer.parseInt(request.getParameter("guestId")); // NOTE 1: Lấy Guest ID từ URL
+            int guestId = Integer.parseInt(request.getParameter("guestId")); // NOTE 1: get GuestId from URL
             GuestViewModel guests = guestService.getGuestById(guestId);
             List<ServiceViewModel> services = serviceEntityService.getAllServices();
             List<RoomDetailViewModel> rooms = roomService.getAllRoomDetails();

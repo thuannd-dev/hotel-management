@@ -11,12 +11,11 @@
         <meta charset="UTF-8">
         <title>Invoice - Payment</title>
         <style>
-            /* Coastal Elegance Color Palette */
             :root {
-                --color-deep-navy: #1B4965; /* Primary: Headers, Buttons */
-                --color-aqua: #75C3B3;      /* Secondary: Accent, Border */
-                --color-background: #F8F9FA; /* Off-White Background */
-                --color-sand: #D4B483;      /* Highlight/Error */
+                --color-deep-navy: #1B4965;
+                --color-aqua: #75C3B3;
+                --color-background: #F8F9FA;
+                --color-sand: #D4B483;
                 --color-white: #FFFFFF;
                 --color-text-dark: #333333;
             }
@@ -47,12 +46,12 @@
                 margin-bottom: 25px;
             }
 
-            /* --- Thông tin Booking/Chi tiết --- */
             .details-section p {
                 padding: 8px 0;
                 margin: 0;
                 border-bottom: 1px dotted #eee;
             }
+
             .details-section strong {
                 color: var(--color-deep-navy);
                 display: inline-block;
@@ -60,7 +59,6 @@
                 font-weight: 600;
             }
 
-            /* --- Form Thanh toán --- */
             form {
                 margin-top: 30px;
                 padding: 20px 0;
@@ -68,12 +66,7 @@
                 display: flex;
                 align-items: center;
                 gap: 15px;
-                justify-content: flex-end; /* Căn phải */
-            }
-
-            label {
-                font-weight: bold;
-                color: var(--color-text-dark);
+                justify-content: flex-end;
             }
 
             select {
@@ -92,7 +85,6 @@
                 cursor: pointer;
                 font-weight: bold;
                 transition: background-color 0.3s, color 0.3s;
-                margin-left: 15px; /* Khoảng cách sau select */
             }
 
             button[type="submit"]:hover {
@@ -100,7 +92,6 @@
                 color: var(--color-deep-navy);
             }
 
-            /* --- Thông báo Lỗi/Không tìm thấy --- */
             .error-message {
                 text-align: center;
                 padding: 15px;
@@ -117,13 +108,11 @@
             <h2>Payment Invoice</h2>
 
             <c:set var="booking" value="${requestScope.booking}" />
-            <%--@elvariable id="booking" type="com.hotel_management.domain.dto.booking.BookingDetailViewModel"--%>
-
             <c:if test="${not empty booking}">
                 <div class="details-section">
                     <p><strong>Booking ID:</strong> ${booking.bookingId}</p>
-                    <p><strong>Guest:</strong> ${booking.guestFullName}</p>
-                    <p><strong>Room:</strong> ${booking.roomNumber}</p>
+                    <p><strong>Guest:</strong> ${booking.guestId}</p>
+                    <p><strong>Room:</strong> ${booking.roomId}</p>
                     <p><strong>Status:</strong> ${booking.status}</p>
                     <p><strong>Payment Status:</strong> ${booking.paymentStatus}</p>
                     <p><strong>Check-in:</strong> ${booking.checkInDate}</p>
@@ -131,57 +120,61 @@
                     <p><strong>Special Request:</strong> ${booking.specialRequests}</p>
                 </div>
 
-                <form action="${pageContext.request.contextPath}/receptionist-dashboard/create-payment" method="post">
+                <c:set var="invoice" value="${requestScope.invoice}" />
+                <c:if test="${not empty invoice}">
+                    <h3 style="color: var(--color-deep-navy); margin-top: 25px;">Invoice Details</h3>
+                    <div class="details-section">
+                        <p><strong>Invoice ID:</strong> ${invoice.invoiceId}</p>
+                        <p><strong>Issue Date:</strong> ${invoice.issueDate}</p>
+                        <p><strong>Room Charges:</strong> $${invoice.roomCharges}</p>
+                        <p><strong>Service Charges:</strong> $${invoice.serviceCharges}</p>
+                        <p><strong>Tax:</strong> $${invoice.taxAmount}</p>
+                        <p><strong>Discount:</strong> $${invoice.discount}</p>
+                        <p><strong>Total Amount:</strong> <b>$${invoice.finalAmount}</b></p>
+                        <p><strong>Status:</strong> ${invoice.status}</p>
+                    </div>
+                </c:if>
+
+                <c:if test="${not empty invoiceNotFound}">
+                    <p class="error-message">No invoice found for this booking.</p>
+                </c:if>
+
+                <form method="post" action="${pageContext.request.contextPath}/receptionist/create-payment">
                     <input type="hidden" name="bookingId" value="${booking.bookingId}" />
-                    <label for="paymentMethod">Payment Method:</label>
-                    <select name="paymentMethod" id="paymentMethod">
+                    <input type="hidden" name="guestId" value="${booking.guestId}" />
+
+                    <label>Payment Method:</label>
+                    <select name="paymentMethod" required>
                         <option value="CASH">Cash</option>
                         <option value="CREDIT_CARD">Credit Card</option>
-                        <option value="BANK_TRANSFER">Bank Transfer</option>
+                        <option value="DEBIT_CARD">Debit Card</option>
+                        <option value="ONLINE">Online (QR)</option>
                     </select>
+
                     <button type="submit">Confirm Payment</button>
                 </form>
-            </c:if>
-            <c:if test="${not empty sessionScope.popupMessage}">
-                <script>
-                    document.querySelector('form').addEventListener('submit', function (e) {
-                    e.preventDefault();
-                            fetch(this.action, {
-                            method: 'POST',
-                                    body: new FormData(this)
-                            })
-                            .then(res => {
-                            if (res.ok) {
-                            Swal.fire({
-                            icon: 'success',
-                                    title: 'Payment Successful!',
-                                    showConfirmButton: false,
-                                    timer: 1500
-                            });
-                            } else {
-                            Swal.fire({
-                            icon: 'error',
-                                    title: 'Payment Failed'
-                            });
-                            }
-                            })
-                            .catch(error => {
-                            Swal.fire({
-                            icon: 'error',
-                                    title: 'Network Error',
-                                    text: 'Unable to process payment. Please check your connection and try again.'
-                            });
-                            });
-                </script>
 
-                <c:remove var="popupMessage" scope="session"/>
-            </c:if>
-            <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+
+
+            </c:if>
 
             <c:if test="${empty booking}">
                 <p class="error-message">No booking information found.</p>
             </c:if>
         </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <c:if test="${not empty sessionScope.popupMessage}">
+            <script>
+                Swal.fire({
+                    icon: 'info',
+                    title: '${sessionScope.popupMessage}',
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+            </script>
+            <c:remove var="popupMessage" scope="session"/>
+        </c:if>
     </body>
 </html>
