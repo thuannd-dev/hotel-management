@@ -69,11 +69,43 @@
                 justify-content: flex-end;
             }
 
+            form label {
+                font-weight: 600;
+                color: var(--color-deep-navy);
+            }
+
             select {
                 padding: 10px;
-                border: 1px solid var(--color-aqua);
+                border: 2px solid var(--color-aqua);
                 border-radius: 4px;
-                min-width: 150px;
+                min-width: 200px;
+                font-size: 14px;
+                cursor: pointer;
+                transition: all 0.3s;
+                background-color: white;
+            }
+
+            select:hover {
+                border-color: var(--color-deep-navy);
+                box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            }
+
+            select:focus {
+                outline: none;
+                border-color: var(--color-deep-navy);
+                box-shadow: 0 0 8px rgba(27, 73, 101, 0.3);
+            }
+
+            select option {
+                padding: 10px;
+            }
+
+            select option:first-child {
+                color: #999;
+            }
+
+            select:valid:not([value=""]) {
+                border-color: #28a745;
             }
 
             button[type="submit"] {
@@ -87,9 +119,15 @@
                 transition: background-color 0.3s, color 0.3s;
             }
 
-            button[type="submit"]:hover {
+            button[type="submit"]:hover:not(:disabled) {
                 background-color: var(--color-aqua);
                 color: var(--color-deep-navy);
+            }
+
+            button[type="submit"]:disabled {
+                background-color: #ccc;
+                cursor: not-allowed;
+                opacity: 0.6;
             }
 
             .error-message {
@@ -140,19 +178,20 @@
                 </c:if>
 
                 <c:if test="${not empty invoice and invoice.status.name() ne 'PAID'}">
-                    <form method="post" action="${pageContext.request.contextPath}/receptionist/create-payment">
+                    <form id="paymentForm" method="post" action="${pageContext.request.contextPath}/receptionist/create-payment" onsubmit="return handlePaymentSubmit(event)">
                         <input type="hidden" name="bookingId" value="${booking.bookingId}" />
                         <input type="hidden" name="guestId" value="${booking.guestId}" />
 
-                        <label>Payment Method:</label>
-                        <select name="paymentMethod" required>
+                        <label for="paymentMethod">Payment Method:</label>
+                        <select id="paymentMethod" name="paymentMethod" required>
+                            <option value="">-- Select Payment Method --</option>
                             <option value="CASH">Cash</option>
                             <option value="CREDIT_CARD">Credit Card</option>
                             <option value="DEBIT_CARD">Debit Card</option>
                             <option value="ONLINE">Online (QR)</option>
                         </select>
 
-                        <button type="submit">Confirm Payment</button>
+                        <button type="submit" id="submitPaymentBtn">Confirm Payment</button>
                     </form>
                 </c:if>
 
@@ -197,6 +236,67 @@
         </div>
 
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script>
+            // Add change event listener to payment method select
+            document.addEventListener('DOMContentLoaded', function() {
+                const paymentMethodSelect = document.getElementById('paymentMethod');
+                const submitBtn = document.getElementById('submitPaymentBtn');
+
+                if (paymentMethodSelect) {
+                    console.log('Payment method select found:', paymentMethodSelect);
+
+                    // Enable/disable submit button based on selection
+                    paymentMethodSelect.addEventListener('change', function() {
+                        console.log('Payment method selected:', this.value);
+                        if (this.value) {
+                            submitBtn.style.opacity = '1';
+                            submitBtn.style.cursor = 'pointer';
+                        }
+                    });
+                } else {
+                    console.error('Payment method select not found!');
+                }
+            });
+
+            function handlePaymentSubmit(event) {
+                console.log('Form submission triggered');
+                const paymentMethod = document.getElementById('paymentMethod').value;
+                const submitBtn = document.getElementById('submitPaymentBtn');
+
+                console.log('Selected payment method:', paymentMethod);
+
+                if (!paymentMethod || paymentMethod === '') {
+                    event.preventDefault();
+                    console.warn('No payment method selected');
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Payment Method Required',
+                        text: 'Please select a payment method before confirming payment.',
+                        confirmButtonColor: '#1B4965'
+                    });
+                    return false;
+                }
+
+                console.log('Payment method valid, processing...');
+
+                // Disable button to prevent double submission
+                submitBtn.disabled = true;
+                submitBtn.textContent = 'Processing...';
+
+                // Show loading alert
+                Swal.fire({
+                    title: 'Processing Payment',
+                    text: 'Please wait...',
+                    allowOutsideClick: false,
+                    allowEscapeKey: false,
+                    didOpen: () => {
+                        Swal.showLoading();
+                    }
+                });
+
+                return true;
+            }
+        </script>
         <c:if test="${not empty sessionScope.popupMessage}">
             <script>
                 Swal.fire({
@@ -207,6 +307,28 @@
                 });
             </script>
             <c:remove var="popupMessage" scope="session"/>
+        </c:if>
+        <c:if test="${not empty sessionScope.successMessage}">
+            <script>
+                Swal.fire({
+                    icon: 'success',
+                    title: '${sessionScope.successMessage}',
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+            </script>
+            <c:remove var="successMessage" scope="session"/>
+        </c:if>
+        <c:if test="${not empty sessionScope.errorMessage}">
+            <script>
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: '${sessionScope.errorMessage}',
+                    confirmButtonColor: '#1B4965'
+                });
+            </script>
+            <c:remove var="errorMessage" scope="session"/>
         </c:if>
     </body>
 </html>

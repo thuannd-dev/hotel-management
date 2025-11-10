@@ -70,7 +70,10 @@ public class InvoiceDAO extends BaseDAO<Invoice> {
 
     public int updateStatus(int invoiceId, InvoiceStatus status) {
         String sql = "UPDATE INVOICE SET Status = ? WHERE InvoiceID = ?";
-        return update(sql, status.getDbValue(), invoiceId);
+        System.out.println("[InvoiceDAO] Updating invoice status - ID: " + invoiceId + ", New Status: " + status.getDbValue());
+        int result = update(sql, status.getDbValue(), invoiceId);
+        System.out.println("[InvoiceDAO] Update result: " + result + " row(s) affected");
+        return result;
     }
 }
 
