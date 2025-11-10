@@ -15,8 +15,8 @@ import java.util.Optional;
 
 /**
  * Controller to handle booking status changes
- * Reserved -> Checked-in
- * Checked-in -> Checked-out
+ * Reserved to Checked-in
+ * Checked-in to Checked-out
  *
  * @author hotel-management
  */
