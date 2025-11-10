@@ -60,16 +60,17 @@ public class RevenueReportDAO extends BaseDAO<RevenueReportViewModel> {
     }
 
     /**
-     * yearly
+     * yearly - aggregates by month and returns first day of each month
      */
     public List<RevenueReportViewModel> getYearlyReport(int year) {
         String sql =
-                "SELECT YEAR(IssueDate) AS ReportYear, " +
+                "SELECT DATEFROMPARTS(YEAR(IssueDate), MONTH(IssueDate), 1) AS ReportDate, " +
                 "       SUM(FinalAmount) AS TotalRevenue, " +
                 "       COUNT(*) AS InvoiceCount " +
                 "FROM INVOICE " +
                 "WHERE YEAR(IssueDate) = ? " +
-                "GROUP BY YEAR(IssueDate)";
+                "GROUP BY YEAR(IssueDate), MONTH(IssueDate) " +
+                "ORDER BY ReportDate";
         return query(sql, year);
     }
 }

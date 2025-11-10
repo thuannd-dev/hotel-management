@@ -169,7 +169,6 @@ public class CreatePaymentController extends HttpServlet {
                 CheckoutSummaryViewModel summary = checkoutService.calculateCheckoutSummary(bookingId);
                 BigDecimal newFinalAmount = summary.getFinalAmount();
                 invoice.setFinalAmount(newFinalAmount);
-                //invoiceDao.updateAmount(invoice.getInvoiceId(), newFinalAmount);
             }
 
             // If invoiceStatus = Paid

@@ -5,12 +5,7 @@
 package com.hotel_management.application.service;
 
 import com.hotel_management.domain.dto.manager.RevenueReportViewModel;
-import com.hotel_management.infrastructure.dao.BookingDAO;
-import com.hotel_management.infrastructure.dao.GuestDAO;
-import com.hotel_management.infrastructure.dao.InvoiceDAO;
 import com.hotel_management.infrastructure.dao.RevenueReportDAO;
-import com.hotel_management.infrastructure.dao.RoomDAO;
-import com.hotel_management.infrastructure.dao.ServiceDAO;
 import java.time.LocalDate;
 import java.util.List;
 
