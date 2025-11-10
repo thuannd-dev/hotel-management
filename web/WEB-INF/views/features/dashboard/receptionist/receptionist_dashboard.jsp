@@ -22,6 +22,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Receptionist Dashboard</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
         <style>
             /* Coastal Elegance Color Palette */
             :root {
@@ -96,12 +97,20 @@
                 background: white;
                 border-radius: 8px;
                 box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+                align-items: center;
             }
             .search-bar input[type="text"] {
                 padding: 10px;
                 border: 1px solid #ccc;
                 border-radius: 4px;
                 flex-grow: 1;
+            }
+            .search-bar select {
+                padding: 10px;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+                background-color: white;
+                cursor: pointer;
             }
             .search-bar button {
                 background-color: var(--color-primary);
@@ -114,6 +123,25 @@
             }
             .search-bar button:hover {
                 background-color: #0E2938;
+            }
+            .btn-secondary {
+                background-color: #6c757d;
+                color: white;
+                padding: 10px 20px;
+                border: none;
+                border-radius: 4px;
+                cursor: pointer;
+                transition: background-color 0.3s;
+                text-decoration: none;
+                display: inline-block;
+            }
+            .btn-secondary:hover {
+                background-color: #5a6268;
+            }
+            .tip {
+                color: #666;
+                font-size: 14px;
+                margin-top: 10px;
             }
             /* --- Data Table --- */
             table {
@@ -174,11 +202,23 @@
         </div>
         
 
-        <form action="find-check-in-booking" method="get" class="search-bar">
-            <input type="text" name="guestName" placeholder="Search by Guest Name" value="${param.guestName}">
-            <input type="text" name="roomNumber" placeholder="Search by Room Number" value="${param.roomNumber}">
+        <form action="receptionist" method="get" class="search-bar">
+            <input type="text" name="searchValue" placeholder="Enter search value" value="${param.searchValue}" required="">
+            <select name="searchType">
+                <option value="guestName" ${param.searchType == 'guestName' ? 'selected' : ''}>Guest Name</option>
+                <option value="guestPhone" ${param.searchType == 'guestPhone' ? 'selected' : ''}>Guest Phone</option>
+                <option value="guestIdNumber" ${param.searchType == 'guestIdNumber' ? 'selected' : ''}>Guest Id Number</option>
+            </select>
             <button type="submit">Search</button>
         </form>
+
+        <c:if test="${not empty param.searchType and not empty param.searchValue}">
+            <form action="receptionist" method="get" style="margin-top: 10px;">
+                <button type="submit" class="btn-secondary">Back to Dashboard</button>
+            </form>
+        </c:if>
+
+        <p class="tip"><i class="fas fa-info-circle"></i> Tip: Select a search type and enter the value.</p>
 
         <c:set var="guests" value="${requestScope['guests']}" />
 

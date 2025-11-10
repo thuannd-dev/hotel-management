@@ -29,7 +29,7 @@ public class GuestDAO extends BaseDAO<Guest>{
                 rs.getString("Email"),
                 rs.getString("Address"),
                 rs.getString("IDNumber"),
-                rs.getDate("DateOfBirth").toLocalDate()
+                rs.getDate("DateOfBirth") != null ? rs.getDate("DateOfBirth").toLocalDate() : null
         );
     }
 
@@ -76,5 +76,26 @@ public class GuestDAO extends BaseDAO<Guest>{
             guest.getUsername(),
             guest.getPassword()
         );
+    }
+
+    public List<Guest> searchGuests(String searchType, String searchValue) {
+        if (searchType == null || searchValue == null) {
+            return findAll();
+        }
+
+        String sql;
+        switch (searchType) {
+            case "guestName":
+                sql = "SELECT * FROM GUEST WHERE FullName LIKE ?";
+                return query(sql, "%" + searchValue + "%");
+            case "guestPhone":
+                sql = "SELECT * FROM GUEST WHERE Phone LIKE ?";
+                return query(sql, "%" + searchValue + "%");
+            case "guestIdNumber":
+                sql = "SELECT * FROM GUEST WHERE IDNumber LIKE ?";
+                return query(sql, "%" + searchValue + "%");
+            default:
+                return findAll();
+        }
     }
 }

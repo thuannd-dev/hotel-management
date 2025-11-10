@@ -92,4 +92,16 @@ public class GuestService {
     public boolean isIdNumberExists(String idNumber) {
         return guestDao.findByIdNumber(idNumber).isPresent();
     }
+
+    /**
+     * Search guests by search type and value
+     * @param searchType Type of search (guestName, guestPhone, guestIdNumber)
+     * @param searchValue Value to search for
+     * @return List of matching guests
+     */
+    public List<GuestViewModel> searchGuests(String searchType, String searchValue) {
+        return guestDao.searchGuests(searchType, searchValue).stream()
+                .map(GuestViewModel::fromEntity)
+                .collect(Collectors.toList());
+    }
 }
