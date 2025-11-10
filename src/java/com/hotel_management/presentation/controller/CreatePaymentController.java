@@ -79,9 +79,9 @@ public class CreatePaymentController extends HttpServlet {
             return;
         }
 
-        int bookingId = Integer.parseInt(bookingIdStr);
-
         try {
+            int bookingId = Integer.parseInt(bookingIdStr);
+
             // get booking
             Optional<Booking> bookingOpt = bookingDao.findById(bookingId);
             if (!bookingOpt.isPresent()) {
@@ -107,31 +107,32 @@ public class CreatePaymentController extends HttpServlet {
             } else {
                 CheckoutSummaryViewModel summary = checkoutService.calculateCheckoutSummary(bookingId);
 
-                // Check if invoice is empty → create new
-                if (!invoiceOpt.isPresent()) {
-                    Invoice newInvoice = new Invoice();
-                    newInvoice.setBookingId(bookingId);
-                    newInvoice.setIssueDate(LocalDate.now());
-                    newInvoice.setStatus(InvoiceStatus.UNPAID);
-                    newInvoice.setRoomCharges(summary.getRoomCharges());
-                    newInvoice.setServiceCharges(summary.getServiceCharges());
-                    newInvoice.setTaxAmount(summary.getTaxAmount());
-                    newInvoice.setDiscount(summary.getDiscount());
-                    newInvoice.setTotalAmount(summary.getSubtotal().add(summary.getTaxAmount()));
-                    newInvoice.setFinalAmount(summary.getFinalAmount());
+                // Create new invoice
+                Invoice newInvoice = new Invoice();
+                newInvoice.setBookingId(bookingId);
+                newInvoice.setIssueDate(LocalDate.now());
+                newInvoice.setStatus(InvoiceStatus.UNPAID);
+                newInvoice.setRoomCharges(summary.getRoomCharges());
+                newInvoice.setServiceCharges(summary.getServiceCharges());
+                newInvoice.setTaxAmount(summary.getTaxAmount());
+                newInvoice.setDiscount(summary.getDiscount());
+                newInvoice.setTotalAmount(summary.getSubtotal().add(summary.getTaxAmount()));
+                newInvoice.setFinalAmount(summary.getFinalAmount());
 
-                    int invoiceId = invoiceDao.createInvoice(newInvoice);
-                    Optional<Invoice> newInvoiceOpt = invoiceDao.findById(invoiceId);
-                    invoice = newInvoiceOpt.orElse(newInvoice);
-                }
+                int invoiceId = invoiceDao.createInvoice(newInvoice);
+                Optional<Invoice> newInvoiceOpt = invoiceDao.findById(invoiceId);
+                invoice = newInvoiceOpt.orElse(newInvoice);
             }
 
             request.setAttribute("booking", booking);
-            //request.setAttribute("invoice", invoice);
+            request.setAttribute("invoice", invoice);
 
             request.getRequestDispatcher(Page.CREATE_PAYMENT_PAGE)
                     .forward(request, response);
 
+        } catch (NumberFormatException e) {
+            request.setAttribute("errorMessage", "Invalid booking ID format.");
+            forwardError(request, response);
         } catch (IOException | ServletException e) {
             request.setAttribute("errorMessage", "Server error: " + e.getMessage());
             forwardError(request, response);
@@ -194,7 +195,6 @@ public class CreatePaymentController extends HttpServlet {
             payment.setPaymentDate(LocalDate.now());
             payment.setStatus(PaymentTransactionStatus.COMPLETED);
 
-            paymentDao.createPayment(payment);
             if (paymentDao.createPayment(payment) > 0) {
                 invoiceDao.updateStatus(invoice.getInvoiceId(), InvoiceStatus.PAID);
                 bookingDao.markAsPaid(bookingId);

@@ -82,7 +82,7 @@ public class GuestDAO extends BaseDAO<Guest>{
         if (searchType == null || searchValue == null) {
             return findAll();
         }
-
+        
         String sql;
         switch (searchType) {
             case "guestName":
