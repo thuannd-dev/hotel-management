@@ -1,0 +1,98 @@
+package com.hotel_management.presentation.controller.receptionist;
+
+import com.hotel_management.application.service.booking.BookingService;
+import com.hotel_management.domain.dto.booking.BookingDetailViewModel;
+import com.hotel_management.domain.dto.staff.StaffViewModel;
+import com.hotel_management.infrastructure.dao.booking.BookingDAO;
+import com.hotel_management.infrastructure.dao.booking.BookingDetailDAO;
+import com.hotel_management.infrastructure.provider.DataSourceProvider;
+import com.hotel_management.presentation.constants.SessionAttribute;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import javax.sql.DataSource;
+import java.io.IOException;
+import java.util.List;
+
+/**
+ * Controller for guest to view their bookings
+ *
+ * @author thuannd.dev
+ */
+@WebServlet(name = "BookingDetailController", urlPatterns = {"/receptionist-dashboard/detail-booking"})
+public class BookingDetailController extends HttpServlet {
+
+    private static final long serialVersionUID = 1L;
+    private BookingService bookingService;
+
+    @Override
+    public void init() {
+        DataSource ds = DataSourceProvider.getDataSource();
+        BookingDAO bookingDao = new BookingDAO(ds);
+        BookingDetailDAO bookingDetailDao = new BookingDetailDAO(ds);
+        this.bookingService = new BookingService(bookingDao, bookingDetailDao);
+    }
+
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        // Set UTF-8 encoding for request and response
+        response.setCharacterEncoding("UTF-8");
+        response.setContentType("text/html; charset=UTF-8");
+
+        HttpSession session = request.getSession(false);
+
+        // Check if user is logged in
+        if (session == null) {
+            response.sendRedirect(request.getContextPath() + "/login");
+            return;
+        }
+
+        Object currentUser = session.getAttribute(SessionAttribute.CURRENT_USER);
+
+        // Check if user is logged in as staff
+        if (currentUser == null) {
+            response.sendRedirect(request.getContextPath() + "/login");
+            return;
+        }
+
+        if (!(currentUser instanceof StaffViewModel)) {
+            response.sendError(HttpServletResponse.SC_FORBIDDEN, "Access denied. Staff only page!");
+            return;
+        }
+
+        StaffViewModel staff = (StaffViewModel) currentUser;
+        int staffId = staff.getStaffId();
+
+        //get GuestId from URL
+        String guestIdParam = request.getParameter("guestId");
+        //check error for guestId from Url
+        if (guestIdParam == null || guestIdParam.isEmpty()) {
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Missing guest ID");
+            return;
+        }
+
+        int guestId;
+        try {
+            guestId = Integer.parseInt(guestIdParam);
+        } catch (NumberFormatException e) {
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid guest ID");
+            return;
+        }
+
+        // Get all bookings for this guest
+        List<BookingDetailViewModel> bookings = bookingService.getBookingsByGuestId(guestId);
+
+        // Set attributes for the view
+        request.setAttribute("bookings", bookings);
+        //request.setAttribute("guestName", guest.getFullName());
+
+        // Forward to the view
+        request.getRequestDispatcher("/WEB-INF/views/features/dashboard/receptionist/booking_detail.jsp")
+                .forward(request, response);
+    }
+}

@@ -5,10 +5,10 @@ import com.hotel_management.domain.entity.MaintenanceIssue;
 import com.hotel_management.domain.entity.enums.Priority;
 import com.hotel_management.domain.entity.enums.RoomStatus;
 import com.hotel_management.domain.entity.enums.TaskType;
-import com.hotel_management.infrastructure.dao.HousekeepingTaskDAO;
+import com.hotel_management.infrastructure.dao.housekeeping.HousekeepingTaskDAO;
 import com.hotel_management.infrastructure.dao.MaintenanceIssueDAO;
-import com.hotel_management.infrastructure.dao.RoomDAO;
-import com.hotel_management.infrastructure.dao.RoomDetailDAO;
+import com.hotel_management.infrastructure.dao.room.RoomDAO;
+import com.hotel_management.infrastructure.dao.room.RoomDetailDAO;
 
 import java.util.List;
 

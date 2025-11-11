@@ -8,6 +8,12 @@ import com.hotel_management.domain.entity.Payment;
 import com.hotel_management.domain.entity.TaxConfig;
 import com.hotel_management.domain.entity.enums.*;
 import com.hotel_management.infrastructure.dao.*;
+import com.hotel_management.infrastructure.dao.booking.BookingDAO;
+import com.hotel_management.infrastructure.dao.booking.BookingDetailDAO;
+import com.hotel_management.infrastructure.dao.booking.CheckoutBookingDAO;
+import com.hotel_management.infrastructure.dao.booking.CheckoutDAO;
+import com.hotel_management.infrastructure.dao.invoice.InvoiceDAO;
+import com.hotel_management.infrastructure.dao.payment.PaymentDAO;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
