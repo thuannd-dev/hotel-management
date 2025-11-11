@@ -2,10 +2,10 @@ package com.hotel_management.presentation.controller;
 
 import com.hotel_management.application.service.RoomService;
 import com.hotel_management.domain.dto.room.RoomDetailViewModel;
-import com.hotel_management.infrastructure.dao.HousekeepingTaskDAO;
+import com.hotel_management.infrastructure.dao.housekeeping.HousekeepingTaskDAO;
 import com.hotel_management.infrastructure.dao.MaintenanceIssueDAO;
-import com.hotel_management.infrastructure.dao.RoomDAO;
-import com.hotel_management.infrastructure.dao.RoomDetailDAO;
+import com.hotel_management.infrastructure.dao.room.RoomDAO;
+import com.hotel_management.infrastructure.dao.room.RoomDetailDAO;
 import com.hotel_management.infrastructure.provider.DataSourceProvider;
 import com.hotel_management.presentation.constants.RequestAttribute;
 

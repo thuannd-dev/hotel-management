@@ -72,6 +72,48 @@ git clone https://github.com/thuannd-dev/hotel-management.git
 | Apache Tomcat  | 9.x or 10.x         |
 | NetBeans       | 12+ (with Java EE support) |
 | IntelliJ IDEA  | Ultimate Edition (supports Java EE) |
+| SQL Server     | 2019 or above       |
+
+---
+
+###  Database Setup
+
+#### Step 1: Install SQL Server
+- Download and install **SQL Server** (Express Edition is free).
+- Download **SQL Server Management Studio (SSMS)** for easier database management.
+
+#### Step 2: Enable SQL Server Authentication
+- Open **SQL Server Management Studio**.
+- Connect to your SQL Server instance.
+- Right-click on the server → **Properties** → **Security**.
+- Select **SQL Server and Windows Authentication mode**.
+- Restart SQL Server service.
+
+#### Step 3: Create Login User
+- In SSMS, expand **Security** → right-click **Logins** → **New Login**.
+- Login name: `sa`
+- Select **SQL Server authentication**.
+- Password: `12345` (or your preferred password).
+- Uncheck **Enforce password policy** (for development).
+- Click **OK**.
+
+#### Step 4: Run Database Script
+- Open **SQL Server Management Studio**.
+- Click **File → Open → File**.
+- Navigate to the project folder: `db/given.sql`.
+- Click **Execute** (or press `F5`).
+- This will create the `HotelManagement` database with all necessary tables and sample data.
+
+#### Step 5: Update Database Configuration (if needed)
+If you used different credentials, update `web/META-INF/context.xml`:
+
+```xml
+<Resource name="jdbc/MyDB"
+          ...
+          username="your_username"
+          password="your_password"
+          url="jdbc:sqlserver://localhost:1433;databaseName=HotelManagement"/>
+```
 
 ---
 
@@ -142,10 +184,10 @@ With modern AI tools, solving challenges and contributing effectively is easier 
 
 ## References
 
-- **JSP**: [Viem](https://www.tutorialspoint.com/jsp/index.htm)
-- **Servlet**: [Viem](https://www.tutorialspoint.com/servlets/index.htm)
+- **JSP**: [View](https://www.tutorialspoint.com/jsp/index.htm)
+- **Servlet**: [View](https://www.tutorialspoint.com/servlets/index.htm)
 - **General**: 
-  - **DigitalOcean - Pankaj Kumar**: [Viem](https://www.digitalocean.com/community/tutorials/servlet-jsp-tutorial)
-  - **Oracle**: [Viem](https://docs.oracle.com/javaee/7/api/javax/servlet/Servlet.html)
+  - **DigitalOcean - Pankaj Kumar**: [View](https://www.digitalocean.com/community/tutorials/servlet-jsp-tutorial)
+  - **Oracle**: [View](https://docs.oracle.com/javaee/7/api/javax/servlet/Servlet.html)
 
 Copyright (c) 2025-present, thuannd-dev

@@ -10,10 +10,10 @@ import com.hotel_management.domain.dto.manager.RevenueReportViewModel;
 import com.hotel_management.domain.dto.manager.RoomOccupancyViewModel;
 import com.hotel_management.domain.dto.manager.ServiceUsageViewModel;
 import com.hotel_management.infrastructure.dao.CancellationStatDAO;
-import com.hotel_management.infrastructure.dao.FrequentGuestDAO;
-import com.hotel_management.infrastructure.dao.RevenueReportDAO;
-import com.hotel_management.infrastructure.dao.RoomOccupancyDAO;
-import com.hotel_management.infrastructure.dao.ServiceUsageDAO;
+import com.hotel_management.infrastructure.dao.guest.FrequentGuestDAO;
+import com.hotel_management.infrastructure.dao.invoice.RevenueReportDAO;
+import com.hotel_management.infrastructure.dao.room.RoomOccupancyDAO;
+import com.hotel_management.infrastructure.dao.service.ServiceUsageDAO;
 import java.time.LocalDate;
 import java.util.List;
 

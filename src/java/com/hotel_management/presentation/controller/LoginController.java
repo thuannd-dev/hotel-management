@@ -1,8 +1,8 @@
 package com.hotel_management.presentation.controller;
-import com.hotel_management.application.service.GuestService;
-import com.hotel_management.application.service.StaffService;
-import com.hotel_management.infrastructure.dao.GuestDAO;
-import com.hotel_management.infrastructure.dao.StaffDAO;
+import com.hotel_management.application.service.guest.GuestService;
+import com.hotel_management.application.service.staff.StaffService;
+import com.hotel_management.infrastructure.dao.guest.GuestDAO;
+import com.hotel_management.infrastructure.dao.staff.StaffDAO;
 import com.hotel_management.infrastructure.provider.DataSourceProvider;
 import com.hotel_management.presentation.constants.Page;
 import com.hotel_management.presentation.constants.Path;
